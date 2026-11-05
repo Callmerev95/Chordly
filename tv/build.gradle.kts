@@ -77,7 +77,7 @@ android {
     defaultConfig {
         // Its own id, so the TV app is a separate install from the phone app
         // rather than an upgrade over it (or under it).
-        applicationId = "com.chordly.tv"
+        applicationId = "com.callmerev.chordly.tv"
         // 26 keeps reach wide; real-time blur (RenderEffect) kicks in on API 31+,
         // Haze falls back to a translucent scrim below that.
         minSdk = 26
@@ -147,7 +147,7 @@ android {
     productFlavors {
         create("dev") {
             dimension = "env"
-            applicationId = "com.dev.chordly.tv"
+            applicationId = "com.callmerev.chordly.dev.tv"
             resValue("string", "app_name", "Chordly TV")
         }
         create("prod") {
@@ -481,7 +481,7 @@ val verifyDevInstall = tasks.register("verifyDevInstall") {
             logger.lifecycle("verifyDevInstall: compiling com.dev.chordly on $serial")
             ProcessBuilder(
                 adbPath, "-s", serial, "shell", "cmd", "package", "compile",
-                "-m", "verify", "-f", "com.dev.chordly",
+                "-m", "verify", "-f",             "com.callmerev.chordly.dev",
             ).inheritIO().start().waitFor()
         }
     }

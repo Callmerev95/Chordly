@@ -62,7 +62,7 @@ android {
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "com.chordly"
+        applicationId = "com.callmerev.chordly"
         // 26 keeps reach wide; real-time blur (RenderEffect) kicks in on API 31+,
         // Haze falls back to a translucent scrim below that.
         minSdk = 26
@@ -115,7 +115,7 @@ android {
     productFlavors {
         create("dev") {
             dimension = "env"
-            applicationId = "com.dev.chordly"
+            applicationId = "com.callmerev.chordly.dev"
             resValue("string", "app_name", "Chordly Dev")
         }
         create("prod") {
@@ -467,7 +467,7 @@ val verifyDevInstall = tasks.register("verifyDevInstall") {
             logger.lifecycle("verifyDevInstall: compiling com.dev.chordly on $serial")
             ProcessBuilder(
                 adbPath, "-s", serial, "shell", "cmd", "package", "compile",
-                "-m", "verify", "-f", "com.dev.chordly",
+                "-m", "verify", "-f",             "com.callmerev.chordly.dev",
             ).inheritIO().start().waitFor()
         }
     }

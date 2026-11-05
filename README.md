@@ -1,3 +1,8 @@
+<div align="center">
+<br/>
+<br/>
+<img src="Logo.png" alt="Chordly app icon" width="200" />
+
 # Chordly
 
 ### Aesthetic YouTube Music Client (fork privat)
