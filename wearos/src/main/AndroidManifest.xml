@@ -26,7 +26,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.BitChordWear">
+        android:theme="@style/Theme.ChordlyWear">
 
         <!-- A remote for the phone app; it does nothing on its own. -->
         <!-- AmbientLifecycleObserver drives always-on through the platform's wearable library. -->
@@ -60,7 +60,7 @@
                 <data
                     android:host="${applicationId}"
                     android:path="/update"
-                    android:scheme="bitchord-wear" />
+                    android:scheme="chordly-wear" />
             </intent-filter>
         </activity>
 
@@ -76,7 +76,7 @@
                 <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
                 <data
                     android:host="*"
-                    android:path="/bitchord/now_playing"
+                    android:path="/chordly/now_playing"
                     android:scheme="wear" />
             </intent-filter>
             <!-- The phone driving this watch as its speaker (Speaker). -->
@@ -84,7 +84,7 @@
                 <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
                 <data
                     android:host="*"
-                    android:pathPrefix="/bitchord/speaker"
+                    android:pathPrefix="/chordly/speaker"
                     android:scheme="wear" />
             </intent-filter>
             <!-- The phone's settings asking what is installed, and sending an update. -->
@@ -92,14 +92,14 @@
                 <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
                 <data
                     android:host="*"
-                    android:pathPrefix="/bitchord/watch"
+                    android:pathPrefix="/chordly/watch"
                     android:scheme="wear" />
             </intent-filter>
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.CHANNEL_EVENT" />
                 <data
                     android:host="*"
-                    android:pathPrefix="/bitchord/watch/apk"
+                    android:pathPrefix="/chordly/watch/apk"
                     android:scheme="wear" />
             </intent-filter>
         </service>

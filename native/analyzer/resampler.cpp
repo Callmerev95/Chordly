@@ -25,7 +25,7 @@
 #include <cmath>
 #include <cstdint>
 
-namespace bitchord::smart {
+namespace chordly::smart {
 namespace {
 
 constexpr double kPi = 3.14159265358979323846;
@@ -259,4 +259,4 @@ std::vector<float> Resample(
   return output;
 }
 
-}  // namespace bitchord::smart
+}  // namespace chordly::smart
