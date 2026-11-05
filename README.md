@@ -1,7 +1,7 @@
 <div align="center">
 <br/>
 <br/>
-<img src="Logo.png" alt="Chordly app icon" width="200" />
+<img src="Chordly_logo.png" alt="Chordly app icon" width="200" />
 
 # Chordly
 
