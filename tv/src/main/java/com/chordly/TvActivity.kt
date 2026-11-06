@@ -13,7 +13,7 @@ import com.chordly.playback.PlayerDeepLink
 import com.chordly.playback.rememberMediaController
 import com.chordly.playback.rememberPlayerState
 import com.chordly.ui.MainViewModel
-import com.chordly.ui.theme.BitChordTheme
+import com.chordly.ui.theme.ChordlyTheme
 import com.chordly.ui.tv.TvApp
 import com.chordly.ui.tv.display.TvRefreshRateController
 import com.chordly.ui.tv.theme.ChordlyTvTheme
@@ -40,7 +40,7 @@ class TvActivity : ComponentActivity() {
             ChordlyTvTheme {
                 // The phone's Material theme too, so the components shared with
                 // it (lyrics, mood sleeves) are set in SF Pro on its type scale.
-                BitChordTheme(darkTheme = true) {
+                ChordlyTheme(darkTheme = true) {
                     val mediaController = rememberMediaController()
                     val playerState = rememberPlayerState(mediaController)
 
