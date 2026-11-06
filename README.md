@@ -63,14 +63,26 @@ Tidak tersedia di Play Store. Untuk versi privat, unduh APK dari <a href="https:
 - Android SDK (platforms;android-37, build-tools;35.0.0, cmake;3.22.1, ndk;27.0.12077973)
 - Gradle Wrapper: `gradlew` (terpasang)
 
+### Status Build Terdiverifikasi
+
+✅ `./gradlew :app:assembleProdDebug -Pchordly.bundleWear=true` → `app/build/outputs/apk/prod/debug/`
+✅ `./gradlew :tv:assembleDevDebug` → `tv/build/outputs/apk/dev/debug/`
+✅ `./gradlew :wearos:assembleDevDebug` → `wearos/build/outputs/apk/dev/debug/`
+
 ### Build
 
 ```bash
-# Pastikan toolchain sudah terpasang (lihat T4)
-./gradlew :app:assembleDevDebug -Pchordly.bundleWear=false
+# Build versi prod dengan bundel Wear OS
+./gradlew :app:assembleProdDebug -Pchordly.bundleWear=true
+
+# Build versi TV
+./gradlew :tv:assembleDevDebug
+
+# Build versi Wear OS
+./gradlew :wearos:assembleDevDebug
 ```
 
-Hasil APK ada di `app/build/outputs/apk/dev/debug/`.
+Hasil APK tersedia di direktori masing-masing.
 
 ### Debug
 

@@ -33,7 +33,7 @@ Nama kemampuan Data Layer (`chordly_phone`, `chordly_watch`) yang dipakai aplika
 _Avoid_: wear service
 
 **Native library**:
-Kumpulan pustaka C++ yang dibangun CMake dan dimuat lewat `loadLibrary`: analysis, loopmix, dsd, dst, exclusive, usb.
+Kumpulan pustaka C++ yang dibangun CMake dan dimuat lewat `loadLibrary`: `chordly_analysis`, `chordly_loopmix`, `chordly_dsd`, `chordly_dst`, `chordly_exclusive`, `chordly_usb`. Terverifikasi ikut terpaket di APK (T6) dan dimuat saat runtime.
 _Avoid_: JNI library (JNI hanya jembatannya)
 
 **Party**:

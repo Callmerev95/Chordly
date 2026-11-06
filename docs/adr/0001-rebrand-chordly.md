@@ -16,3 +16,10 @@ Rebrand BitChord menjadi Chordly untuk penggunaan pribadi. Ini bukan fork publik
 ## Status
 
 accepted
+
+## Verification
+
+- `:app` prod build sukses dan bundel Wear OS terpaket (T6)
+- `:tv` devDebug build sukses (T7)
+- `:wearos` devDebug build sukses (T7)
+- Semua native library (`chordly_analysis`, `chordly_loopmix`, `chordly_dsd`, `chordly_dst`, `chordly_exclusive`, `chordly_usb`) diverifikasi termuat di APK dan dimuat saat runtime (T6)
