@@ -561,12 +561,12 @@ private fun TvTopBar(
         // The mark only, as the phone's Home heading shows it.
         Icon(
             painter = painterResource(R.drawable.ic_logo),
-            contentDescription = "BitChord",
+            contentDescription = "Chordly",
             tint = TvGlass.TextPrimary,
             modifier = Modifier
                 .align(Alignment.CenterStart)
                 .height(21.dp)
-                .aspectRatio(730f / 484f),
+                .aspectRatio(1f),
         )
         TvAvatarButton(
             imageUrl = if (signedIn) avatarUrl else null,
@@ -668,7 +668,7 @@ fun TvAppMark(modifier: Modifier = Modifier, size: androidx.compose.ui.unit.Dp =
     ) {
         Icon(
             painter = painterResource(R.drawable.ic_logo),
-            contentDescription = "BitChord",
+            contentDescription = "Chordly",
             tint = Color.White,
             modifier = Modifier.size(size * 0.52f),
         )
