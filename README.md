@@ -50,7 +50,11 @@
 
 <h1><a id="download"></a>Download</h1>
 
-Tidak tersedia di Play Store. Untuk versi privat, unduh APK dari <a href="https://github.com/Callmerev95/Chordly/releases">Releases</a>.
+Tidak tersedia di Play Store. Untuk versi privat, unduh **Chordly 1.9** dari GitHub Releases:
+
+[![Chordly 1.9](https://img.shields.io/github/v/release/Callmerev95/Chordly?style=for-the-badge&label=Chordly)](https://github.com/Callmerev95/Chordly/releases/tag/v1.9)
+[**Download app-prod-universal-release.apk (195 MB)**](https://github.com/Callmerev95/Chordly/releases/download/v1.9/app-prod-universal-release.apk)
+*(Untuk semua perangkat Android — ARM64, ARM32, x86_64)*
 
 <h1><a id="build-and-develop"></a>Build & Develop</h1>
 
