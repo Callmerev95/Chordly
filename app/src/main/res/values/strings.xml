@@ -323,29 +323,31 @@
     <string name="show_listen_together_button">Show Listen Together button</string>
     <string name="show_listen_together_button_subtitle">Off, the player shows only the audio output button between lyrics and the queue</string>
     <string name="app_icon">App icon</string>
-    <string name="app_icon_default">Default</string>
-    <string name="app_icon_monochrome" translatable="false">Monochrome</string>
+    <string name="app_icon_original_hot_pink" translatable="false">Original Hot Pink</string>
+    <string name="app_icon_ocean_blue" translatable="false">Ocean Blue</string>
+    <string name="app_icon_emerald_green" translatable="false">Emerald Green</string>
+    <string name="app_icon_sunset_orange" translatable="false">Sunset Orange</string>
+    <string name="app_icon_royal_purple" translatable="false">Royal Purple</string>
+    <string name="app_icon_aqua_teal" translatable="false">Aqua Teal</string>
+    <string name="app_icon_golden_yellow" translatable="false">Golden Yellow</string>
+    <string name="app_icon_dark_glass" translatable="false">Dark Glass</string>
+    <string name="app_icon_frosted_white" translatable="false">Frosted White</string>
     <string name="app_icon_liquid_glass" translatable="false">Liquid Glass</string>
-    <string name="app_icon_liquid_glass_dark" translatable="false">Liquid Glass Dark</string>
-    <string name="app_icon_liquid_glass_clear" translatable="false">Liquid Glass Clear</string>
-    <string name="app_icon_liquid_glass_clear_dark" translatable="false">Liquid Glass Clear Dark</string>
-    <string name="app_icon_samsung_glass" translatable="false">Samsung Glass</string>
-    <string name="app_icon_samsung_glass_dark" translatable="false">Samsung Glass Dark</string>
-    <string name="app_icon_samsung_glass_clear" translatable="false">Samsung Glass Clear</string>
-    <string name="app_icon_samsung_glass_clear_dark" translatable="false">Samsung Glass Clear Dark</string>
-    <string name="app_icon_pixel_glass" translatable="false">Pixel Glass</string>
-    <string name="app_icon_pixel_glass_dark" translatable="false">Pixel Glass Dark</string>
-    <string name="app_icon_pixel_glass_clear" translatable="false">Pixel Glass Clear</string>
-    <string name="app_icon_pixel_glass_clear_dark" translatable="false">Pixel Glass Clear Dark</string>
-    <string name="app_icon_neon_silver" translatable="false">Neon Silver</string>
-    <string name="app_icon_neon_cyan" translatable="false">Neon Cyan</string>
-    <string name="app_icon_neon_violet" translatable="false">Neon Violet</string>
-    <string name="app_icon_samsung_neon_silver" translatable="false">Samsung Neon Silver</string>
-    <string name="app_icon_samsung_neon_cyan" translatable="false">Samsung Neon Cyan</string>
-    <string name="app_icon_samsung_neon_violet" translatable="false">Samsung Neon Violet</string>
-    <string name="app_icon_pixel_neon_silver" translatable="false">Pixel Neon Silver</string>
-    <string name="app_icon_pixel_neon_cyan" translatable="false">Pixel Neon Cyan</string>
-    <string name="app_icon_pixel_neon_violet" translatable="false">Pixel Neon Violet</string>
+    <string name="app_icon_neon_glow" translatable="false">Neon Glow</string>
+    <string name="app_icon_flat_minimal" translatable="false">Flat Minimal</string>
+    <string name="app_icon_sunset_gradient" translatable="false">Sunset Gradient</string>
+    <string name="app_icon_aurora_mesh" translatable="false">Aurora Mesh</string>
+    <string name="app_icon_sticker_light" translatable="false">Sticker Light</string>
+    <string name="app_icon_circle_radial" translatable="false">Circle Radial</string>
+    <string name="app_icon_dark_app_tile" translatable="false">Dark App Tile</string>
+    <string name="app_icon_soft_pastel" translatable="false">Soft Pastel</string>
+    <string name="app_icon_monochrome" translatable="false">Monochrome</string>
+    <string name="app_icon_outline_line" translatable="false">Outline Line</string>
+    <string name="app_icon_emboss_pink" translatable="false">3D Emboss Pink</string>
+    <string name="app_icon_emboss_ivory" translatable="false">3D Emboss Ivory</string>
+    <string name="app_icon_raised_dark_note" translatable="false">3D Raised Dark Note</string>
+    <string name="app_icon_deboss_dark" translatable="false">3D Deboss Dark</string>
+    <string name="app_icon_dark_mode" translatable="false">Dark Mode</string>
     <string name="theme">Theme</string>
     <string name="font">Font</string>
     <string name="font_default">Default</string>

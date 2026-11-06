@@ -275,12 +275,12 @@
           swap the home-screen icon by enabling one alias and disabling the others
           (see AppIcon). Exactly one is enabled at a time; Default is the shipped one.
         -->
-        <activity-alias
+                <activity-alias
             android:name=".LauncherDefault"
             android:enabled="true"
             android:exported="true"
-            android:icon="@mipmap/ic_launcher"
-            android:roundIcon="@mipmap/ic_launcher"
+            android:icon="@mipmap/ic_chordly_01"
+            android:roundIcon="@mipmap/ic_chordly_01"
             android:label="@string/app_name"
             android:targetActivity=".MainActivity">
             <intent-filter>
@@ -290,11 +290,11 @@
         </activity-alias>
 
         <activity-alias
-            android:name=".LauncherMonochrome"
+            android:name=".LauncherChordly02"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_monochrome"
-            android:roundIcon="@mipmap/ic_monochrome"
+            android:icon="@mipmap/ic_chordly_02"
+            android:roundIcon="@mipmap/ic_chordly_02"
             android:label="@string/app_name"
             android:targetActivity=".MainActivity">
             <intent-filter>
@@ -304,11 +304,11 @@
         </activity-alias>
 
         <activity-alias
-            android:name=".LauncherGlassLight"
+            android:name=".LauncherChordly03"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_liquid_glass"
-            android:roundIcon="@mipmap/ic_liquid_glass"
+            android:icon="@mipmap/ic_chordly_03"
+            android:roundIcon="@mipmap/ic_chordly_03"
             android:label="@string/app_name"
             android:targetActivity=".MainActivity">
             <intent-filter>
@@ -318,11 +318,11 @@
         </activity-alias>
 
         <activity-alias
-            android:name=".LauncherGlassDark"
+            android:name=".LauncherChordly04"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_liquid_glass_dark"
-            android:roundIcon="@mipmap/ic_liquid_glass_dark"
+            android:icon="@mipmap/ic_chordly_04"
+            android:roundIcon="@mipmap/ic_chordly_04"
             android:label="@string/app_name"
             android:targetActivity=".MainActivity">
             <intent-filter>
@@ -332,11 +332,11 @@
         </activity-alias>
 
         <activity-alias
-            android:name=".LauncherGlassClear"
+            android:name=".LauncherChordly05"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_liquid_glass_clear"
-            android:roundIcon="@mipmap/ic_liquid_glass_clear"
+            android:icon="@mipmap/ic_chordly_05"
+            android:roundIcon="@mipmap/ic_chordly_05"
             android:label="@string/app_name"
             android:targetActivity=".MainActivity">
             <intent-filter>
@@ -346,11 +346,11 @@
         </activity-alias>
 
         <activity-alias
-            android:name=".LauncherGlassClearDark"
+            android:name=".LauncherChordly06"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_liquid_glass_clear_dark"
-            android:roundIcon="@mipmap/ic_liquid_glass_clear_dark"
+            android:icon="@mipmap/ic_chordly_06"
+            android:roundIcon="@mipmap/ic_chordly_06"
             android:label="@string/app_name"
             android:targetActivity=".MainActivity">
             <intent-filter>
@@ -360,11 +360,11 @@
         </activity-alias>
 
         <activity-alias
-            android:name=".LauncherSamsungGlass"
+            android:name=".LauncherChordly07"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_samsung_glass"
-            android:roundIcon="@mipmap/ic_samsung_glass"
+            android:icon="@mipmap/ic_chordly_07"
+            android:roundIcon="@mipmap/ic_chordly_07"
             android:label="@string/app_name"
             android:targetActivity=".MainActivity">
             <intent-filter>
@@ -374,11 +374,11 @@
         </activity-alias>
 
         <activity-alias
-            android:name=".LauncherSamsungGlassDark"
+            android:name=".LauncherChordly08"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_samsung_glass_dark"
-            android:roundIcon="@mipmap/ic_samsung_glass_dark"
+            android:icon="@mipmap/ic_chordly_08"
+            android:roundIcon="@mipmap/ic_chordly_08"
             android:label="@string/app_name"
             android:targetActivity=".MainActivity">
             <intent-filter>
@@ -388,11 +388,11 @@
         </activity-alias>
 
         <activity-alias
-            android:name=".LauncherSamsungGlassClear"
+            android:name=".LauncherChordly09"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_samsung_glass_clear"
-            android:roundIcon="@mipmap/ic_samsung_glass_clear"
+            android:icon="@mipmap/ic_chordly_09"
+            android:roundIcon="@mipmap/ic_chordly_09"
             android:label="@string/app_name"
             android:targetActivity=".MainActivity">
             <intent-filter>
@@ -402,11 +402,11 @@
         </activity-alias>
 
         <activity-alias
-            android:name=".LauncherSamsungGlassClearDark"
+            android:name=".LauncherChordly10"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_samsung_glass_clear_dark"
-            android:roundIcon="@mipmap/ic_samsung_glass_clear_dark"
+            android:icon="@mipmap/ic_chordly_10"
+            android:roundIcon="@mipmap/ic_chordly_10"
             android:label="@string/app_name"
             android:targetActivity=".MainActivity">
             <intent-filter>
@@ -416,11 +416,11 @@
         </activity-alias>
 
         <activity-alias
-            android:name=".LauncherPixelGlass"
+            android:name=".LauncherChordly11"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_pixel_glass"
-            android:roundIcon="@mipmap/ic_pixel_glass"
+            android:icon="@mipmap/ic_chordly_11"
+            android:roundIcon="@mipmap/ic_chordly_11"
             android:label="@string/app_name"
             android:targetActivity=".MainActivity">
             <intent-filter>
@@ -430,11 +430,11 @@
         </activity-alias>
 
         <activity-alias
-            android:name=".LauncherPixelGlassDark"
+            android:name=".LauncherChordly12"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_pixel_glass_dark"
-            android:roundIcon="@mipmap/ic_pixel_glass_dark"
+            android:icon="@mipmap/ic_chordly_12"
+            android:roundIcon="@mipmap/ic_chordly_12"
             android:label="@string/app_name"
             android:targetActivity=".MainActivity">
             <intent-filter>
@@ -444,11 +444,11 @@
         </activity-alias>
 
         <activity-alias
-            android:name=".LauncherPixelGlassClear"
+            android:name=".LauncherChordly13"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_pixel_glass_clear"
-            android:roundIcon="@mipmap/ic_pixel_glass_clear"
+            android:icon="@mipmap/ic_chordly_13"
+            android:roundIcon="@mipmap/ic_chordly_13"
             android:label="@string/app_name"
             android:targetActivity=".MainActivity">
             <intent-filter>
@@ -458,11 +458,11 @@
         </activity-alias>
 
         <activity-alias
-            android:name=".LauncherPixelGlassClearDark"
+            android:name=".LauncherChordly14"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_pixel_glass_clear_dark"
-            android:roundIcon="@mipmap/ic_pixel_glass_clear_dark"
+            android:icon="@mipmap/ic_chordly_14"
+            android:roundIcon="@mipmap/ic_chordly_14"
             android:label="@string/app_name"
             android:targetActivity=".MainActivity">
             <intent-filter>
@@ -472,11 +472,11 @@
         </activity-alias>
 
         <activity-alias
-            android:name=".LauncherNeonSilver"
+            android:name=".LauncherChordly15"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_neon_silver"
-            android:roundIcon="@mipmap/ic_neon_silver"
+            android:icon="@mipmap/ic_chordly_15"
+            android:roundIcon="@mipmap/ic_chordly_15"
             android:label="@string/app_name"
             android:targetActivity=".MainActivity">
             <intent-filter>
@@ -486,11 +486,11 @@
         </activity-alias>
 
         <activity-alias
-            android:name=".LauncherNeonCyan"
+            android:name=".LauncherChordly16"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_neon_cyan"
-            android:roundIcon="@mipmap/ic_neon_cyan"
+            android:icon="@mipmap/ic_chordly_16"
+            android:roundIcon="@mipmap/ic_chordly_16"
             android:label="@string/app_name"
             android:targetActivity=".MainActivity">
             <intent-filter>
@@ -500,11 +500,11 @@
         </activity-alias>
 
         <activity-alias
-            android:name=".LauncherNeonViolet"
+            android:name=".LauncherChordly17"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_neon_violet"
-            android:roundIcon="@mipmap/ic_neon_violet"
+            android:icon="@mipmap/ic_chordly_17"
+            android:roundIcon="@mipmap/ic_chordly_17"
             android:label="@string/app_name"
             android:targetActivity=".MainActivity">
             <intent-filter>
@@ -514,11 +514,11 @@
         </activity-alias>
 
         <activity-alias
-            android:name=".LauncherSamsungNeonSilver"
+            android:name=".LauncherChordly18"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_samsung_neon_silver"
-            android:roundIcon="@mipmap/ic_samsung_neon_silver"
+            android:icon="@mipmap/ic_chordly_18"
+            android:roundIcon="@mipmap/ic_chordly_18"
             android:label="@string/app_name"
             android:targetActivity=".MainActivity">
             <intent-filter>
@@ -528,11 +528,11 @@
         </activity-alias>
 
         <activity-alias
-            android:name=".LauncherSamsungNeonCyan"
+            android:name=".LauncherChordly19"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_samsung_neon_cyan"
-            android:roundIcon="@mipmap/ic_samsung_neon_cyan"
+            android:icon="@mipmap/ic_chordly_19"
+            android:roundIcon="@mipmap/ic_chordly_19"
             android:label="@string/app_name"
             android:targetActivity=".MainActivity">
             <intent-filter>
@@ -542,11 +542,11 @@
         </activity-alias>
 
         <activity-alias
-            android:name=".LauncherSamsungNeonViolet"
+            android:name=".LauncherChordly20"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_samsung_neon_violet"
-            android:roundIcon="@mipmap/ic_samsung_neon_violet"
+            android:icon="@mipmap/ic_chordly_20"
+            android:roundIcon="@mipmap/ic_chordly_20"
             android:label="@string/app_name"
             android:targetActivity=".MainActivity">
             <intent-filter>
@@ -556,11 +556,11 @@
         </activity-alias>
 
         <activity-alias
-            android:name=".LauncherPixelNeonSilver"
+            android:name=".LauncherChordly21"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_pixel_neon_silver"
-            android:roundIcon="@mipmap/ic_pixel_neon_silver"
+            android:icon="@mipmap/ic_chordly_21"
+            android:roundIcon="@mipmap/ic_chordly_21"
             android:label="@string/app_name"
             android:targetActivity=".MainActivity">
             <intent-filter>
@@ -570,11 +570,11 @@
         </activity-alias>
 
         <activity-alias
-            android:name=".LauncherPixelNeonCyan"
+            android:name=".LauncherChordly22"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_pixel_neon_cyan"
-            android:roundIcon="@mipmap/ic_pixel_neon_cyan"
+            android:icon="@mipmap/ic_chordly_22"
+            android:roundIcon="@mipmap/ic_chordly_22"
             android:label="@string/app_name"
             android:targetActivity=".MainActivity">
             <intent-filter>
@@ -584,11 +584,39 @@
         </activity-alias>
 
         <activity-alias
-            android:name=".LauncherPixelNeonViolet"
+            android:name=".LauncherChordly23"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_pixel_neon_violet"
-            android:roundIcon="@mipmap/ic_pixel_neon_violet"
+            android:icon="@mipmap/ic_chordly_23"
+            android:roundIcon="@mipmap/ic_chordly_23"
+            android:label="@string/app_name"
+            android:targetActivity=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".LauncherChordly24"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_chordly_24"
+            android:roundIcon="@mipmap/ic_chordly_24"
+            android:label="@string/app_name"
+            android:targetActivity=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".LauncherChordly25"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_chordly_25"
+            android:roundIcon="@mipmap/ic_chordly_25"
             android:label="@string/app_name"
             android:targetActivity=".MainActivity">
             <intent-filter>
