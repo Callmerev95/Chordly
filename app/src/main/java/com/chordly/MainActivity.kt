@@ -5360,21 +5360,21 @@ private fun ChordlyApp(
                     onDismiss = { showUpdateDialog = false },
                     onDownload = {
                         if (update.apkUrl != null) {
-                            // scope.launch { AppUpdateChecker.downloadApk(context) }
+                            scope.launch { AppUpdateChecker.downloadApk(context) }
                         } else {
                             context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(update.releaseUrl)))
                             showUpdateDialog = false
                         }
                     },
                     onCancelDownload = {
-                        // AppUpdateChecker.cancelDownload()
+                        AppUpdateChecker.cancelDownload()
                     },
                     onInstall = {
-                        // val ready = AppUpdateChecker.download.value as? AppUpdateChecker.DownloadState.Ready
-                        // ready?.let { AppUpdateChecker.installApk(context, it.file) }
+                        val ready = AppUpdateChecker.download.value as? AppUpdateChecker.DownloadState.Ready
+                        ready?.let { AppUpdateChecker.installApk(context, it.file) }
                     },
                     onOpenReleasePage = {
-                        // AppUpdateChecker.resetDownload()
+                        AppUpdateChecker.resetDownload()
                         context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(update.releaseUrl)))
                         showUpdateDialog = false
                     },
