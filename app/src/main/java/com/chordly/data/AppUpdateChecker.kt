@@ -7,6 +7,7 @@ import android.os.Build
 import android.provider.Settings
 import androidx.core.content.FileProvider
 import com.chordly.BuildConfig
+import com.chordly.data.DebugLog as Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -42,6 +43,8 @@ object AppUpdateChecker {
 
     private const val CACHE_SUBDIR = "updates"
 
+    private const val TAG = "AppUpdate"
+
     private const val LATEST_RELEASE_URL =
         "https://api.github.com/repos/Callmerev95/Chordly/releases/latest"
 
@@ -76,6 +79,7 @@ object AppUpdateChecker {
                 }
                 .build()
             val body = Http.client.newCall(request).execute().use { response ->
+                Log.d(TAG, "release API HTTP ${response.code} (token=${BuildConfig.GITHUB_TOKEN.isNotBlank()})")
                 if (!response.isSuccessful) null else response.body?.string()
             } ?: return@runCatching
             val release = json.parseToJsonElement(body) as? JsonObject ?: return@runCatching
@@ -84,9 +88,17 @@ object AppUpdateChecker {
             val apkUrl = apkAssetUrl(release)
             val notes = release["body"]?.jsonPrimitive?.contentOrNull
             val latest = tag.removePrefix("v")
-            if (isNewer(latest, BuildConfig.VERSION_NAME)) {
+            val newer = isNewer(latest, BuildConfig.VERSION_NAME)
+            Log.d(
+                TAG,
+                "tag=$tag latest=$latest current=${BuildConfig.VERSION_NAME} " +
+                    "isNewer=$newer apkUrl=${apkUrl != null}",
+            )
+            if (newer) {
                 _available.value = UpdateInfo(latest, url, apkUrl, notes)
             }
+        }.onFailure { error ->
+            Log.w(TAG, "update check failed", error)
         }
     }
 
@@ -151,7 +163,13 @@ object AppUpdateChecker {
             dir.listFiles()?.forEach { it.delete() }
             val target = File(dir, "chordly-${info.version}.apk")
 
-            val request = Request.Builder().url(url).build()
+            val request = Request.Builder().url(url)
+                .apply {
+                    if (BuildConfig.GITHUB_TOKEN.isNotBlank()) {
+                        header("Authorization", "Bearer ${BuildConfig.GITHUB_TOKEN}")
+                    }
+                }
+                .build()
             Http.client.newCall(request).execute().use { response ->
                 check(response.isSuccessful) { "Download failed: HTTP ${response.code}" }
                 val body = response.body ?: error("Empty download body")

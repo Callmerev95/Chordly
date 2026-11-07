@@ -1,20 +1,15 @@
-Chordly 1.9.1 — Perbaikan Sign-in Google
+![Chordly banner](https://raw.githubusercontent.com/Callmerev95/Chordly/main/chordly-banner.png)
 
-Rilis pemeliharaan yang berfokus pada peningkatan stabilitas proses login YouTube Music.
+## Hotfix
 
-Perbaikan
-* Sign-in Google dari halaman Home. Pengguna kini dapat masuk dengan akun Google langsung dari halaman Home, tanpa perlu membuka menu Settings.
-* Tombol “Lanjut” berfungsi normal. Tombol “Lanjut” setelah memasukkan alamat email kini merespons sebagaimana mestinya.
-* Proses login lebih stabil. Masalah lag, freeze, dan pengalihan (redirect) berulang selama proses login telah diatasi.
+A small release on top of v1.9, fixing Google sign-in and the in-app update flow.
 
-Detail Pembaruan
-* Berkas yang diperbarui: app-prod-universal-release.apk (186 MB)
-* Kompatibilitas: Mendukung seluruh perangkat Android dengan arsitektur ARM64, ARM32, dan x86_64.
+## Changelog
 
-Catatan
-* Ini adalah rilis minor. Tidak ada fitur baru; pembaruan ini hanya memperbaiki bug pada proses sign-in.
-* Akun YouTube Music Anda tetap digunakan seperti biasa.
-* Backend dan deep link tidak mengalami perubahan.
+- Sign-in: the login form uses Google's official account page again, and the "Use this profile" confirmation no longer gets stuck after signing in.
+- Updates: the in-app download now sends the credentials the private repository requires, so it no longer fails with HTTP 404.
+- Update dialog: the "Open Releases Page" option is removed, since the repository is private and its pages cannot be opened in a browser.
 
-Kredit
-* Dikembangkan khusus untuk Chordly oleh Callmerev.
+## Install
+
+**Android** (8.0 / API 26+): installs straight over v1.9 with the same signing key. Not sure which APK to take? Use the universal `app-prod-universal-release.apk`. The smaller ones are `arm64-v8a` (most phones), `armeabi-v7a` (old 32-bit phones) and `x86_64` (emulators, Chromebooks).

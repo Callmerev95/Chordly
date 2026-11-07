@@ -5362,7 +5362,9 @@ private fun ChordlyApp(
                         if (update.apkUrl != null) {
                             scope.launch { AppUpdateChecker.downloadApk(context) }
                         } else {
-                            context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(update.releaseUrl)))
+                            // No APK on the release: nothing to install in-app,
+                            // and the private repo's pages can't open in a
+                            // browser anyway, so just close the dialog.
                             showUpdateDialog = false
                         }
                     },
@@ -5372,11 +5374,6 @@ private fun ChordlyApp(
                     onInstall = {
                         val ready = AppUpdateChecker.download.value as? AppUpdateChecker.DownloadState.Ready
                         ready?.let { AppUpdateChecker.installApk(context, it.file) }
-                    },
-                    onOpenReleasePage = {
-                        AppUpdateChecker.resetDownload()
-                        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(update.releaseUrl)))
-                        showUpdateDialog = false
                     },
                 )
             }

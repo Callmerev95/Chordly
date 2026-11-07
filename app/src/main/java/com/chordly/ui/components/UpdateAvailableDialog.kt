@@ -1,5 +1,6 @@
 package com.chordly.ui.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -26,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -71,8 +73,8 @@ private val NOTES_MAX_HEIGHT = 220.dp
  *
  * The update round trip happens here rather than in a browser: Download pulls
  * the release's APK into the app cache (progress fills the hairline under the
- * message), then Install hands it to the system installer. Where the release
- * carries no APK at all, the actions fall back to opening the releases page.
+ * message), then Install hands it to the system installer. The release's own
+ * body renders as Markdown under "What's new".
  *
  * Sits over the whole app as an overlay rather than an Android [Dialog][androidx.compose.ui.window.Dialog]
  * so its glass can sample the same [HazeState] the rest of the app's frosted
@@ -88,7 +90,6 @@ fun UpdateAvailableDialog(
     onDownload: () -> Unit,
     onCancelDownload: () -> Unit,
     onInstall: () -> Unit,
-    onOpenReleasePage: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val reduceDynamicBlur by AppSettings.reduceDynamicBlur.collectAsStateWithLifecycle()
@@ -138,6 +139,13 @@ fun UpdateAvailableDialog(
                     .padding(horizontal = 16.dp, vertical = 19.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
+                Image(
+                    painter = painterResource(R.drawable.chordly_banner),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(8.dp)),
+                )
                 Text(
                     text = stringResource(R.string.software_update),
                     style = MaterialTheme.typography.bodyLarge.copy(
@@ -251,8 +259,6 @@ fun UpdateAvailableDialog(
                 }
                 is AppUpdateChecker.DownloadState.Failed -> {
                     AlertAction(label = stringResource(R.string.try_again), emphasised = true, onClick = onDownload)
-                    AlertRule()
-                    AlertAction(label = stringResource(R.string.open_releases_page), emphasised = false, onClick = onOpenReleasePage)
                 }
                 else -> {
                     AlertAction(label = stringResource(R.string.download_now), emphasised = true, onClick = onDownload)
