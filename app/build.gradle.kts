@@ -83,7 +83,7 @@ android {
         // Which release assets are this app's: the phone and TV APKs ship in
         // the same GitHub release, told apart by file name. See
         // AppUpdateChecker.apkAssetUrl.
-        buildConfigField("String", "UPDATE_APK_PREFIX", "\"Chordly-\"")
+        buildConfigField("String", "UPDATE_APK_PREFIX", "\"app-prod\"")
         // Read-only token for the private release repo's API. Empty unless
         // chordly.githubToken is set (see gradle.properties), so a public
         // checkout still builds and simply omits the header.
