@@ -101,12 +101,25 @@ fun YtMusicLoginScreen(
 
                 webViewClient = object : WebViewClient() {
                     override fun onPageFinished(view: WebView?, url: String?) {
-                        // Reaching the Music origin only enables confirmation.
-                        // A multi-channel login can still be waiting for the
-                        // listener to choose an identity on this very page.
-                        // Capturing automatically here is the race that used to
-                        // create a fake "Personal" profile and close too soon.
-                        currentOnPageReady(url?.startsWith(MUSIC_ORIGIN) == true)
+                        // Reaching the Music origin only opens the door; it
+                        // does not mean the page has a signed-in session yet.
+                        // After a fresh sign-in the redirect lands here before
+                        // the shell has wired up `ytcfg`, so the page is asked
+                        // for its own identity rather than trusted on URL
+                        // alone. A page without a signed-in `ytcfg` leaves the
+                        // confirmation button off, which is what a
+                        // multi-channel login waiting on this very page needs.
+                        if (url?.startsWith(MUSIC_ORIGIN) != true) {
+                            currentOnPageReady(false)
+                            return
+                        }
+                        view?.evaluateJavascript(YTCFG_PROBE) { raw ->
+                            val config = raw.parseConfig()
+                            val loggedIn = config?.get("loggedIn").let {
+                                it is JsonPrimitive && it.content == "true"
+                            }
+                            currentOnPageReady(config != null && loggedIn)
+                        }
                     }
                 }
 

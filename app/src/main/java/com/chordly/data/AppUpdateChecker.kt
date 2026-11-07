@@ -67,7 +67,14 @@ object AppUpdateChecker {
 
     suspend fun check() = withContext(Dispatchers.IO) {
         runCatching {
-            val request = Request.Builder().url(LATEST_RELEASE_URL).build()
+            val request = Request.Builder().url(LATEST_RELEASE_URL)
+                .apply {
+                    if (BuildConfig.GITHUB_TOKEN.isNotBlank()) {
+                        header("Authorization", "Bearer ${BuildConfig.GITHUB_TOKEN}")
+                        header("Accept", "application/vnd.github+json")
+                    }
+                }
+                .build()
             val body = Http.client.newCall(request).execute().use { response ->
                 if (!response.isSuccessful) null else response.body?.string()
             } ?: return@runCatching
