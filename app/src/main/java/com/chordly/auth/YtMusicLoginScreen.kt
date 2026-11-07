@@ -24,9 +24,7 @@ import kotlinx.serialization.json.jsonObject
 private const val MUSIC_ORIGIN = "https://music.youtube.com"
 
 private const val LOGIN_URL =
-    "https://accounts.google.com/ServiceLogin" +
-        "?ltmpl=music&service=youtube&prompt=select_account" +
-    "&continue=https%3A%2F%2Fmusic.youtube.com%2F"
+    "https://music.youtube.com/signin"
 
 private const val TAG = "Chordly"
 
