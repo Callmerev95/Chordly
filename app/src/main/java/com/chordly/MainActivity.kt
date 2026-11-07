@@ -128,7 +128,7 @@ import com.chordly.auth.DiscordLoginScreen
 import com.chordly.auth.SpotifyLoginScreen
 import com.chordly.auth.WebSessionMode
 import com.chordly.auth.YtMusicLoginScreen
-// import com.chordly.data.AppUpdateChecker
+import com.chordly.data.AppUpdateChecker
 import com.chordly.data.LocalMediaRepository
 import com.chordly.data.listentogether.JamInviteLink
 import com.chordly.data.listentogether.ListenTogether
