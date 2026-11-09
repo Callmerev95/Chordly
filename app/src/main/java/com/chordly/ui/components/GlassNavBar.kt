@@ -59,6 +59,7 @@ import com.chordly.data.model.Song
 import com.chordly.data.model.artworkAt
 import com.chordly.ui.components.floatingtabbar.FloatingTabBar
 import com.chordly.ui.components.floatingtabbar.FloatingTabBarDefaults
+import com.chordly.playback.MusicOnlyPlayback
 import com.chordly.ui.components.floatingtabbar.FloatingTabBarScrollConnection
 import com.chordly.ui.haptics.Haptic
 import com.chordly.ui.haptics.rememberHaptics
@@ -385,8 +386,9 @@ private fun GlassNowPlaying(
         ) {
             // A music video plays in the cover's place at its own 16:9, as in
             // the floating mini player; the full player takes it over when up.
+            val showsPicture = song.isVideo && MusicOnlyPlayback.showsPicture(song.videoId)
             val artWidth by animateDpAsState(
-                targetValue = if (song.isVideo) ACCESSORY_ART_SIZE * (16f / 9f) else ACCESSORY_ART_SIZE,
+                targetValue = if (showsPicture) ACCESSORY_ART_SIZE * (16f / 9f) else ACCESSORY_ART_SIZE,
                 label = "glassMiniArtWidth",
             )
             Box(
@@ -404,7 +406,7 @@ private fun GlassNowPlaying(
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize(),
                 )
-                if (song.isVideo) {
+                if (showsPicture) {
                     AndroidMusicVideo(
                         videoId = song.videoId,
                         fit = false,

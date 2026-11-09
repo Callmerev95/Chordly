@@ -36,6 +36,7 @@ import com.metrolist.innertubex.extraction.StreamResolveException
 import com.chordly.data.Http
 import com.chordly.data.TrackLog
 import com.chordly.data.innertube.InnerTubeXResolver
+import com.chordly.playback.MusicOnlyPlayback
 import com.chordly.data.model.Song
 import com.chordly.data.settings.AppSettings
 import com.chordly.playback.ChunkedDataSource
@@ -143,6 +144,9 @@ object MusicVideoEngine {
                 refused.clear()
                 refresh()
             }
+        }
+        scope.launch {
+            AppSettings.preferMusicOnly.drop(1).collect { refresh() }
         }
     }
 
@@ -320,7 +324,9 @@ object MusicVideoEngine {
     /** The track the picture should be of: the controller's, when it is a music video. */
     private fun wanted(): Song? {
         val song = controller?.currentMediaItem?.toSong() ?: return null
-        return song.takeIf { it.isVideo && it.videoId !in noPicture }
+        return song.takeIf {
+            it.isVideo && it.videoId !in noPicture && MusicOnlyPlayback.showsPicture(it.videoId)
+        }
     }
 
     private fun refresh() {

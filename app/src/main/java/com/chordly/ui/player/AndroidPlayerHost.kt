@@ -20,6 +20,7 @@ import com.chordly.data.canvas.CanvasRepository
 import com.chordly.data.listentogether.ListenTogether
 import com.chordly.data.lyrics.LyricLine
 import com.chordly.data.lyrics.LyricsTranslation
+import com.chordly.playback.MusicOnlyPlayback
 import com.chordly.data.model.Song
 import com.chordly.data.settings.AppSettings
 import com.chordly.data.settings.LastPlayerScreen
@@ -110,6 +111,8 @@ class AndroidPlayerHost(context: Context) : PlayerHost {
     @Composable
     override fun MusicVideo(videoId: String, fit: Boolean, onRenderedChanged: (Boolean) -> Unit, modifier: Modifier) =
         AndroidMusicVideo(videoId, fit, onRenderedChanged, modifier)
+
+    override fun showsMusicVideoPicture(videoId: String): Boolean = MusicOnlyPlayback.showsPicture(videoId)
 
     override val musicVideoAspect: StateFlow<Float> get() = MusicVideoEngine.aspect
 
