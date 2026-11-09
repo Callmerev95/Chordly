@@ -163,6 +163,7 @@ import com.chordly.data.canvas.CanvasSource
 import com.chordly.data.lyrics.LyricLine
 import com.chordly.data.lyrics.LyricsSource
 import com.chordly.data.settings.LastPlayerScreen
+import com.chordly.data.settings.PlayerTheme
 import com.chordly.data.model.LikeStatus
 import com.chordly.data.model.PlaybackSourceType
 import com.chordly.data.model.PLAYER_ART_PX
@@ -907,8 +908,9 @@ fun NowPlayingScreen(
     // frame of the fade, and the still art it governs is an AsyncImage whose
     // request is rebuilt on each pass and so would not be skipped.
     val canvasCover = remember(canvas?.url) { mutableFloatStateOf(0f) }
-    // v1.5's backdrop, kept behind a switch — see [PlayerSettings.legacyMeshGradient].
-    val legacyMesh by PlayerSettings.legacyMeshGradient.collectAsStateWithLifecycle()
+    // v1.5's backdrop, one of the player themes — see [PlayerSettings.playerTheme].
+    val playerTheme by PlayerSettings.playerTheme.collectAsStateWithLifecycle()
+    val legacyMesh = playerTheme == PlayerTheme.LEGACY
     // How often a playing clip's colours are re-read for the legacy mesh — see
     // CanvasArtworkPlayer's refreshFrameEveryMs. Null otherwise: the blurred
     // still cover under every other phone player has nothing to re-tint, and

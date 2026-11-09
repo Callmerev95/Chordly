@@ -14,6 +14,7 @@ import com.chordly.data.settings.LastPlayerScreen
 import com.chordly.data.settings.SmartAnalysis
 import com.chordly.data.settings.MixBlend
 import com.chordly.data.settings.MixTransitionView
+import com.chordly.data.settings.PlayerTheme
 import com.chordly.data.settings.TransitionWindow
 import dev.chrisbanes.haze.HazeState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -245,7 +246,7 @@ interface PlayerSettingsSource {
     /** Hide the device status bar while the player is up. Always false where there is none. */
     val hideStatusBar: StateFlow<Boolean>
     val lastPlayerScreen: StateFlow<LastPlayerScreen>
-    val legacyMeshGradient: StateFlow<Boolean>
+    val playerTheme: StateFlow<PlayerTheme>
     val lyricsBlur: StateFlow<Boolean>
     val lyricsOffsetMs: StateFlow<Int>
     val lyricsSourceOrder: StateFlow<List<LyricsSource>>
