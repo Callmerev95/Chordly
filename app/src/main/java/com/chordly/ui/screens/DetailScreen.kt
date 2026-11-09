@@ -488,6 +488,7 @@ fun DetailScreen(
     // Albums only: a playlist's artwork is a collage and an artist page's is a
     // photograph, and neither is something a label publishes a canvas for.
     val canvasEnabled by AppSettings.animatedCanvas.collectAsStateWithLifecycle()
+    val fullBleedArtwork by AppSettings.fullBleedDetailArtwork.collectAsStateWithLifecycle()
     val prioritizeSpotifyCanvas by AppSettings.prioritizeSpotifyCanvas.collectAsStateWithLifecycle()
     // The credit line the header shows is the artist as far as the catalogue
     // services are concerned. A browse card's subtitle sometimes omits it, in
@@ -552,6 +553,7 @@ fun DetailScreen(
                 // the narrow one it was written for.
                 val artHeight = (maxWidth / ARTIST_PHOTO_RATIO).coerceAtMost(maxHeight * 0.6f)
                 val sleeveSize = (maxWidth * SLEEVE_FRACTION).coerceAtMost(maxHeight * SLEEVE_MAX_HEIGHT)
+                val fullBleedSleeve = fullBleedArtwork && maxWidth <= maxHeight * FULL_BLEED_MAX_HEIGHT
                 // A folder's grid view: the same column count the Library's
                 // "Show all" grids reach at this width.
                 val gridColumns = libraryGrid(maxWidth - PAGE_GUTTER * 2).columns
@@ -589,6 +591,7 @@ fun DetailScreen(
                         page = page,
                         palette = palette,
                         sleeveSize = sleeveSize,
+                        fullBleed = fullBleedSleeve,
                         canvas = canvas,
                         songs = songs,
                         onPlay = { onSongClick(songs, 0) },
@@ -913,6 +916,12 @@ private fun ReleaseHeader(
     page: DetailPage,
     palette: ArtworkPalette,
     sleeveSize: Dp,
+    /**
+     * Runs the sleeve the page's width off the top of the screen, dissolving
+     * into the page colour like the player's banner, in place of the framed
+     * one. Everything under it is unchanged.
+     */
+    fullBleed: Boolean,
     canvas: CanvasArtwork?,
     songs: List<Song>,
     onPlay: () -> Unit,
@@ -923,21 +932,20 @@ private fun ReleaseHeader(
     onDownloadAll: (() -> Unit)? = null,
 ) {
     val (credit, meta) = page.headerLines(songs.size, songs.playtime())
-    // Every row on a release carries the same credit — see [pageCredit] — so
-    // the first one speaks for the whole page, the same source the rows'
-    // own long-press "Open artist" already reads from.
-    val fullBleed by AppSettings.fullBleedArtwork.collectAsStateWithLifecycle()
+    var artFailed by remember(page.thumbnailUrl) { mutableStateOf(false) }
+    // A placeholder is a sleeve or it is nothing, as on the player: blown out
+    // to the page's width it would only tint the top of the screen.
+    val bleed = fullBleed && page.thumbnailUrl != null && !artFailed
     val artist = songs.firstOrNull()
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
             // Clear of the floating bar, which only a full-bleed sleeve runs under.
-            .padding(top = if (fullBleed) 0.dp else topBarContentPadding(), bottom = 18.dp),
+            .padding(top = if (bleed) 0.dp else topBarContentPadding(), bottom = 18.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        var artFailed by remember(page.thumbnailUrl) { mutableStateOf(false) }
-        if (fullBleed && page.thumbnailUrl != null && !artFailed) {
+        if (bleed) {
             Box(
                 Modifier
                     .fillMaxWidth()

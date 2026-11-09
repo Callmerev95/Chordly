@@ -531,6 +531,9 @@ internal fun TransportRow(
 /** ThinSlider's fixed touch target at the volume bar's size: 10dp + 22dp. */
 internal val VOLUME_ROW_HEIGHT = 32.dp
 
+/** How far [PlayerScrubber] draws its times above the slot they are laid out in. */
+internal val SCRUBBER_LABEL_LIFT = 9.dp
+
 /** The volume bar between its two speaker glyphs. */
 @Composable
 internal fun VolumeRow(
