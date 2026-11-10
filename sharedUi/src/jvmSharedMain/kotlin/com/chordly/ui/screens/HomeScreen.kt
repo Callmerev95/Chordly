@@ -53,6 +53,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Cached
@@ -78,6 +79,7 @@ import com.chordly.ui.components.PAGE_GUTTER
 import com.chordly.ui.components.RowMoreButton
 import com.chordly.ui.components.PullToRefresh
 import com.chordly.ui.components.SHELF_CARD_WIDTH
+import com.chordly.ui.components.VideoThumbnails
 import com.chordly.ui.components.SearchPlayingBars
 import com.chordly.ui.components.SignInBanner
 import com.chordly.ui.components.feedMoreSkeleton
@@ -810,11 +812,11 @@ fun VideoShelfCard(
     }
 }
 
-/** A music video's frame. */
-const val VIDEO_ASPECT = 16f / 9f
+/** A music video's frame, or a square one when the listener asked for that — see [VideoThumbnails]. */
+val VIDEO_ASPECT: Float get() = if (VideoThumbnails.square) 1f else 16f / 9f
 
 /** Wide enough that a 16:9 card stands about as tall as a square [SHELF_CARD_WIDTH] one. */
-val VIDEO_CARD_WIDTH = 248.dp
+val VIDEO_CARD_WIDTH: Dp get() = if (VideoThumbnails.square) SHELF_CARD_WIDTH else 248.dp
 
 /**
  * A card that isn't a thing yet — the dashed "New playlist" tile at the head
