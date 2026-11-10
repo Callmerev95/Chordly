@@ -683,6 +683,15 @@
             android:name=".download.PlaylistSyncApproval"
             android:exported="false" />
 
+        <receiver
+            android:name=".data.AppUpdateDownloadReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+                <action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED" />
+            </intent-filter>
+        </receiver>
+
         <!--
           WorkManager comes up on first use instead of at every launch, since the
           one thing using it is a setting that is off by default.

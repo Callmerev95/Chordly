@@ -5392,6 +5392,9 @@ private fun ChordlyApp(
 
         // ---- Update available (once per launch; held until the welcome is done) ----
         if (showUpdateDialog && onboardingComplete) {
+            LaunchedEffect(Unit) {
+                AppUpdateChecker.syncDownloadStatus(context)
+            }
             updateNotice?.let { update ->
                 UpdateAvailableDialog(
                     version = update.version,
@@ -5403,7 +5406,7 @@ private fun ChordlyApp(
                     onDismiss = { showUpdateDialog = false },
                     onDownload = {
                         if (update.apkUrl != null) {
-                            scope.launch { AppUpdateChecker.downloadApk(context) }
+                            AppUpdateChecker.downloadApk(context)
                         } else {
                             // No APK on the release: nothing to install in-app,
                             // and the private repo's pages can't open in a
@@ -5412,11 +5415,12 @@ private fun ChordlyApp(
                         }
                     },
                     onCancelDownload = {
-                        AppUpdateChecker.cancelDownload()
+                        AppUpdateChecker.cancelDownload(context)
                     },
                     onInstall = {
                         val ready = AppUpdateChecker.download.value as? AppUpdateChecker.DownloadState.Ready
-                        ready?.let { AppUpdateChecker.installApk(context, it.file) }
+                        val file = ready?.file ?: AppUpdateChecker.getDownloadedApk(context)
+                        file?.let { AppUpdateChecker.installApk(context, it) }
                     },
                 )
             }
