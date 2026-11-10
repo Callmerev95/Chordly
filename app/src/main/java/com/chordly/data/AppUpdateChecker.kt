@@ -44,7 +44,7 @@ object AppUpdateChecker {
     private const val KEY_DOWNLOAD_VERSION = "update_download_version"
 
     private const val LATEST_RELEASE_URL =
-        "https://api.github.com/repos/Callmerev95/Chordly/releases/latest"
+        "https://api.github.com/repos/Callmerev95/Chordly-release/releases/latest"
 
     private val json = Json { ignoreUnknownKeys = true }
 
@@ -83,16 +83,12 @@ object AppUpdateChecker {
 
     suspend fun check() = withContext(Dispatchers.IO) {
         runCatching {
-            val request = Request.Builder().url(LATEST_RELEASE_URL)
-                .apply {
-                    if (BuildConfig.GITHUB_TOKEN.isNotBlank()) {
-                        header("Authorization", "Bearer ${BuildConfig.GITHUB_TOKEN}")
-                        header("Accept", "application/vnd.github+json")
-                    }
-                }
+            val request = Request.Builder()
+                .url(LATEST_RELEASE_URL)
+                .header("Accept", "application/vnd.github+json")
                 .build()
             val body = Http.client.newCall(request).execute().use { response ->
-                Log.d(TAG, "release API HTTP ${response.code} (token=${BuildConfig.GITHUB_TOKEN.isNotBlank()})")
+                Log.d(TAG, "release API HTTP ${response.code}")
                 if (!response.isSuccessful) null else response.body?.string()
             } ?: return@runCatching
             val release = json.parseToJsonElement(body) as? JsonObject ?: return@runCatching
@@ -163,12 +159,6 @@ object AppUpdateChecker {
             .setMimeType("application/vnd.android.package-archive")
             .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
             .setDestinationInExternalFilesDir(context, Environment.DIRECTORY_DOWNLOADS, target.name)
-            .apply {
-                if (BuildConfig.GITHUB_TOKEN.isNotBlank()) {
-                    addRequestHeader("Authorization", "Bearer ${BuildConfig.GITHUB_TOKEN}")
-                    addRequestHeader("Accept", "application/vnd.github+json")
-                }
-            }
 
         val downloadId = dm.enqueue(request)
         getPrefs(context).edit()

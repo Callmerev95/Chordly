@@ -101,14 +101,6 @@ android {
         // the same GitHub release, told apart by file name. See
         // AppUpdateChecker.apkAssetUrl.
         buildConfigField("String", "UPDATE_APK_PREFIX", "\"app-prod\"")
-        // Read-only token for the private release repo's API. Empty unless
-        // chordly.githubToken is set (see gradle.properties), so a public
-        // checkout still builds and simply omits the header.
-        buildConfigField(
-            "String",
-            "GITHUB_TOKEN",
-            "\"${providers.gradleProperty("chordly.githubToken").orNull ?: ""}\"",
-        )
     }
 
     splits {
