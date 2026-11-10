@@ -79,13 +79,8 @@ data class SourceConfig(
     val awaitsLosslessOutput: Boolean
         get() = checkValidLossless && !LosslessOutput.capable
 
-    /**
-     * Whether this is an addon known to be out of date: its manifest doesn't
-     * declare `bitchordAuth`, or it has no manifest at all. Not yet knowing
-     * (null) doesn't count. Only flagged, never gated on: see [bitchordAuth].
-     */
     val needsAddonUpdate: Boolean
-        get() = kind == SourceKind.ADDON && bitchordAuth == false
+        get() = false
 
     /** What the manifest last said, without the parts of the config the user set. */
     internal fun withPolicyOf(other: SourceConfig) =

@@ -281,8 +281,8 @@ class AddonSourceTest {
     }
 
     @Test
-    fun `only an addon known to lack bitchordAuth counts as needing an update`() {
-        assertTrue(SourceConfig(kind = SourceKind.ADDON, bitchordAuth = false).needsAddonUpdate)
+    fun `community addons without bitchordAuth do not count as needing an update`() {
+        assertFalse(SourceConfig(kind = SourceKind.ADDON, bitchordAuth = false).needsAddonUpdate)
         assertFalse(SourceConfig(kind = SourceKind.ADDON, bitchordAuth = true).needsAddonUpdate)
         // Not read yet: the manifest is checked before the first request instead.
         assertFalse(SourceConfig(kind = SourceKind.ADDON, bitchordAuth = null).needsAddonUpdate)
