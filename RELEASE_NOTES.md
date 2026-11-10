@@ -2,7 +2,7 @@
 
 ## Release v1.9.2
 
-Sync upstream BitChord v1.9.1 features and improvements to Chordly, with full support for Chordly's existing custom modules.
+Chordly v1.9.2 brings new customization options, audio playback enhancements, interface refinements, and overall performance improvements.
 
 ## Changelog
 
