@@ -1,30 +1,30 @@
 <div align="center">
 
-<img src="chordly-banner.png" alt="Chordly: musik, lirik, dan kamu" width="100%" />
+<img src="chordly-banner.png" alt="Chordly: music, lyrics, and you" width="100%" />
 
 <br/>
 
 # Chordly
 
-### Rasakan setiap lirik. Nikmati setiap nada.
-**Pemutar musik modern untuk YouTube Music: tampil cantik, terasa ringan, dan dibuat untuk pendengar sejati.**
+### Feel every lyric. Enjoy every note.
+**A modern music player for YouTube Music: beautiful to look at, light to use, and made for true listeners.**
 
 <br/>
 
-[![Versi](https://img.shields.io/github/v/release/Callmerev95/Chordly?style=for-the-badge&color=FF2D55&label=versi)](https://github.com/Callmerev95/Chordly/releases/latest)
-[![Unduhan](https://img.shields.io/github/downloads/Callmerev95/Chordly/total?style=for-the-badge&color=FF6B35&label=unduhan)](https://github.com/Callmerev95/Chordly/releases)
-[![Android](https://img.shields.io/badge/Android-Stabil-3DDC84?style=for-the-badge&logo=android&logoColor=white)](#-status-platform)
-[![Bintang](https://img.shields.io/github/stars/Callmerev95/Chordly?style=for-the-badge&color=FFD60A&label=bintang)](https://github.com/Callmerev95/Chordly/stargazers)
-[![Lisensi](https://img.shields.io/github/license/Callmerev95/Chordly?style=for-the-badge&color=7B5CFF&label=lisensi)](LICENSE)
+[![Version](https://img.shields.io/github/v/release/Callmerev95/Chordly?style=for-the-badge&color=FF2D55&label=version)](https://github.com/Callmerev95/Chordly/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/Callmerev95/Chordly/total?style=for-the-badge&color=FF6B35&label=downloads)](https://github.com/Callmerev95/Chordly/releases)
+[![Android](https://img.shields.io/badge/Android-Stable-3DDC84?style=for-the-badge&logo=android&logoColor=white)](#-platform-status)
+[![Stars](https://img.shields.io/github/stars/Callmerev95/Chordly?style=for-the-badge&color=FFD60A&label=stars)](https://github.com/Callmerev95/Chordly/stargazers)
+[![License](https://img.shields.io/github/license/Callmerev95/Chordly?style=for-the-badge&color=7B5CFF&label=license)](LICENSE)
 
 <br/>
 
-[**⬇️ Unduh**](#-unduh) &nbsp;·&nbsp;
-[**✨ Fitur**](#-fitur-unggulan) &nbsp;·&nbsp;
-[**🎬 Tampilan**](#-tampilan) &nbsp;·&nbsp;
+[**⬇️ Download**](#-download) &nbsp;·&nbsp;
+[**✨ Features**](#-features) &nbsp;·&nbsp;
+[**🎬 Showcase**](#-showcase) &nbsp;·&nbsp;
 [**🗺️ Roadmap**](#%EF%B8%8F-roadmap) &nbsp;·&nbsp;
 [**❓ FAQ**](#-faq) &nbsp;·&nbsp;
-[**🤝 Kontribusi**](#-kontribusi)
+[**🤝 Contributing**](#-contributing)
 
 </div>
 
@@ -32,111 +32,111 @@
 
 ---
 
-## 🎧 Tentang Chordly
+## 🎧 About Chordly
 
-**Chordly** adalah aplikasi pemutar musik untuk **YouTube Music** yang dirancang dengan satu keyakinan sederhana: mendengarkan musik harus terasa menyenangkan, bukan hanya berfungsi.
+**Chordly** is a music player app for **YouTube Music**, designed around one simple belief: listening to music should feel good, not just work.
 
-Dengan antarmuka gelap yang elegan, **lirik tersinkronisasi** yang tampil besar dan jelas, serta warna latar yang menyesuaikan sampul lagu, setiap lagu yang kamu putar terasa seperti punya panggungnya sendiri.
+With an elegant dark interface, **synced lyrics** that appear large and clear, and background colors that adapt to the album art, every song you play feels like it has its own stage.
 
-> 🇮🇩 Dikembangkan dengan sepenuh hati oleh **Callmerev** dari Indonesia.
+> Develop with heart by **Callmerev**.
 
 <br/>
 
-## 📡 Status Platform
+## 📡 Platform Status
 
-Chordly dibangun untuk hadir di banyak layar. Saat ini versi **mobile sudah stabil dan siap dipakai**, sementara platform lain sedang dalam perjalanan.
+Chordly is built to live on many screens. Right now the **mobile version is stable and ready to use**, while the other platforms are on their way.
 
-| Platform | Status | Keterangan |
+| Platform | Status | Notes |
 | :--- | :---: | :--- |
-| 📱 **Mobile (Android)** | ✅ **Stabil** | Tersedia sekarang, [unduh APK](#-unduh) |
-| 📺 **TV** | 🔜 **Segera hadir** | Nikmati Chordly di layar besar |
-| 🖥️ **Desktop** | 🔜 **Segera hadir** | Pengalaman penuh di komputermu |
-| ⌚ **Wear OS** | 🔜 **Segera hadir** | Kendalikan musik dari pergelangan tangan |
+| 📱 **Mobile (Android)** | ✅ **Stable** | Available now, [download the APK](#-download) |
+| 📺 **TV** | 🔜 **Coming soon** | Enjoy Chordly on the big screen |
+| 🖥️ **Desktop** | 🔜 **Coming soon** | The full experience on your computer |
+| ⌚ **Wear OS** | 🔜 **Coming soon** | Control your music from your wrist |
 
 <br/>
 
-## 🎬 Tampilan
+## 🎬 Showcase
 
 <div align="center">
-<img src="chordly-banner-showcase.png" alt="Tampilan Chordly: Beranda, Pemutar, dan Jelajahi" width="100%" />
+<img src="chordly-banner-showcase.png" alt="Chordly showcase: Home, Player, and Explore" width="100%" />
 </div>
 
 <br/>
 
 <div align="center">
 
-| 🏠 Beranda | 🎵 Pemutar | 🧭 Jelajahi |
+| 🏠 Home | 🎵 Player | 🧭 Explore |
 | :---: | :---: | :---: |
-| Pilihan lagu pilihan untukmu, stasiun personal, dan daftar lagu terbaru | Sampul layar penuh, kontrol lengkap, dan indikator kualitas | Temukan musik berdasarkan suasana hati dan genre |
+| Top picks for you, personal stations, and your latest tracks | Full-screen artwork, complete controls, and a quality indicator | Discover music by mood and genre |
 
 </div>
 
 <br/>
 
-## ✨ Fitur Unggulan
+## ✨ Features
 
 <table>
 <tr>
 <td width="50%" valign="top">
 
-### 🎤 Lirik Tersinkronisasi
-Ikuti setiap baris lirik secara real-time. Baris yang sedang dinyanyikan tampil menonjol, sementara baris lain memudar lembut di latar belakang.
+### 🎤 Synced Lyrics
+Follow every line in real time. The line being sung stands out, while the rest softly fade into the background.
 
 </td>
 <td width="50%" valign="top">
 
-### 🎨 Warna yang Hidup
-Latar gradient menyesuaikan warna sampul lagu, sehingga setiap lagu punya suasana visualnya sendiri.
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-### 🏠 Beranda yang Personal
-Dapatkan **Top Picks for You**, stasiun **Made for You**, dan daftar **Terbaru** langsung dari akun YouTube Music-mu.
-
-</td>
-<td width="50%" valign="top">
-
-### 🧭 Jelajahi Berdasarkan Suasana
-Dari **Fokus** dan **Santai** sampai **Olah Raga**, **Pesta**, dan **Tidur**. Temukan musik yang pas untuk momen apa pun.
+### 🎨 Living Colors
+The gradient background adapts to the album art, so every song gets its own visual mood.
 
 </td>
 </tr>
 <tr>
 <td width="50%" valign="top">
 
-### 🎚️ Pemutar Lengkap
-Sampul layar penuh, bilah progres, kontrol volume, tombol antrean dan cast, serta indikator kualitas **Lossless**.
+### 🏠 A Personal Home
+Get **Top Picks for You**, **Made for You** stations, and a **Recent** list straight from your YouTube Music account.
 
 </td>
 <td width="50%" valign="top">
 
-### ▶️ Mini Player Pintar
-Terus kendalikan lagu sambil menjelajah. Mini player selalu siap di bagian bawah layar.
+### 🧭 Explore by Mood
+From **Focus** and **Chill** to **Workout**, **Party**, and **Sleep**. Find the right music for any moment.
 
 </td>
 </tr>
 <tr>
 <td width="50%" valign="top">
 
-### ⭐ Favorit & Bagikan
-Simpan lagu kesukaanmu dengan satu ketukan dan bagikan ke teman kapan saja.
+### 🎚️ A Complete Player
+Full-screen artwork, a progress bar, volume control, queue and cast buttons, plus a **Lossless** quality indicator.
 
 </td>
 <td width="50%" valign="top">
 
-### 🔐 Masuk dengan Google
-Login dengan akun Google langsung dari halaman **Home**, cepat dan tanpa langkah yang berbelit.
+### ▶️ Smart Mini Player
+Keep controlling your music while you browse. The mini player is always ready at the bottom of the screen.
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+### ⭐ Favorite & Share
+Save the songs you love with a single tap and share them with friends anytime.
+
+</td>
+<td width="50%" valign="top">
+
+### 🔐 Sign in with Google
+Log in with your Google account right from the **Home** page, quick and with no convoluted steps.
 
 </td>
 </tr>
 <tr>
 <td colspan="2" valign="top">
 
-### 📦 Satu APK untuk Semua HP
-Cukup satu berkas **universal**. Berjalan di perangkat Android **ARM64, ARM32, dan x86_64**.
+### 📦 One APK for Every Phone
+Just one **universal** file. Runs on Android devices with **ARM64, ARM32, and x86_64**.
 
 </td>
 </tr>
@@ -144,149 +144,150 @@ Cukup satu berkas **universal**. Berjalan di perangkat Android **ARM64, ARM32, d
 
 <br/>
 
-## ⬇️ Unduh
+## ⬇️ Download
 
-Dapatkan versi terbaru dari halaman **Releases**.
+Get the latest version from the **Releases** page.
 
 <div align="center">
 
-[![Unduh Chordly](https://img.shields.io/badge/⬇️_Unduh_Chordly_untuk_Android-FF2D55?style=for-the-badge&logoColor=white)](https://github.com/Callmerev95/Chordly/releases/latest)
+[![Download Chordly](https://img.shields.io/badge/⬇️_Download_Chordly_for_Android-FF2D55?style=for-the-badge&logoColor=white)](https://github.com/Callmerev95/Chordly/releases/latest)
 
 </div>
 
-| Berkas | Ukuran | Kompatibilitas |
+| File | Size | Compatibility |
 | :--- | :---: | :--- |
-| `app-prod-universal-release.apk` | ± 186 MB | ARM64 · ARM32 · x86_64 |
+| `app-prod-universal-release.apk` | ~ 186 MB | ARM64 · ARM32 · x86_64 |
 
 <br/>
 
-## 🛠️ Instalasi
+## 🛠️ Installation
 
 <details open>
-<summary><b>📱 Pasang di Android</b></summary>
+<summary><b>📱 Install on Android</b></summary>
 
 <br/>
 
-1. **Unduh** berkas `app-prod-universal-release.apk` dari halaman [Releases](https://github.com/Callmerev95/Chordly/releases/latest).
-2. Buka **Pengaturan → Keamanan** (atau **Aplikasi**), lalu izinkan **instalasi dari sumber tidak dikenal** untuk browser atau file manager yang kamu gunakan.
-3. Buka berkas APK yang sudah diunduh, lalu ketuk **Instal**.
-4. Buka **Chordly**, lalu **masuk dengan akun Google** dari halaman Home.
-5. Selamat mendengarkan! 🎶
+1. **Download** the `app-prod-universal-release.apk` file from the [Releases](https://github.com/Callmerev95/Chordly/releases/latest) page.
+2. Open **Settings → Security** (or **Apps**), then allow **installation from unknown sources** for the browser or file manager you are using.
+3. Open the downloaded APK file, then tap **Install**.
+4. Open **Chordly**, then **sign in with your Google account** from the Home page.
+5. Enjoy the music! 🎶
 
 </details>
 
-**Persyaratan:**
-- Perangkat Android <!-- TODO: isi versi minimum, misalnya Android 8.0 (API 26) atau lebih baru -->
-- Koneksi internet
-- Akun Google / YouTube Music
+**Requirements:**
+- An Android device <!-- TODO: fill in the minimum version, e.g. Android 8.0 (API 26) or newer -->
+- An internet connection
+- A Google / YouTube Music account
 
 <br/>
 
 ## 🗺️ Roadmap
 
-- [x] 📱 **Aplikasi mobile Android**: stabil dan tersedia
-- [x] 🎤 Lirik tersinkronisasi
-- [x] 🔐 Masuk dengan Google dari halaman Home
-- [ ] 📺 **Chordly untuk TV**: *segera hadir*
-- [ ] 🖥️ **Chordly untuk Desktop**: *segera hadir*
-- [ ] ⌚ **Chordly untuk Wear OS**: *segera hadir*
+- [x] 📱 **Android mobile app**: stable and available
+- [x] 🎤 Synced lyrics
+- [x] 🔐 Sign in with Google from the Home page
+- [ ] 📺 **Chordly for TV**: *coming soon*
+- [ ] 🖥️ **Chordly for Desktop**: *coming soon*
+- [ ] ⌚ **Chordly for Wear OS**: *coming soon*
 
-> 💡 Punya ide fitur? Sampaikan lewat [Issues](https://github.com/Callmerev95/Chordly/issues).
+> 💡 Have a feature idea? Share it through [Issues](https://github.com/Callmerev95/Chordly/issues).
 
 <br/>
 
 ## 📝 Changelog
 
 <details open>
-<summary><b>v1.9.1: Perbaikan Sign-in Google</b></summary>
+<summary><b>v1.9.1: Google Sign-in Fix</b></summary>
 
 <br/>
 
-Rilis pemeliharaan yang berfokus pada stabilitas proses login.
+A maintenance release focused on the stability of the login process.
 
-- ✅ Sign-in Google kini bisa dilakukan langsung dari halaman **Home**, tanpa perlu membuka Settings.
-- ✅ Tombol **Lanjut** setelah memasukkan email kini berfungsi normal.
-- ✅ Masalah lag, freeze, dan redirect berulang saat login telah diatasi.
-- ℹ️ Tidak ada fitur baru dan tidak ada perubahan pada backend.
+- ✅ Google sign-in can now be done right from the **Home** page, without opening Settings.
+- ✅ The **Continue** button after entering your email now works properly.
+- ✅ Lag, freezes, and repeated redirects during login have been resolved.
+- ℹ️ No new features and no backend changes.
 
 </details>
 
-Riwayat lengkap tersedia di halaman [Releases](https://github.com/Callmerev95/Chordly/releases).
+The full history is available on the [Releases](https://github.com/Callmerev95/Chordly/releases) page.
 
 <br/>
 
 ## ❓ FAQ
 
 <details>
-<summary><b>Apakah Chordly gratis?</b></summary>
+<summary><b>Is Chordly free?</b></summary>
 <br/>
-<!-- TODO: sesuaikan dengan kebijakan yang kamu pilih -->
-Ya, Chordly dapat diunduh dan digunakan secara gratis.
+<!-- TODO: adjust to the policy you choose -->
+Yes, Chordly can be downloaded and used for free.
 </details>
 
 <details>
-<summary><b>Apakah saya wajib punya akun YouTube Music?</b></summary>
+<summary><b>Do I need a YouTube Music account?</b></summary>
 <br/>
-Chordly menggunakan akun Google / YouTube Music-mu untuk menghadirkan rekomendasi dan koleksi yang personal. Masuk dengan Google dari halaman Home untuk pengalaman terbaik.
+Chordly uses your Google / YouTube Music account to deliver personal recommendations and your collection. Sign in with Google from the Home page for the best experience.
 </details>
 
 <details>
-<summary><b>HP saya didukung?</b></summary>
+<summary><b>Is my phone supported?</b></summary>
 <br/>
-Ya. APK universal Chordly mendukung perangkat Android dengan arsitektur ARM64, ARM32, dan x86_64.
+Yes. The Chordly universal APK supports Android devices with ARM64, ARM32, and x86_64 architectures.
 </details>
 
 <details>
-<summary><b>Kapan versi TV, Desktop, dan Wear OS rilis?</b></summary>
+<summary><b>When will the TV, Desktop, and Wear OS versions be released?</b></summary>
 <br/>
-Ketiganya sedang dalam rencana pengembangan dan akan hadir segera. Pantau halaman <a href="https://github.com/Callmerev95/Chordly/releases">Releases</a> dan beri ⭐ pada repositori ini agar tidak ketinggalan kabar.
+All three are in the development plan and will arrive soon. Keep an eye on the <a href="https://github.com/Callmerev95/Chordly/releases">Releases</a> page and give this repository a ⭐ so you don't miss the news.
 </details>
 
 <details>
-<summary><b>Saya menemukan bug. Harus bagaimana?</b></summary>
+<summary><b>I found a bug. What should I do?</b></summary>
 <br/>
-Buka <a href="https://github.com/Callmerev95/Chordly/issues">Issue</a> baru dan sertakan versi aplikasi, tipe perangkat, versi Android, serta langkah untuk mereproduksi masalahnya. Screenshot atau rekaman layar sangat membantu.
+Open a new <a href="https://github.com/Callmerev95/Chordly/issues">Issue</a> and include the app version, device model, Android version, and the steps to reproduce the problem. Screenshots or screen recordings are very helpful.
 </details>
 
 <br/>
 
-## 🧑‍💻 Pengembangan
+## 🧑‍💻 Development
 
-<!-- TODO: sesuaikan dengan stack dan langkah build yang sebenarnya -->
+<!-- TODO: adjust to the actual stack and build steps -->
 
 ```bash
-# Clone repositori
+# Clone the repository
 git clone https://github.com/Callmerev95/Chordly.git
 cd Chordly
 
-# TODO: tambahkan langkah build, misalnya:
+# TODO: add the build steps, for example:
 # ./gradlew assembleDebug
 ```
 
-**Stack teknologi:** <!-- TODO: misalnya Kotlin · Jetpack Compose · Media3/ExoPlayer, dll. -->
+**Tech stack:** <!-- TODO: e.g. Kotlin · Jetpack Compose · Media3/ExoPlayer, etc. -->
 
 <br/>
 
-## 🤝 Kontribusi
+## 🤝 Contributing
 
-Kontribusi dalam bentuk apa pun sangat disambut, baik kode, laporan bug, ide fitur, maupun perbaikan dokumentasi.
+Contributions of any kind are welcome, whether code, bug reports, feature ideas, or documentation improvements.
 
-1. 🍴 **Fork** repositori ini
-2. 🌿 Buat branch baru: `git checkout -b fitur/nama-fitur`
-3. 💾 Commit perubahanmu: `git commit -m "feat: deskripsi singkat"`
-4. 🚀 Push ke branch: `git push origin fitur/nama-fitur`
-5. 🔃 Buka **Pull Request**
+1. 🍴 **Fork** this repository
+2. 🌿 Create a new branch: `git checkout -b feature/feature-name`
+3. 💾 Commit your changes: `git commit -m "feat: short description"`
+4. 🚀 Push to the branch: `git push origin feature/feature-name`
+5. 🔃 Open a **Pull Request**
 
 <br/>
 
-## 📄 Lisensi
+## 📄 License
 
-<!-- TODO: sesuaikan dengan lisensi yang kamu pilih, lalu pastikan berkas LICENSE ada di repo -->
-Didistribusikan di bawah lisensi **GPL-3.0**. Lihat berkas [`LICENSE`](LICENSE) untuk detail lengkap.
+<!-- TODO: adjust to the license you choose, then make sure a LICENSE file exists in the repo -->
+Distributed under the **GNU General Public License v3.0 (GPLv3)**. See the [`LICENSE`](LICENSE) file for full details.
+
 
 ## ⚠️ Disclaimer
 
-Chordly adalah proyek independen dan **tidak berafiliasi dengan, disponsori, atau didukung oleh Google maupun YouTube**. Seluruh konten musik, merek dagang, dan hak cipta adalah milik pemegang haknya masing-masing. Gunakan aplikasi ini sesuai dengan Ketentuan Layanan YouTube dan Google.
+Chordly is an independent project and is **not affiliated with, sponsored by, or endorsed by Google or YouTube**. All music content, trademarks, and copyrights belong to their respective owners. Please use this app in accordance with the YouTube and Google Terms of Service.
 
 <br/>
 
@@ -294,10 +295,10 @@ Chordly adalah proyek independen dan **tidak berafiliasi dengan, disponsori, ata
 
 <div align="center">
 
-### 💖 Suka dengan Chordly?
+### 💖 Love Chordly?
 
-Beri **⭐ bintang** pada repositori ini dan bagikan ke teman-temanmu.<br/>
-Dukunganmu adalah bahan bakar untuk versi TV, Desktop, dan Wear OS.
+Give this repository a **⭐ star** and share it with your friends.<br/>
+Your support is the fuel for the TV, Desktop, and Wear OS versions.
 
 <br/>
 
