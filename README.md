@@ -198,6 +198,26 @@ Get the latest version from the **Releases** page.
 ## 📝 Changelog
 
 <details open>
+<summary><b>v1.9.2: Features & Enhancements</b></summary>
+
+<br/>
+
+Chordly v1.9.2 brings new customization options, audio playback enhancements, interface refinements, and overall performance improvements.
+
+- ✅ **Content Preferences**: New settings to hide Recents, Videos, Top Picks, and Moods from Home, plus an option for square music video thumbnails.
+- ✅ **Automix Overview**: Preview transition waveform, BPM, key, and beat markers directly from the song actions menu when Smart Crossfade is active.
+- ✅ **Player Themes**: Choose between Default, Simple, and Legacy player themes in Settings, with adaptive blend effects.
+- ✅ **Full-Screen Artwork & Display**: Full-screen album and playlist covers with toggleable blend effects and responsive layout adjustments.
+- ✅ **Performance Glass Mode**: Optimized blur rendering and reduced GPU/CPU overhead on supported Android versions.
+- ✅ **Audio & Bit-Perfect Improvements**: DAC idle-release with suspend/resume and dropout prevention when screen is turned off.
+- ✅ **Music-Only Playback**: Option to prefer official audio tracks over music video streams automatically.
+- ✅ **Smart Song Matching**: Accurate direct-source duration and artist probing to prevent short preview mismatches.
+- ✅ **Addon Enhancements**: Per-addon audio quality selection and hardware-attestation protocol alignment.
+- ✅ **UI Polish**: Skeleton loading states on release headers, adaptive search field on Liquid Glass, and earphone routing indicators.
+
+</details>
+
+<details>
 <summary><b>v1.9.1: Google Sign-in Fix</b></summary>
 
 <br/>
