@@ -246,6 +246,7 @@ fun SettingsScreen(
     val reduceDynamicBlur by AppSettings.reduceDynamicBlur.collectAsStateWithLifecycle()
     val disableBlendEffects by AppSettings.disableBlendEffects.collectAsStateWithLifecycle()
     val liquidGlass by AppSettings.liquidGlass.collectAsStateWithLifecycle()
+    val glassPerformance by AppSettings.glassPerformance.collectAsStateWithLifecycle()
     val progressiveBlur by AppSettings.progressiveBlur.collectAsStateWithLifecycle()
     val liquidGlassSupported = isGlassSupported()
     val lyricsBlur by AppSettings.lyricsBlur.collectAsStateWithLifecycle()
@@ -1009,11 +1010,19 @@ fun SettingsScreen(
                     onClick = { AppSettings.setLiquidGlass(!liquidGlass) },
                 )
             }
-            // One line, like Direct Source Stream under Sources, and only while
-            // Liquid Glass is on: it qualifies the glass rather than standing on
-            // its own. Its own switch because it costs frames of its own. Reduce
-            // dynamic blur turns it off.
+            // One line each, like Direct Source Stream under Sources, and only
+            // while Liquid Glass is on: they qualify the glass rather than standing
+            // on their own. Progressive Blur has its own switch because it costs
+            // frames of its own. Reduce dynamic blur turns it off.
             if (liquidGlass && liquidGlassSupported) {
+                val glassPerformanceTitle = stringResource(R.string.glass_performance)
+                row(glassPerformanceTitle, "glass", "performance", "refraction", "frosted", "lag", divided = false) {
+                    SettingsSubRow(
+                        title = glassPerformanceTitle,
+                        checked = glassPerformance,
+                        onCheckedChange = AppSettings::setGlassPerformance,
+                    )
+                }
                 val progressiveBlurTitle = stringResource(R.string.progressive_blur)
                 row(progressiveBlurTitle, "blur", "status bar", "top", divided = false) {
                     SettingsSubRow(
