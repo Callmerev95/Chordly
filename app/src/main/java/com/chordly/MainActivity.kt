@@ -302,6 +302,7 @@ import com.chordly.data.model.TopPickKind
 import com.chordly.data.model.TopPickMood
 import com.chordly.ui.screens.MoodGridPage
 import com.chordly.ui.player.NowPlayingScreen
+import com.chordly.ui.player.MixViewRequest
 import com.chordly.ui.player.MusicVideoEngine
 import com.chordly.ui.player.PlayerSheetMotion
 import androidx.compose.ui.geometry.Offset
@@ -4396,6 +4397,7 @@ private fun ChordlyApp(
             // so "Remove from cache" is only offered for a track it holds.
             // Re-asked when the cache changes, which is what drops the row
             // once the track has gone.
+            val automixOn by AppSettings.smartFadeEnabled.collectAsStateWithLifecycle()
             val cacheVersion by AudioCache.contentsChanged.collectAsStateWithLifecycle()
             val inCache by produceState(false, song.videoId, cacheVersion) {
                 value = song.localUri == null &&
@@ -4595,6 +4597,16 @@ private fun ChordlyApp(
                     {
                         songActions = null
                         showLyricsOffset = true
+                    }
+                } else {
+                    null
+                },
+                // The popup lives in the player, so the menu only has to close
+                // and ask for it; it lays the next transition out on its own.
+                onAutomixOverview = if (fromPlayer && automixOn) {
+                    {
+                        songActions = null
+                        MixViewRequest.open = true
                     }
                 } else {
                     null
