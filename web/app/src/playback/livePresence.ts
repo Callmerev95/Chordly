@@ -12,7 +12,7 @@ import { config } from '@/config';
  * about the listener or what they play.
  */
 
-const ID_KEY = 'bitchord:presence-id';
+const ID_KEY = 'chordly:presence-id';
 const DEFAULT_INTERVAL_SEC = 300;
 const MIN_INTERVAL_SEC = 60;
 const MAX_INTERVAL_SEC = 3600;

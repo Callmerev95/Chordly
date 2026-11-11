@@ -104,8 +104,8 @@ export class PartyError extends Error {
 
 // ---- Settings: the server, a nickname -------------------------------------------------
 
-const SETTINGS_KEY = 'bitchord:party';
-const SESSION_KEY = 'bitchord:party-session';
+const SETTINGS_KEY = 'chordly:party';
+const SESSION_KEY = 'chordly:party-session';
 
 interface Settings {
   customServer: string;
@@ -136,10 +136,10 @@ let server: string | null = null;
 export const clock = new ServerClock();
 
 function deviceId(): string {
-  let id = localStorage.getItem('bitchord:deviceId');
+  let id = localStorage.getItem('chordly:deviceId');
   if (!id) {
     id = crypto.randomUUID();
-    localStorage.setItem('bitchord:deviceId', id);
+    localStorage.setItem('chordly:deviceId', id);
   }
   return id;
 }
@@ -307,7 +307,7 @@ export function partyServer(): string | null {
 
 // ---- Recent kicks (a door that stays shut on this device for a day) ------------------------
 
-const KICKS_KEY = 'bitchord:party-kicked';
+const KICKS_KEY = 'chordly:party-kicked';
 
 function recentKicks(): Record<string, number> {
   try {

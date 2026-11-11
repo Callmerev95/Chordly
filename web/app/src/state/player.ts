@@ -106,7 +106,7 @@ interface PlayerState extends Settings {
 
 // ---- Settings, kept across visits ---------------------------------------------------
 
-const SETTINGS_KEY = 'bitchord:player';
+const SETTINGS_KEY = 'chordly:player';
 const DEFAULT_SETTINGS: Settings = {
   shuffle: false,
   repeat: 'off',

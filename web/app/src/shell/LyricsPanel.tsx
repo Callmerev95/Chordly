@@ -82,8 +82,8 @@ const FAR_LINES =
  * side panel keeps the library's own sizes.
  */
 const FULL_SIZE =
-  ':host([data-full]) .lyrics-container { --lyplus-font-size-base: var(--bitchord-lyric-size, 34px);' +
-  ' --am-lyrics-line-height: 1.2; --am-lyrics-line-spacing: calc(var(--bitchord-lyric-size, 34px) * 0.7);' +
+  ':host([data-full]) .lyrics-container { --lyplus-font-size-base: var(--chordly-lyric-size, 34px);' +
+  ' --am-lyrics-line-height: 1.2; --am-lyrics-line-spacing: calc(var(--chordly-lyric-size, 34px) * 0.7);' +
   ' --lyrics-scroll-padding-top: 30%; --am-lyrics-inline-padding: 0px; }';
 
 /**
@@ -368,7 +368,7 @@ function CanvasBackdrop({ url }: { url: string }) {
 const panel = 'group/panel relative isolate flex min-h-0 flex-1 flex-col overflow-hidden';
 // The full-screen player's column (report §7): lines 26px, then 30px from 980px, 36px from 1320px and 42px from 1680px.
 const fullSizes =
-  '[--bitchord-lyric-size:26px] min-[980px]:[--bitchord-lyric-size:30px] min-[1320px]:[--bitchord-lyric-size:36px] min-[1680px]:[--bitchord-lyric-size:42px]';
+  '[--chordly-lyric-size:26px] min-[980px]:[--chordly-lyric-size:30px] min-[1320px]:[--chordly-lyric-size:36px] min-[1680px]:[--chordly-lyric-size:42px]';
 
 /**
  * The lyrics, with their provider picker and empty states: the side panel
