@@ -10,7 +10,6 @@
 **A modern music player for YouTube Music: beautiful to look at, light to use, and made for true listeners.**
 
 
-[**⬇️ Download**](#-download) &nbsp;·&nbsp;
 [**✨ Features**](#-features) &nbsp;·&nbsp;
 [**🎬 Showcase**](#-showcase) &nbsp;·&nbsp;
 [**🗺️ Roadmap**](#%EF%B8%8F-roadmap) &nbsp;·&nbsp;
