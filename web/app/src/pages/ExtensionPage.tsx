@@ -2,7 +2,7 @@ import { ChevronRight } from 'lucide-react';
 import { useState, type ComponentType } from 'react';
 import { FaChrome, FaFirefoxBrowser } from 'react-icons/fa';
 import { SiDiscord, SiSpotify, SiYoutubemusic } from 'react-icons/si';
-import type { Capability } from '@bitchord/shared/bridge';
+import type { Capability } from '@chordly/shared/bridge';
 import { PageHeader } from '@/components/PageHeader';
 import { config } from '@/config';
 import { useExtension, type ExtensionStatus } from '@/extension/useExtension';

@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import type { DetectedExtension, DiscordPresenceOptions, DiscordState } from '@bitchord/shared/bridge';
+import type { DetectedExtension, DiscordPresenceOptions, DiscordState } from '@chordly/shared/bridge';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { queryClient } from '@/lib/queryClient';

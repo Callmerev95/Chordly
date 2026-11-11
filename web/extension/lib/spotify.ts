@@ -1,4 +1,4 @@
-import type { SpotifyAuthState, SpotifyPage, SpotifyPlaylist, SpotifyTrack } from '@bitchord/shared/bridge';
+import type { SpotifyAuthState, SpotifyPage, SpotifyPlaylist, SpotifyTrack } from '@chordly/shared/bridge';
 import { installSpotifyFetchRule } from './rules';
 
 /**

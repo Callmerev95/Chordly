@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { DetectedExtension } from '@bitchord/shared/bridge';
+import type { DetectedExtension } from '@chordly/shared/bridge';
 import { getBridge } from '@/extension/bridge';
 import { extensionQueryKey } from '@/extension/useExtension';
 import { ensureYtAuth } from '@/extension/useYtAuth';

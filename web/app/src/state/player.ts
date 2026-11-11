@@ -1,4 +1,4 @@
-import type { DetectedExtension } from '@bitchord/shared/bridge';
+import type { DetectedExtension } from '@chordly/shared/bridge';
 import { create } from 'zustand';
 import type { Track } from '@/data/music/types';
 import { extensionQueryKey } from '@/extension/useExtension';

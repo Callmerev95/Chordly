@@ -1,4 +1,4 @@
-import type { YtAccount, YtAuthState, YtChannel } from '@bitchord/shared/bridge';
+import type { YtAccount, YtAuthState, YtChannel } from '@chordly/shared/bridge';
 import { installExtensionFetchRule } from './rules';
 
 /**

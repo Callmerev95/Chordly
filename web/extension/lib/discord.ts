@@ -1,4 +1,4 @@
-import type { DiscordNowPlaying, DiscordPresenceOptions, DiscordState } from '@bitchord/shared/bridge';
+import type { DiscordNowPlaying, DiscordPresenceOptions, DiscordState } from '@chordly/shared/bridge';
 import { installDiscordFetchRule } from './rules';
 
 declare const __DISCORD_PRESENCE__: boolean;

@@ -9,7 +9,7 @@ import {
   type BridgeRequest,
   type BridgeResponse,
   type Capability,
-} from '@bitchord/shared/bridge';
+} from '@chordly/shared/bridge';
 import * as discord from '../lib/discord';
 import { grantedOrigins, lyricsFetch, requestOrigins } from '../lib/lyricsFetch';
 import { installRules } from '../lib/rules';
