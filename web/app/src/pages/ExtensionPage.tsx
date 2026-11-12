@@ -26,11 +26,13 @@ interface Download {
 
 /**
  * The two builds, as published (extension.json): the zip and the folder in it
- * carry the version, "bitchord-extension-chrome (0.4.3)". Before that file
- * has loaded, the configured URLs and the unversioned names stand in.
+ * carry the version, "chordly-extension-chrome (0.4.3)". Before that file
+ * has loaded, the configured URLs and the unversioned names stand in. The
+ * `chordly-extension-` prefix is the same contract the packager writes
+ * (scripts/publish-to-site.mjs) and config.ts defaults to; keep all three in sync.
  */
 function downloadsFor(published: PublishedExtension | null): Download[] {
-  const folder = (browser: Browser) => `bitchord-extension-${browser}${published ? ` (${published.version})` : ''}`;
+  const folder = (browser: Browser) => `chordly-extension-${browser}${published ? ` (${published.version})` : ''}`;
   return [
     {
       browser: 'chrome',

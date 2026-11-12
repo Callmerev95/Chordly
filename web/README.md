@@ -46,7 +46,7 @@ corepack pnpm --dir web/extension package
 
 This builds both targets and writes three files to `app/public/downloads/` (git-ignored):
 
-- `bitchord-extension-chrome.zip` and `bitchord-extension-firefox.zip`. Each holds a single folder (`bitchord-extension-<browser>/`), so extracting it in place leaves one folder to load unpacked.
+- `chordly-extension-chrome.zip` and `chordly-extension-firefox.zip`. Each holds a single folder (`chordly-extension-<browser>/`), so extracting it in place leaves one folder to load unpacked.
 - `extension.json`, with the version. The site compares it with the installed extension's version and shows **Update** in the sidebar and an update row on the Extension page when the zip is newer. Bump `version` in `extension/package.json` to publish an update.
 
 `VITE_EXTENSION_CHROME_URL`, `VITE_EXTENSION_FIREFOX_URL` and `VITE_EXTENSION_MANIFEST_URL` override those links, for example to point at store listings.
