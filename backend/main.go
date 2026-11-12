@@ -250,7 +250,7 @@ func handleRoot(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	jsonResponse(w, http.StatusOK, map[string]interface{}{
-		"service":    "bitchord-listen-together",
+		"service":    "chordly-listen-together",
 		"members":    store.MemberCount(),
 		"parties":    store.Len(),
 		"serverMs":   clock.NowMs(),

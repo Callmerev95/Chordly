@@ -1,4 +1,4 @@
-# Render blueprint for BitChord Listen Together (Go backend)
+# Render blueprint for Chordly Listen Together (Go backend)
 #
 # Deploy this service manually on Render Dashboard (Recommended):
 # - New -> Web Service, connect repo
@@ -13,7 +13,7 @@
 
 services:
   - type: web
-    name: bitchord-listen-together
+    name: chordly-listen-together
     runtime: go
     plan: free
     region: singapore
@@ -35,6 +35,10 @@ services:
         value: "2"
       - key: JAM_CONNECTION_IDLE_MS
         value: "900000"
+      # Allowlist of browser origins permitted to reach this server (exact match,
+      # no wildcard). Chordly web + local dev; native clients send no Origin.
+      - key: JAM_ALLOWED_ORIGINS
+        value: "https://chordly.callmerev.my.id,http://localhost:5173"
       # Render terminates TLS and supplies the real client IP in X-Forwarded-For.
       - key: JAM_TRUST_PROXY
         value: "true"
