@@ -1,10 +1,9 @@
 <div align="center">
 
-<img src="chordly-banner.png" alt="Chordly: music, lyrics, and you" width="100%" />
+<img src="Chordly_logo.png" alt="Chordly: music, lyrics, and you" width="100%" />
 
 <br/>
 
-# Chordly
 
 ### Feel every lyric. Enjoy every note.
 **A modern music player for YouTube Music: beautiful to look at, light to use, and made for true listeners.**
