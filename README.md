@@ -11,7 +11,7 @@
 <br/>
 
 [![Version](https://img.shields.io/github/v/release/Callmerev95/Chordly?style=for-the-badge&color=FF2D55&label=version)](https://github.com/Callmerev95/Chordly/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/Callmerev95/Chordly/total?style=for-the-badge&color=FF6B35&label=downloads)](https://github.com/Callmerev95/Chordly/releases)
+[![Downloads](https://img.shields.io/github/downloads/Callmerev95/Chordly-release/total?style=for-the-badge&color=FF6B35&label=downloads)](https://github.com/Callmerev95/Chordly-release/releases)
 [![Android](https://img.shields.io/badge/Android-Stable-3DDC84?style=for-the-badge&logo=android&logoColor=white)](#-platform-status)
 [![Stars](https://img.shields.io/github/stars/Callmerev95/Chordly?style=for-the-badge&color=FFD60A&label=stars)](https://github.com/Callmerev95/Chordly/stargazers)
 [![License](https://img.shields.io/github/license/Callmerev95/Chordly?style=for-the-badge&color=7B5CFF&label=license)](LICENSE)
@@ -47,7 +47,7 @@ Chordly is built to live on many screens. Right now the **mobile version is stab
 
 | Platform | Status | Notes |
 | :--- | :---: | :--- |
-| 📱 **Mobile (Android)** | ✅ **Stable** | Available now, [download the APK](#-download) |
+| 📱 **Mobile (Android)** | ✅ **Stable** | Available now, [download the APK](https://github.com/Callmerev95/Chordly-release/releases) |
 | 📺 **TV** | 🔜 **Coming soon** | Enjoy Chordly on the big screen |
 | 🖥️ **Desktop** | 🔜 **Coming soon** | The full experience on your computer |
 | ⌚ **Wear OS** | 🔜 **Coming soon** | Control your music from your wrist |
@@ -149,7 +149,7 @@ Get the latest version from the **Releases** page.
 
 <div align="center">
 
-[![Download Chordly](https://img.shields.io/badge/⬇️_Download_Chordly_for_Android-FF2D55?style=for-the-badge&logoColor=white)](https://github.com/Callmerev95/Chordly/releases/latest)
+[![Download Chordly](https://img.shields.io/badge/⬇️_Download_Chordly_for_Android-FF2D55?style=for-the-badge&logoColor=white)](https://github.com/Callmerev95/Chordly-release/releases/latest)
 
 </div>
 
@@ -166,7 +166,7 @@ Get the latest version from the **Releases** page.
 
 <br/>
 
-1. **Download** the `app-prod-universal-release.apk` file from the [Releases](https://github.com/Callmerev95/Chordly/releases/latest) page.
+1. **Download** the `app-prod-universal-release.apk` file from the [Releases](https://github.com/Callmerev95/Chordly-release/releases/latest) page.
 2. Open **Settings → Security** (or **Apps**), then allow **installation from unknown sources** for the browser or file manager you are using.
 3. Open the downloaded APK file, then tap **Install**.
 4. Open **Chordly**, then **sign in with your Google account** from the Home page.
@@ -230,7 +230,7 @@ A maintenance release focused on the stability of the login process.
 
 </details>
 
-The full history is available on the [Releases](https://github.com/Callmerev95/Chordly/releases) page.
+The full history is available on the [Releases](https://github.com/Callmerev95/Chordly-release/releases) page.
 
 <br/>
 
@@ -258,7 +258,7 @@ Yes. The Chordly universal APK supports Android devices with ARM64, ARM32, and x
 <details>
 <summary><b>When will the TV, Desktop, and Wear OS versions be released?</b></summary>
 <br/>
-All three are in the development plan and will arrive soon. Keep an eye on the <a href="https://github.com/Callmerev95/Chordly/releases">Releases</a> page and give this repository a ⭐ so you don't miss the news.
+All three are in the development plan and will arrive soon. Keep an eye on the <a href="https://github.com/Callmerev95/Chordly-release/releases">Releases</a> page and give this repository a ⭐ so you don't miss the news.
 </details>
 
 <details>
