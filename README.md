@@ -10,7 +10,7 @@
 
 <br/>
 
-[![Version](https://img.shields.io/github/v/release/Callmerev95/Chordly?style=for-the-badge&color=FF2D55&label=version)](https://github.com/Callmerev95/Chordly/releases/latest)
+[![Version](https://img.shields.io/github/v/release/Callmerev95/Chordly?style=for-the-badge&color=FF2D55&label=version)](https://github.com/Callmerev95/Chordly-release/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/Callmerev95/Chordly-release/total?style=for-the-badge&color=FF6B35&label=downloads)](https://github.com/Callmerev95/Chordly-release/releases)
 [![Android](https://img.shields.io/badge/Android-Stable-3DDC84?style=for-the-badge&logo=android&logoColor=white)](#-platform-status)
 [![Stars](https://img.shields.io/github/stars/Callmerev95/Chordly?style=for-the-badge&color=FFD60A&label=stars)](https://github.com/Callmerev95/Chordly/stargazers)
