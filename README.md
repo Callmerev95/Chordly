@@ -9,7 +9,17 @@
 ### Feel every lyric. Enjoy every note.
 **A modern music player for YouTube Music: beautiful to look at, light to use, and made for true listeners.**
 
+<br/>
 
+[![Version](https://img.shields.io/github/v/release/Callmerev95/Chordly?style=for-the-badge&color=FF2D55&label=version)](https://github.com/Callmerev95/Chordly/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/Callmerev95/Chordly/total?style=for-the-badge&color=FF6B35&label=downloads)](https://github.com/Callmerev95/Chordly/releases)
+[![Android](https://img.shields.io/badge/Android-Stable-3DDC84?style=for-the-badge&logo=android&logoColor=white)](#-platform-status)
+[![Stars](https://img.shields.io/github/stars/Callmerev95/Chordly?style=for-the-badge&color=FFD60A&label=stars)](https://github.com/Callmerev95/Chordly/stargazers)
+[![License](https://img.shields.io/github/license/Callmerev95/Chordly?style=for-the-badge&color=7B5CFF&label=license)](LICENSE)
+
+<br/>
+
+[**⬇️ Download**](#-download) &nbsp;·&nbsp;
 [**✨ Features**](#-features) &nbsp;·&nbsp;
 [**🎬 Showcase**](#-showcase) &nbsp;·&nbsp;
 [**🗺️ Roadmap**](#%EF%B8%8F-roadmap) &nbsp;·&nbsp;
