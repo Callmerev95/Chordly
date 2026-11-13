@@ -50,3 +50,6 @@ AGENTS.md
 
 # Claude Code session files (launch configs, worktrees)
 .claude/
+
+# Design assets — icon masters, not used by the build
+Chordly_icon/

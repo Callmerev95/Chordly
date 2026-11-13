@@ -319,6 +319,8 @@ Chordly is an independent project and is **not affiliated with, sponsored by, or
 Give this repository a **⭐ star** and share it with your friends.<br/>
 Your support is the fuel for the TV, Desktop, and Wear OS versions.
 
+[![Support on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/callmerev)
+
 <br/>
 
 **Build with ❤️ by [Callmerev](https://callmerev.my.id)**
