@@ -606,6 +606,18 @@ var inviteTemplate = template.Must(template.New("invite").Parse(`<!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Join a Chordly Jam · {{.Code}} · Chordly</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <meta property="og:title" content="Join a Chordly Jam · {{.Code}}"/>
+    <meta property="og:description" content="You've been invited to listen together on Chordly. Use invite code {{.Code}} to join the Jam."/>
+    <meta property="og:url" content="{{.ServerOrigin}}/invite/{{.Code}}"/>
+    <meta property="og:site_name" content="Chordly"/>
+    <meta property="og:image" content="{{.ServerOrigin}}/Chordly_logo.png"/>
+    <meta property="og:image:width" content="2172"/>
+    <meta property="og:image:height" content="724"/>
+    <meta property="og:type" content="website"/>
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content="Join a Chordly Jam · {{.Code}}"/>
+    <meta name="twitter:description" content="You've been invited to listen together on Chordly. Use invite code {{.Code}} to join the Jam."/>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: #000; color: #fff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; min-height: 100vh; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
