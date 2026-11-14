@@ -79,6 +79,20 @@ function current() {
 
 const positionMs = () => Math.max(0, (getAudio()?.currentTime ?? 0) * 1000);
 
+/**
+ * Whether the local queue is merely behind the server's AutoPlay rather than
+ * genuinely different from it. This is the shape a fresh top-up takes for the
+ * first tick or two: the server queue already carries the AutoPlay after the
+ * current track, but the local player hasn't mirrored it yet. Republishing the
+ * local view then would drop that AutoPlay off the server, so publish skips it.
+ */
+function serverAutoplayNotYetSynced(state: PartyState, clampedIds: string[], partyIds: string[]): boolean {
+  if (!clampedIds.length || clampedIds.length >= partyIds.length) return false;
+  if (!clampedIds.every((id, i) => id === partyIds[i])) return false;
+  const tail = state.queue.items.slice(clampedIds.length);
+  return tail.length > 0 && tail.every((t) => t.fromAutoplay);
+}
+
 /** Whether the player means to be playing: going, stalled, or loading a track it will start. */
 function playWhenReady(): boolean {
   const { status } = usePlayer.getState();
@@ -174,13 +188,20 @@ function publish(): void {
         : null;
     if (move && move.fromIndex > trackIndex && move.toIndex > trackIndex) {
       party.queueMove(move.fromIndex, move.toIndex, move.videoId);
-    } else {
+      queueControls++;
+    } else if (!serverAutoplayNotYetSynced(state, clampedIds, partyIds)) {
       party.setQueue(
         localItems.slice(0, clampedIds.length).map((e) => toPartyTrack(e.track, e.tier)),
         trackIndex,
       );
+      queueControls++;
     }
-    queueControls++;
+    // else: the local player just hasn't received the server's AutoPlay yet
+    // (reconcileQueue is held off for INTENT_QUIET_MS after an intent). Republishing
+    // the stale local queue would wipe that AutoPlay off the server; reconcileQueue
+    // syncs it down instead. ponytail: an explicit removal of the very LAST AutoPlay
+    // track in this window won't propagate here (it stays until the track changes);
+    // removeAt should send queueRemove directly if that ever matters.
   }
 
   if (state.playback.track?.videoId !== track.videoId) {
