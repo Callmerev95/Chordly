@@ -525,9 +525,8 @@ function onFrame(text: string): void {
     case 'state': {
       const playback = playbackOf(frame.playback as never);
       if (playback.seq < state.playback.seq) return;
-      // Client-side loop guard: skip applying state frame when position drops to near-zero
-      // while playing and the track hasn't changed. This is a YouTube auto-loop broadcast.
-      // The next heartbeat (≤5s) will send a corrected position.
+      // Client-side loop guard: skip state frame when position drops to near-zero
+      // while playing and the track hasn't changed (YouTube auto-loop broadcast).
       {
         const prev = state.playback;
         if (
@@ -537,30 +536,9 @@ function onFrame(text: string): void {
           playback.positionMs < 5000 &&
           prev.positionMs > 5000
         ) {
-          console.warn('[PartySync] CLIENT LOOP GUARD — skipping state frame:', {
-            track: playback.track?.title,
-            seq: playback.seq,
-            positionMs: playback.positionMs,
-            prevPositionMs: prev.positionMs,
-          });
           break;
         }
       }
-      const serverNow = clock.serverNowMs();
-      const gap = serverNow !== null ? serverNow - playback.anchorMs : -1;
-      console.warn('[PartySync] state frame:', {
-        track: playback.track?.title,
-        seq: playback.seq,
-        positionMs: playback.positionMs,
-        anchorMs: playback.anchorMs,
-        serverNow,
-        gapMs: gap,
-        isPlaying: playback.isPlaying,
-        timeSinceLastFrame: (window as never as { _lastStateFrameAt?: number })._lastStateFrameAt
-          ? Date.now() - (window as never as { _lastStateFrameAt?: number })._lastStateFrameAt!
-          : 0,
-      });
-      ;(window as never as { _lastStateFrameAt?: number })._lastStateFrameAt = Date.now();
       useParty.setState({ playback });
       if (playback.queueSeq !== useParty.getState().queue.seq) send({ type: 'syncQueue' });
       break;

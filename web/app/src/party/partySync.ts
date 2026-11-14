@@ -134,7 +134,6 @@ function publish(): void {
   const wantsPlaying = state.awaitingStart || playWhenReady();
   // Host-side loop guard: skip publish when position drops drastically while still playing
   // and the track hasn't changed. This is a YouTube auto-loop, not an intentional seek.
-  // The next tick (700ms) will confirm: if position is still near zero, it's a genuine restart.
   {
     const prev = state.playback;
     if (
@@ -144,11 +143,6 @@ function publish(): void {
       position < 5000 &&
       prev.positionMs > 5000
     ) {
-      console.warn('[PartySync] HOST LOOP GUARD — skipping publish:', {
-        track: entry.track.title,
-        position,
-        prevPositionMs: prev.positionMs,
-      });
       return;
     }
   }
@@ -308,7 +302,6 @@ function reconcile(): void {
     return;
   }
 
-  const prevPos = positionMs();
   const drift = positionMs() - want;
   if (target.seq !== alignedSeq) {
     const anchorChanged =
@@ -319,16 +312,12 @@ function reconcile(): void {
     lastTrackId = track.videoId;
     lastIsPlaying = target.isPlaying;
     if (anchorChanged) {
-      if (want < 5000 && drift > 5000) {
-        console.warn('[PartySync] LOOP GUARD triggered — skipping seek:', { track: track.title, want, drift, prevPos });
-        return;
-      }
+      // Loop guard: skip seek when YouTube auto-loops (position drops to near-zero while playing).
+      if (want < 5000 && drift > 5000) return;
       if (Math.abs(drift) > ALIGN_TOLERANCE_MS) {
-        console.warn('[PartySync] anchorChanged seek:', { track: track.title, want, drift, prevPos, anchorMs: target.anchorMs, positionMs: target.positionMs });
         try {
           partyPlayer.seekTo(want / 1000);
-        } catch (e) {
-          console.warn('[PartySync] seekTo error — reloading track:', e);
+        } catch {
           void load(useParty.getState());
         }
         return;
@@ -344,11 +333,9 @@ function reconcile(): void {
   if (++driftStrikes < DRIFT_STRIKES) return;
   driftStrikes = 0;
   driftCooldownUntil = now + 10_000;
-  console.warn('[PartySync] drift seekTo:', { track: track.title, want, drift, prevPos, strikes: driftStrikes });
   try {
     partyPlayer.seekTo(want / 1000);
-  } catch (e) {
-    console.warn('[PartySync] drift seekTo error — reloading track:', e);
+  } catch {
     void load(useParty.getState());
   }
 }
