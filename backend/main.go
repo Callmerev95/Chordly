@@ -735,7 +735,6 @@ var inviteTemplate = template.Must(template.New("invite").Parse(`<!DOCTYPE html>
 <body>
     <div class="container">
         {{if .IsActive}}
-            <img src="/Chordly_logo.png" alt="Chordly" style="width:56px;height:56px;border-radius:12px;margin:0 auto 16px;display:block;">
             <div class="badge">
                 <span class="badge-dot"></span>
                 <span>Listen Together{{if .IsActive}} • {{.MemberCount}} in party{{end}}</span>
