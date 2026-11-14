@@ -131,8 +131,27 @@ function publish(): void {
   const audio = getAudio();
   const track = toPartyTrack(entry.track, entry.tier, audio && Number.isFinite(audio.duration) ? audio.duration * 1000 : 0);
   const position = positionMs();
-  // During a deferred resume the player isn't going yet; what the user asked for is.
   const wantsPlaying = state.awaitingStart || playWhenReady();
+  // Host-side loop guard: skip publish when position drops drastically while still playing
+  // and the track hasn't changed. This is a YouTube auto-loop, not an intentional seek.
+  // The next tick (700ms) will confirm: if position is still near zero, it's a genuine restart.
+  {
+    const prev = state.playback;
+    if (
+      prev.track?.videoId === entry.track.videoId &&
+      prev.isPlaying &&
+      wantsPlaying &&
+      position < 5000 &&
+      prev.positionMs > 5000
+    ) {
+      console.warn('[PartySync] HOST LOOP GUARD — skipping publish:', {
+        track: entry.track.title,
+        position,
+        prevPositionMs: prev.positionMs,
+      });
+      return;
+    }
+  }
   const basePlayback = state.playback.seq;
   const baseQueue = state.queue.seq;
   let playbackControls = 0;

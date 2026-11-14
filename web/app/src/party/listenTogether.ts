@@ -520,6 +520,27 @@ function onFrame(text: string): void {
     case 'state': {
       const playback = playbackOf(frame.playback as never);
       if (playback.seq < state.playback.seq) return;
+      // Client-side loop guard: skip applying state frame when position drops to near-zero
+      // while playing and the track hasn't changed. This is a YouTube auto-loop broadcast.
+      // The next heartbeat (≤5s) will send a corrected position.
+      {
+        const prev = state.playback;
+        if (
+          prev.track?.videoId === playback.track?.videoId &&
+          prev.isPlaying &&
+          playback.isPlaying &&
+          playback.positionMs < 5000 &&
+          prev.positionMs > 5000
+        ) {
+          console.warn('[PartySync] CLIENT LOOP GUARD — skipping state frame:', {
+            track: playback.track?.title,
+            seq: playback.seq,
+            positionMs: playback.positionMs,
+            prevPositionMs: prev.positionMs,
+          });
+          break;
+        }
+      }
       const serverNow = clock.serverNowMs();
       const gap = serverNow !== null ? serverNow - playback.anchorMs : -1;
       console.warn('[PartySync] state frame:', {
