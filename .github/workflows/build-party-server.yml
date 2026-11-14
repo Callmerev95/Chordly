@@ -1,0 +1,28 @@
+name: Build Party Server
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build (linux/amd64)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: backend/go.mod
+          cache-dependency-path: backend/go.sum
+
+      - name: Cross-compile for linux/amd64
+        working-directory: backend
+        run: |
+          GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o chordly-party-server .
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: chordly-party-server
+          path: backend/chordly-party-server
+          retention-days: 1
