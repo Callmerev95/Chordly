@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { config } from '@/config';
 import { ytAuthSnapshot } from '@/extension/useYtAuth';
+import { getAudio } from '@/state/player';
 import { ServerClock } from './clock';
 import { cleanCode, CODE_LENGTH, sanitizeServerUrl } from './invite';
 import {
@@ -373,7 +374,11 @@ export function partyPositionMs(): number | null {
   const serverNow = clock.serverNowMs();
   if (serverNow === null) return playback.effectivePositionMs;
   const position = playback.positionMs + Math.max(0, serverNow - playback.anchorMs);
-  return track.durationMs ? Math.min(position, track.durationMs) : position;
+  // Cap by the audio element's real duration (not the API-reported one, which
+  // can be shorter than the actual video — causing a false "seek back" loop).
+  const audioDuration = getAudio()?.duration;
+  const effectiveDuration = audioDuration && Number.isFinite(audioDuration) ? audioDuration * 1000 : null;
+  return effectiveDuration ? Math.min(position, effectiveDuration) : position;
 }
 
 /** How far ahead the party's next resume is scheduled (the play lead), or 0 if it's under way. */
