@@ -289,6 +289,7 @@ function reconcile(): void {
     return;
   }
 
+  const prevPos = positionMs();
   const drift = positionMs() - want;
   if (target.seq !== alignedSeq) {
     const anchorChanged =
@@ -299,17 +300,16 @@ function reconcile(): void {
     lastTrackId = track.videoId;
     lastIsPlaying = target.isPlaying;
     if (anchorChanged) {
-      // Lapis 1 — Loop guard: skip seek saat YouTube loop (position near zero + big backward drift).
-      // YouTube fires PLAYING with position≈0 on loop; this is not an intentional seek.
-      // The next heartbeat (≤5s) will correct position naturally without a jarring backward jump.
       if (want < 5000 && drift > 5000) {
+        console.warn('[PartySync] LOOP GUARD triggered — skipping seek:', { track: track.title, want, drift, prevPos });
         return;
       }
       if (Math.abs(drift) > ALIGN_TOLERANCE_MS) {
+        console.warn('[PartySync] anchorChanged seek:', { track: track.title, want, drift, prevPos, anchorMs: target.anchorMs, positionMs: target.positionMs });
         try {
           partyPlayer.seekTo(want / 1000);
         } catch (e) {
-          // Lapis 3 — Error recovery: AbortError / No YouTube client → reload track.
+          console.warn('[PartySync] seekTo error — reloading track:', e);
           void load(useParty.getState());
         }
         return;
@@ -324,12 +324,12 @@ function reconcile(): void {
   if (now < driftCooldownUntil) return;
   if (++driftStrikes < DRIFT_STRIKES) return;
   driftStrikes = 0;
-  // Lapis 2 — Seek throttle: aggressive cooldown (10s) to prevent rapid-fire seeks
-  // that overwhelm the browser audio element and trigger AbortError.
   driftCooldownUntil = now + 10_000;
+  console.warn('[PartySync] drift seekTo:', { track: track.title, want, drift, prevPos, strikes: driftStrikes });
   try {
     partyPlayer.seekTo(want / 1000);
   } catch (e) {
+    console.warn('[PartySync] drift seekTo error — reloading track:', e);
     void load(useParty.getState());
   }
 }
