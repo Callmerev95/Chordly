@@ -519,10 +519,23 @@ function onFrame(text: string): void {
     }
     case 'state': {
       const playback = playbackOf(frame.playback as never);
-      // Older than what's applied: two controllers pressing at once settle instead of fighting.
       if (playback.seq < state.playback.seq) return;
+      const serverNow = clock.serverNowMs();
+      const gap = serverNow !== null ? serverNow - playback.anchorMs : -1;
+      console.warn('[PartySync] state frame:', {
+        track: playback.track?.title,
+        seq: playback.seq,
+        positionMs: playback.positionMs,
+        anchorMs: playback.anchorMs,
+        serverNow,
+        gapMs: gap,
+        isPlaying: playback.isPlaying,
+        timeSinceLastFrame: (window as never as { _lastStateFrameAt?: number })._lastStateFrameAt
+          ? Date.now() - (window as never as { _lastStateFrameAt?: number })._lastStateFrameAt!
+          : 0,
+      });
+      ;(window as never as { _lastStateFrameAt?: number })._lastStateFrameAt = Date.now();
       useParty.setState({ playback });
-      // A missed queue frame is healed on the next heartbeat rather than lived with.
       if (playback.queueSeq !== useParty.getState().queue.seq) send({ type: 'syncQueue' });
       break;
     }
