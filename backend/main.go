@@ -667,7 +667,7 @@ var inviteTemplate = template.Must(template.New("invite").Parse(`<!DOCTYPE html>
             </div>
             <p class="label">Chordly Jam Invite</p>
             {{if .IsActive}}
-            <h1>You\'re invited to listen together.</h1>
+            <h1>You're invited to listen together.</h1>
             <p class="subtitle">Open Chordly and enter this invite code to join the Jam.</p>
             <div class="card">
                 <div class="code-row">
@@ -685,7 +685,7 @@ var inviteTemplate = template.Must(template.New("invite").Parse(`<!DOCTYPE html>
                 </div>
                 <div class="card-footer">
                     <p class="not-installed">Looks like Chordly is not installed on your device.</p>
-                    <a class="install-btn" id="joinBtn" href="{{.IntentURI}}">
+                    <a class="install-btn" href="https://github.com/Callmerev95/Chordly-release/releases/download/v1.9.4/app-prod-universal-release.apk">
                         Install Chordly
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>
                     </a>
