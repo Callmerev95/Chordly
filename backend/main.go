@@ -605,154 +605,92 @@ var inviteTemplate = template.Must(template.New("invite").Parse(`<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chordly Listen Together - Party {{.Code}}</title>
+    <title>Join a Chordly Jam · {{.Code}} · Chordly</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            background-color: #0b0b0e;
-            color: #f3f3f7;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-        }
-        .container {
-            background: rgba(22, 22, 30, 0.85);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 28px;
-            max-width: 440px;
-            width: 100%;
-            padding: 36px 28px;
-            text-align: center;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(124, 77, 255, 0.1);
-        }
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(124, 77, 255, 0.15);
-            color: #b388ff;
-            font-size: 13px;
-            font-weight: 600;
-            padding: 6px 14px;
-            border-radius: 9999px;
-            margin-bottom: 20px;
-            letter-spacing: 0.5px;
-        }
-        .badge-dot {
-            width: 8px;
-            height: 8px;
-            background: #00e676;
-            border-radius: 50%;
-            box-shadow: 0 0 8px #00e676;
-        }
-        .badge-dot.offline {
-            background: #ff5252;
-            box-shadow: 0 0 8px #ff5252;
-        }
-        h1 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
-        }
-        .subtitle {
-            color: #9e9ea7;
-            font-size: 15px;
-            line-height: 1.5;
-            margin-bottom: 28px;
-        }
-        .code-box {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 18px;
-            padding: 16px 20px;
-            margin-bottom: 28px;
-        }
-        .code-label {
-            font-size: 12px;
-            color: #71717a;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 6px;
-        }
-        .code-val {
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-            font-size: 32px;
-            font-weight: 800;
-            letter-spacing: 6px;
-            color: #ffffff;
-        }
-        .now-playing {
-            font-size: 14px;
-            color: #d1d1d6;
-            margin-top: 10px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 16px 24px;
-            background: linear-gradient(135deg, #7c4dff 0%, #3d5afe 100%);
-            color: #ffffff;
-            font-size: 16px;
-            font-weight: 600;
-            text-decoration: none;
-            border-radius: 16px;
-            border: none;
-            cursor: pointer;
-            transition: transform 0.15s ease, opacity 0.15s ease;
-            box-shadow: 0 8px 24px rgba(124, 77, 255, 0.35);
-        }
-        .btn:hover {
-            transform: translateY(-1px);
-            opacity: 0.95;
-        }
-        .btn:active {
-            transform: scale(0.98);
-        }
-        .footer-note {
-            margin-top: 24px;
-            font-size: 13px;
-            color: #71717a;
-            line-height: 1.5;
-        }
-        .footer-note a {
-            color: #b388ff;
-            text-decoration: none;
-        }
-        .footer-note a:hover {
-            text-decoration: underline;
-        }
+        body { background-color: #000; color: #fff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; min-height: 100vh; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+        .bg-layer { position: fixed; inset: 0; z-index: -50; overflow: hidden; pointer-events: none; }
+        .bg-canvas { position: absolute; inset: 0; background-color: #000; }
+        .dot-matrix { position: absolute; inset: 0; opacity: 0.4; background-image: radial-gradient(#ffffff0e 1px, transparent 1px); background-size: 22px 22px; }
+        .grid-lines { position: absolute; inset: 0; background-image: linear-gradient(90deg, #ffffff12 1px, transparent 1px), linear-gradient(#ffffff12 1px, transparent 1px); background-size: 64px 64px; }
+        .glow { position: absolute; top: -26rem; left: 50%; transform: translateX(-50%); height: 60rem; width: 76rem; border-radius: 50%; opacity: 0.18; filter: blur(130px); background: radial-gradient(closest-side, rgba(255,255,255,0.5), rgba(255,255,255,0) 70%); }
+        .vignette { position: absolute; inset: 0; background: radial-gradient(125% 105% at 50% 0%, transparent 62%, rgba(0,0,0,0.72) 100%); }
+        .header { position: relative; z-index: 10; max-width: 72rem; margin: 0 auto; display: flex; align-items: center; padding: 1.5rem; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+        .logo svg { width: 2rem; height: 2rem; }
+        .main { position: relative; z-index: 10; display: grid; place-items: center; min-height: calc(100vh - 88px); padding: 2rem 1.25rem 5rem; }
+        .content { width: 100%; max-width: 32rem; text-align: center; }
+        .icon-box { width: 3.5rem; height: 3.5rem; margin: 0 auto; display: flex; align-items: center; justify-content: center; border-radius: 1rem; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.06); box-shadow: 0 18px 60px rgba(255,255,255,0.08); }
+        .icon-box svg { width: 1.5rem; height: 1.5rem; color: #fff; }
+        .label { margin-top: 1.5rem; font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace; font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.28em; color: rgba(255,255,255,0.45); }
+        h1 { margin-top: 1rem; font-size: 2.25rem; font-weight: 700; letter-spacing: -0.04em; color: #fff; line-height: 1.1; }
+        @media (min-width: 640px) { h1 { font-size: 3rem; } }
+        .subtitle { margin: 1rem auto 0; max-width: 28rem; font-size: 0.875rem; line-height: 1.5; color: rgba(255,255,255,0.55); }
+        @media (min-width: 640px) { .subtitle { font-size: 1rem; } }
+        .card { margin-top: 2.25rem; border-radius: 1.5rem; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.045); padding: 0.75rem; text-align: left; box-shadow: 0 24px 80px rgba(0,0,0,0.45); backdrop-filter: blur(8px); }
+        @media (min-width: 640px) { .card { padding: 1rem; } }
+        .code-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; border-radius: 1rem; border: 1px solid rgba(255,255,255,0.10); background: rgba(0,0,0,0.45); padding: 1rem 1.5rem; }
+        .code-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; color: rgba(255,255,255,0.35); }
+        .code-value { margin-top: 0.375rem; font-family: ui-monospace, "JetBrains Mono", "SF Mono", monospace; font-size: 1.5rem; font-weight: 600; letter-spacing: 0.24em; color: #fff; }
+        @media (min-width: 640px) { .code-value { font-size: 1.875rem; } }
+        .copy-btn { display: inline-flex; align-items: center; gap: 0.5rem; flex-shrink: 0; border-radius: 9999px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.07); padding: 0.625rem 1rem; font-size: 0.875rem; font-weight: 600; color: #fff; cursor: pointer; transition: background-color 0.15s; }
+        .copy-btn:hover { background: rgba(255,255,255,0.12); }
+        .copy-btn svg { width: 1rem; height: 1rem; }
+        .card-footer { padding: 1.5rem 0.5rem 0.5rem; text-align: center; }
+        @media (min-width: 640px) { .card-footer { padding: 1.5rem 1rem 0.5rem; } }
+        .not-installed { font-size: 0.875rem; line-height: 1.5; color: rgba(255,255,255,0.55); }
+        .install-btn { margin-top: 1rem; display: inline-flex; width: 100%; align-items: center; justify-content: center; gap: 0.5rem; border-radius: 9999px; background: #fff; padding: 0.875rem 1.5rem; font-size: 0.875rem; font-weight: 600; color: #000; text-decoration: none; transition: transform 0.15s; }
+        .install-btn:hover { transform: scale(1.01); }
+        .install-btn:active { transform: scale(0.99); }
+        .install-btn svg { width: 1rem; height: 1rem; }
+        .now-playing { margin-top: 0.625rem; font-size: 0.875rem; color: #d1d1d6; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     </style>
 </head>
 <body>
-    <div class="container">
-        {{if .IsActive}}
-            <div class="badge">
-                <span class="badge-dot"></span>
-                <span>Listen Together{{if .IsActive}} • {{.MemberCount}} in party{{end}}</span>
+    <div class="bg-layer">
+        <div class="bg-canvas"></div>
+        <div class="dot-matrix"></div>
+        <div class="grid-lines"></div>
+        <div class="glow"></div>
+        <div class="vignette"></div>
+    </div>
+    <header class="header">
+        <a href="/" class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="18" r="4"></circle><path d="M12 18V2l7 4"></path></svg>
+            Chordly
+        </a>
+    </header>
+    <main class="main">
+        <section class="content">
+            <div class="icon-box">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="18" r="4"></circle><path d="M12 18V2l7 4"></path></svg>
             </div>
-            <h1>Join the Music Party</h1>
-            <p class="subtitle">Opening Chordly to sync playback in real time.</p>
-            <div class="code-box">
-                <div class="code-label">Party Code</div>
-                <div class="code-val">{{.Code}}</div>
-                {{if .CurrentSongTitle}}
-                    <div class="now-playing">🎵 {{.CurrentSongTitle}} - {{.CurrentSongArtist}}</div>
-                {{end}}
+            <p class="label">Chordly Jam Invite</p>
+            {{if .IsActive}}
+            <h1>You\'re invited to listen together.</h1>
+            <p class="subtitle">Open Chordly and enter this invite code to join the Jam.</p>
+            <div class="card">
+                <div class="code-row">
+                    <div>
+                        <p class="code-label">Invite code</p>
+                        <p class="code-value">{{.Code}}</p>
+                        {{if .CurrentSongTitle}}
+                        <p class="now-playing">🎵 {{.CurrentSongTitle}} - {{.CurrentSongArtist}}</p>
+                        {{end}}
+                    </div>
+                    <button type="button" class="copy-btn" onclick="copyCode()" aria-label="Copy invite code {{.Code}}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>
+                        <span id="copyText">Copy Code</span>
+                    </button>
+                </div>
+                <div class="card-footer">
+                    <p class="not-installed">Looks like Chordly is not installed on your device.</p>
+                    <a class="install-btn" id="joinBtn" href="{{.IntentURI}}">
+                        Install Chordly
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>
+                    </a>
+                </div>
             </div>
-            <a id="joinBtn" href="{{.IntentURI}}" class="btn">Join Party in Chordly</a>
-            <p class="footer-note">
-                Didn't open automatically? Tap the button above.<br>
-                Don't have Chordly yet? <a href="https://github.com/Callmerev95/Chordly-release/releases" target="_blank" rel="noopener">Download it here</a>.
-            </p>
             <script>
                 var intentUri = {{.IntentURI}};
                 var deepLink = {{.SafeDeepLink}};
@@ -764,23 +702,31 @@ var inviteTemplate = template.Must(template.New("invite").Parse(`<!DOCTYPE html>
                     }
                 }
                 setTimeout(launch, 100);
+                function copyCode() {
+                    navigator.clipboard.writeText('{{.Code}}').then(function() {
+                        var btn = document.getElementById('copyText');
+                        btn.textContent = 'Copied!';
+                        setTimeout(function() { btn.textContent = 'Copy Code'; }, 2000);
+                    });
+                }
             </script>
-        {{else}}
-            <div class="badge">
-                <span class="badge-dot offline"></span>
-                <span>Party Inactive</span>
-            </div>
+            {{else}}
             <h1>Party Not Found</h1>
             <p class="subtitle">This party code has expired or does not exist on this server.</p>
-            <div class="code-box">
-                <div class="code-label">Party Code</div>
-                <div class="code-val" style="color: #a1a1aa;">{{.Code}}</div>
+            <div class="card">
+                <div class="code-row">
+                    <div>
+                        <p class="code-label">Invite code</p>
+                        <p class="code-value" style="color: rgba(255,255,255,0.4);">{{.Code}}</p>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <p class="not-installed">Please ask the host for a new invite link or check your server configuration.</p>
+                </div>
             </div>
-            <p class="footer-note">
-                Please ask the host for a new invite link or check your server configuration.
-            </p>
-        {{end}}
-    </div>
+            {{end}}
+        </section>
+    </main>
 </body>
 </html>`))
 
