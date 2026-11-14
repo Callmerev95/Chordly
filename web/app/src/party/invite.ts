@@ -1,10 +1,10 @@
 /**
- * Party invites (JamInviteLink.kt): `https://bitchord.kushagrasingh.in/invite/<CODE>`,
+ * Party invites: `https://chordly-party.thevibehosting.com/invite/<CODE>`,
  * optionally `?server=<custom server>`, and `bitchord://party/<CODE>`. On the
  * web the first is a route of this app (`/invite/:code`).
  */
 
-export const INVITE_ORIGIN = 'https://bitchord.kushagrasingh.in';
+export const INVITE_ORIGIN = 'https://chordly-party.thevibehosting.com';
 export const CODE_LENGTH = 6;
 
 /** Letters and digits only, upper case; null unless it's six of them. */
