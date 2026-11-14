@@ -291,7 +291,6 @@ function reconcile(): void {
 
   const drift = positionMs() - want;
   if (target.seq !== alignedSeq) {
-    // A control is landed on exactly, even by the device that sent it; a queue-only change isn't one.
     const anchorChanged =
       lastAnchorMs !== target.anchorMs || lastPositionMs !== target.positionMs || lastTrackId !== track.videoId || lastIsPlaying !== target.isPlaying;
     alignedSeq = target.seq;
@@ -299,22 +298,40 @@ function reconcile(): void {
     lastPositionMs = target.positionMs;
     lastTrackId = track.videoId;
     lastIsPlaying = target.isPlaying;
-    if (anchorChanged && Math.abs(drift) > ALIGN_TOLERANCE_MS) {
-      partyPlayer.seekTo(want / 1000);
-      return;
+    if (anchorChanged) {
+      // Lapis 1 — Loop guard: skip seek saat YouTube loop (position near zero + big backward drift).
+      // YouTube fires PLAYING with position≈0 on loop; this is not an intentional seek.
+      // The next heartbeat (≤5s) will correct position naturally without a jarring backward jump.
+      if (want < 5000 && drift > 5000) {
+        return;
+      }
+      if (Math.abs(drift) > ALIGN_TOLERANCE_MS) {
+        try {
+          partyPlayer.seekTo(want / 1000);
+        } catch (e) {
+          // Lapis 3 — Error recovery: AbortError / No YouTube client → reload track.
+          void load(useParty.getState());
+        }
+        return;
+      }
     }
   }
   if (Math.abs(drift) <= DRIFT_LIMIT_MS) {
     driftStrikes = 0;
     return;
   }
-  // A seek costs a re-buffer; asked for twice in a row, then left alone to settle.
   const now = performance.now();
   if (now < driftCooldownUntil) return;
   if (++driftStrikes < DRIFT_STRIKES) return;
   driftStrikes = 0;
-  driftCooldownUntil = now + DRIFT_COOLDOWN_MS;
-  partyPlayer.seekTo(want / 1000);
+  // Lapis 2 — Seek throttle: aggressive cooldown (10s) to prevent rapid-fire seeks
+  // that overwhelm the browser audio element and trigger AbortError.
+  driftCooldownUntil = now + 10_000;
+  try {
+    partyPlayer.seekTo(want / 1000);
+  } catch (e) {
+    void load(useParty.getState());
+  }
 }
 
 /** The party's running order onto the player, at its position; started only if the party is going now. */
