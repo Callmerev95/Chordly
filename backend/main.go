@@ -71,6 +71,10 @@ func main() {
 	// Web invite endpoint
 	mux.HandleFunc("GET /invite/{code}", handleInviteLanding)
 
+	// Static files (favicon, og:image) from /root/www
+	mux.Handle("GET /favicon.svg", http.FileServer(http.Dir("/root/www")))
+	mux.Handle("GET /Chordly_logo.png", http.FileServer(http.Dir("/root/www")))
+
 	// WebSocket endpoint
 	mux.HandleFunc("GET /ws/parties/{code}", handleWebSocket)
 
