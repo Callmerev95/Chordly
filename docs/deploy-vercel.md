@@ -51,18 +51,18 @@ Asal nilai server upstream: `backend/README.md` (*"This is what runs
 
 5. **Cek preview** di URL deployment:
    - `GET /downloads/extension.json` → `files[]` = `chordly-extension-*`.
-   - `GET /downloads/chordly-extension-chrome%20(0.4.4).zip` → 200
+   - `GET /downloads/chordly-extension-chrome%20(0.4.5).zip` → 200
      (nama zip di-URL-encode karena ada spasi + bracket).
 
 6. **Domain custom** (kalau belum): Project → **Settings → Domains** →
-   **Add** → `chordly.callmerev.my.id` → ikuti instruksi DNS Vercel
+   **Add** → `web-player.chordly.my.id` → ikuti instruksi DNS Vercel
    (CNAME/ALIAS ke `cname.vercel-dns.com`, atau nameserver Vercel).
    **Production Branch** = `rebrand/chordly`.
 
-7. **Verifikasi final** di `https://chordly.callmerev.my.id`:
+7. **Verifikasi final** di `https://web-player.chordly.my.id`:
    - Halaman `/extension` render + unduh zip bekerja.
    - Pasang unpacked dari `chordly-extension-{chrome,firefox}.zip` →
-     status `Installed · v0.4.4`.
+     status `Installed · v0.4.5`.
    - Listen Together: buat party → terhubung (butuh server upstream hidup).
 
 ## Catatan

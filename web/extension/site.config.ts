@@ -1,5 +1,5 @@
 /** The web player's production origin. */
-export const PRODUCTION_ORIGIN = 'https://chordly.callmerev.my.id';
+export const PRODUCTION_ORIGIN = 'https://web-player.chordly.my.id';
 
 /** The Vite dev server (web/app/vite.config.ts pins the port). */
 const DEV_ORIGIN = 'http://localhost:5173';

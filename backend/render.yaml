@@ -38,7 +38,7 @@ services:
       # Allowlist of browser origins permitted to reach this server (exact match,
       # no wildcard). Chordly web + local dev; native clients send no Origin.
       - key: JAM_ALLOWED_ORIGINS
-        value: "https://chordly.callmerev.my.id,http://localhost:5173"
+        value: "https://web-player.chordly.my.id,http://localhost:5173"
       # Render terminates TLS and supplies the real client IP in X-Forwarded-For.
       - key: JAM_TRUST_PROXY
         value: "true"
