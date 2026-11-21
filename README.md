@@ -268,22 +268,6 @@ Open a new <a href="https://github.com/Callmerev95/Chordly/issues">Issue</a> and
 </details>
 
 <br/>
-
-## 🧑‍💻 Development
-
-<!-- TODO: adjust to the actual stack and build steps -->
-
-```bash
-# Clone the repository
-git clone https://github.com/Callmerev95/Chordly.git
-cd Chordly
-
-# TODO: add the build steps, for example:
-# ./gradlew assembleDebug
-```
-
-**Tech stack:** <!-- TODO: e.g. Kotlin · Jetpack Compose · Media3/ExoPlayer, etc. -->
-
 <br/>
 
 ## 🤝 Contributing
