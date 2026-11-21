@@ -53,3 +53,7 @@ AGENTS.md
 
 # Design assets — icon masters, not used by the build
 Chordly_icon/
+.vibe/
+
+# Internal ops runbook (party server / hosting creds) — keep out of the repo
+docs/handoff/2026-11-21-party-server-domain-cors-runbook.md
