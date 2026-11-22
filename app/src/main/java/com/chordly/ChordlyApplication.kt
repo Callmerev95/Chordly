@@ -142,6 +142,9 @@ class ChordlyApplication : Application(), SingletonImageLoader.Factory, Configur
             CoroutineScope(Dispatchers.IO).launch { Innertube.ensureSessionScope() }
         }
         AppSettings.init(this, authStore)
+        // Automix's ONNX weights are downloaded, not shipped; this starts the
+        // fetch if Automix is already on, and watches the setting for a turn-on.
+        com.chordly.playback.smart.AutomixModels.install(this)
         // Restores the addon token, so the first search after a process restart
         // doesn't have to attest the device again.
         com.chordly.data.sources.addon.AddonAuth.init(this)

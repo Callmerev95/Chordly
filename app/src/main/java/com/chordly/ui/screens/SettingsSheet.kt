@@ -163,6 +163,7 @@ import com.chordly.data.settings.BitPerfectMode
 import com.chordly.playback.AudioOutputStatus
 import com.chordly.playback.audio.bitperfect.BitPerfectOutput
 import com.chordly.data.settings.AutomixPerformanceMode
+import com.chordly.playback.smart.AutomixModels
 import com.chordly.R
 import com.chordly.data.sources.DeviceCodecs
 import com.chordly.data.settings.AudioQuality
@@ -231,6 +232,7 @@ fun SettingsScreen(
     val metered by AppSettings.meteredConnection.collectAsStateWithLifecycle()
     val crossfade by AppSettings.crossfadeSeconds.collectAsStateWithLifecycle()
     val smartFade by AppSettings.smartFadeEnabled.collectAsStateWithLifecycle()
+    val automixModels by AutomixModels.state.collectAsStateWithLifecycle()
     val automixPerformance by AppSettings.automixPerformanceMode.collectAsStateWithLifecycle()
     val skipSilence by AppSettings.skipSilence.collectAsStateWithLifecycle()
     val dolbyAtmos by AppSettings.dolbyAtmos.collectAsStateWithLifecycle()
@@ -344,6 +346,7 @@ fun SettingsScreen(
     var importStatus by remember { mutableStateOf<String?>(null) }
     var confirmImport by remember { mutableStateOf(false) }
     var confirmClearSongCache by remember { mutableStateOf(false) }
+    var confirmDeleteAutomixModel by remember { mutableStateOf(false) }
     var showPerformanceWarning by remember { mutableStateOf(false) }
     var showPerformanceConfirmation by remember { mutableStateOf(false) }
     val backupScope = rememberCoroutineScope()
@@ -807,11 +810,9 @@ fun SettingsScreen(
                     SettingsRow(
                         icon = SfIcons.AutoAwesome,
                         title = automixTitle,
-                        subtitle = if (smartFade) {
-                            stringResource(R.string.automix_enabled_subtitle)
-                        } else {
-                            stringResource(R.string.automix_disabled_subtitle)
-                        },
+                        subtitle = stringResource(
+                            if (smartFade) R.string.automix_enabled_subtitle else R.string.automix_disabled_subtitle,
+                        ),
                         trailing = {
                             IosSwitch(
                                 checked = smartFade,
@@ -819,6 +820,64 @@ fun SettingsScreen(
                             )
                         },
                         onClick = { AppSettings.setSmartFadeEnabled(!smartFade) },
+                    )
+                }
+            }
+            // The weights Automix analyses with live outside the APK (see
+            // AutomixModels): switching Automix on fetches them by itself,
+            // and this row lets them be fetched ahead of time, retried after
+            // a failure, or removed to free the space.
+            val automixModelTitle = stringResource(R.string.automix_model)
+            row(automixModelTitle, "automix", "model", "download", "storage", "free space") {
+                val modelMb = (AutomixModels.totalBytes / 1_000_000).toInt()
+                when (val model = automixModels) {
+                    is AutomixModels.State.Downloading -> SettingsRow(
+                        icon = SfIcons.Download,
+                        title = automixModelTitle,
+                        subtitle = stringResource(
+                            R.string.automix_models_downloading,
+                            modelMb,
+                            (model.fraction * 100).toInt(),
+                        ),
+                    )
+                    // The action sits under the description rather than on the
+                    // right, where it squeezed the title and the text.
+                    AutomixModels.State.Failed -> SettingsRow(
+                        icon = SfIcons.Download,
+                        title = automixModelTitle,
+                        subtitleContent = {
+                            SubtitleWithAction(
+                                stringResource(R.string.automix_models_failed),
+                                stringResource(R.string.retry),
+                            )
+                        },
+                        onClick = AutomixModels::download,
+                        trailing = {},
+                    )
+                    AutomixModels.State.Ready -> SettingsRow(
+                        icon = SfIcons.Downloaded,
+                        title = automixModelTitle,
+                        subtitleContent = {
+                            SubtitleWithAction(
+                                stringResource(R.string.automix_model_ready, modelMb),
+                                stringResource(R.string.delete),
+                                actionColor = MaterialTheme.colorScheme.error,
+                            )
+                        },
+                        onClick = { confirmDeleteAutomixModel = true },
+                        trailing = {},
+                    )
+                    AutomixModels.State.Missing -> SettingsRow(
+                        icon = SfIcons.Download,
+                        title = automixModelTitle,
+                        subtitleContent = {
+                            SubtitleWithAction(
+                                stringResource(R.string.automix_model_missing),
+                                stringResource(R.string.automix_model_download, modelMb),
+                            )
+                        },
+                        onClick = AutomixModels::download,
+                        trailing = {},
                     )
                 }
             }
@@ -1841,6 +1900,37 @@ fun SettingsScreen(
         )
     }
 
+    // Deleting also turns Automix off: left on, its next analysis pass would
+    // simply download the model again.
+    if (confirmDeleteAutomixModel) {
+        AlertDialog(
+            onDismissRequest = { confirmDeleteAutomixModel = false },
+            title = { Text(stringResource(R.string.automix_model_delete_title)) },
+            text = {
+                Text(
+                    stringResource(
+                        R.string.automix_model_delete_warning,
+                        (AutomixModels.totalBytes / 1_000_000).toInt(),
+                    ),
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    confirmDeleteAutomixModel = false
+                    AppSettings.setSmartFadeEnabled(false)
+                    AutomixModels.delete()
+                }) {
+                    Text(stringResource(R.string.delete), color = MaterialTheme.colorScheme.error)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { confirmDeleteAutomixModel = false }) {
+                    Text(stringResource(R.string.cancel))
+                }
+            },
+        )
+    }
+
     // Asked before the picker opens rather than after a file is chosen: the
     // thing being confirmed is that this device's own history is about to be
     // thrown away, and that is true whichever file gets picked.
@@ -2106,6 +2196,31 @@ private fun AutomixPerformanceMode.localizedLabel(): String = stringResource(
         AutomixPerformanceMode.PERFORMANCE -> R.string.automix_mode_performance
     },
 )
+
+/**
+ * A row's description with what tapping the row does set under it in
+ * [actionColor] — for rows whose action is too long to sit on the right.
+ */
+@Composable
+private fun SubtitleWithAction(
+    subtitle: String,
+    action: String,
+    actionColor: Color = MaterialTheme.colorScheme.primary,
+) {
+    Text(
+        text = subtitle,
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        maxLines = 5,
+    )
+    Text(
+        text = action,
+        style = MaterialTheme.typography.bodyMedium,
+        fontWeight = FontWeight.Medium,
+        color = actionColor,
+        modifier = Modifier.padding(top = 6.dp),
+    )
+}
 
 /**
  * Hands the device's own effect panel this app's audio session.

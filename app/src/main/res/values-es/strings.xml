@@ -655,6 +655,14 @@
     <string name="version_cut_aligned">alineado</string>
     <string name="automix_enabled_subtitle">Calcula y mezcla cada transición a partir de las propias canciones. Desactívalo si el teléfono se calienta o la reproducción se entrecorta.</string>
     <string name="automix_disabled_subtitle">Calcula y mezcla las transiciones automáticamente, sin usar un control manual. El rendimiento puede variar en dispositivos lentos.</string>
+    <string name="automix_models_downloading">Descargando Automix (%1$d MB)… %2$d%%. Las canciones hacen un fundido normal hasta que termine.</string>
+    <string name="automix_model">Modelo de Automix</string>
+    <string name="automix_model_missing">No descargado. Automix lo descarga al activarlo, o descárgalo ahora.</string>
+    <string name="automix_model_download">Descargar (%1$d MB)</string>
+    <string name="automix_model_ready">Descargado, ocupa %1$d MB en este dispositivo.</string>
+    <string name="automix_models_failed">No se pudo descargar el modelo. Revisa tu conexión y vuelve a intentarlo.</string>
+    <string name="automix_model_delete_title">¿Eliminar el modelo de Automix?</string>
+    <string name="automix_model_delete_warning">Esto libera %1$d MB y desactiva Automix. Al volver a activarlo, el modelo se descargará de nuevo.</string>
     <string name="advanced_automix">Mezcla automática avanzada</string>
     <string name="advanced_automix_subtitle">Mezcla como un DJ: mantiene los ritmos sincronizados, hace cada cambio a tiempo y corta entre canciones que no encajan. Sin procesamiento adicional.</string>
     <string name="no_lyrics_sources_enabled">Ninguna. No se buscarán letras.</string>
