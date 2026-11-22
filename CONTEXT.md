@@ -39,3 +39,11 @@ _Avoid_: JNI library (JNI hanya jembatannya)
 **Party**:
 Sesi mendengarkan bersama yang disinkronkan lewat server Go.
 _Avoid_: room, group session
+
+**Sinkronisasi upstream**:
+Proses mengambil commit fitur/perbaikan dari BitChord `v1.9.2..v1.10` ke Chordly lewat cherry-pick selektif per fitur. Package tetap `com.chordly`, walau upstream membalik ke `com.music.bitchord`. Lihat ADR-0002.
+_Avoid_: merge upstream, rebase upstream
+
+**Model on-demand**:
+Model ONNX AutoMix (`model_beat_this_final0_q8`, `model_vocals_umxhq_int8`) yang tidak di-bundle di APK, melainkan diunduh saat pengguna pertama mengaktifkan AutoMix. Sumber unduhan: release asset `Callmerev95/Chordly-release`.
+_Avoid_: bundled model, offline model
