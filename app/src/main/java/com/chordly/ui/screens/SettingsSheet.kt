@@ -261,6 +261,7 @@ fun SettingsScreen(
     val showTotalDuration by AppSettings.showTotalDuration.collectAsStateWithLifecycle()
     val playerTheme by AppSettings.playerTheme.collectAsStateWithLifecycle()
     val syncedLyrics by AppSettings.syncedLyrics.collectAsStateWithLifecycle()
+    val hideLyricsPreview by AppSettings.hideLyricsPreview.collectAsStateWithLifecycle()
     val lyricsSources by AppSettings.lyricsSources.collectAsStateWithLifecycle()
     val translationLanguage by AppSettings.translationLanguage.collectAsStateWithLifecycle()
     val theme by AppSettings.themeMode.collectAsStateWithLifecycle()
@@ -1329,21 +1330,29 @@ fun SettingsScreen(
                     }
                 }
             }
-            val syncedLyricsTitle = stringResource(R.string.synced_lyrics)
-            // Same reasoning as Animated cover art above: the lyrics source and
-            // translation rows are only here while this is on.
-            row(syncedLyricsTitle, "lyrics", "translation", "lrclib", "musixmatch") {
+            // This row replaced the old "Synced lyrics" switch, which is still
+            // the setting that turns the lookup itself off. Someone who switched
+            // that off before the change would be left without lyrics and no
+            // row to bring them back, so the line counts as hidden while
+            // either is set, and showing it turns lyrics back on too.
+            val lyricsHidden = hideLyricsPreview || !syncedLyrics
+            val setLyricsHidden: (Boolean) -> Unit = { hide ->
+                AppSettings.setHideLyricsPreview(hide)
+                if (!hide && !syncedLyrics) AppSettings.setSyncedLyrics(true)
+            }
+            val hideLyricsTitle = stringResource(R.string.hide_lyrics_preview)
+            row(hideLyricsTitle, "lyrics", "hide", "synced", "translation", "lrclib", "musixmatch") {
                 SettingsRow(
-                    icon = SfIcons.Notes,
-                    title = syncedLyricsTitle,
-                    subtitle = stringResource(R.string.synced_lyrics_subtitle),
+                    icon = SfIcons.VisibilityOff,
+                    title = hideLyricsTitle,
+                    subtitle = stringResource(R.string.hide_lyrics_preview_subtitle),
                     trailing = {
                         IosSwitch(
-                            checked = syncedLyrics,
-                            onCheckedChange = AppSettings::setSyncedLyrics,
+                            checked = lyricsHidden,
+                            onCheckedChange = setLyricsHidden,
                         )
                     },
-                    onClick = { AppSettings.setSyncedLyrics(!syncedLyrics) },
+                    onClick = { setLyricsHidden(!lyricsHidden) },
                 )
             }
             // Nothing to choose between while the feature is off, and the

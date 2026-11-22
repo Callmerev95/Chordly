@@ -241,6 +241,8 @@ interface PlayerSettingsSource {
     val canvasOverCellular: StateFlow<Boolean>
     val disableBlendEffects: StateFlow<Boolean>
     val fullBleedArtwork: StateFlow<Boolean>
+    /** Hides the lyrics preview strip on the main and mini player screens. */
+    val hideLyricsPreview: StateFlow<Boolean>
     val hideSongStatus: StateFlow<Boolean>
     val showTotalDuration: StateFlow<Boolean>
     val showQueueHistory: StateFlow<Boolean>

@@ -66,6 +66,7 @@ class AndroidPlayerHost(context: Context) : PlayerHost {
         override val canvasOverCellular get() = AppSettings.canvasOverCellular
         override val disableBlendEffects get() = AppSettings.disableBlendEffects
         override val fullBleedArtwork get() = AppSettings.fullBleedArtwork
+        override val hideLyricsPreview get() = AppSettings.hideLyricsPreview
         override val hideSongStatus get() = AppSettings.hideSongStatus
         override val showTotalDuration get() = AppSettings.showTotalDuration
         override val showQueueHistory get() = AppSettings.showQueueHistory
