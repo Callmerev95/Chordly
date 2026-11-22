@@ -49,6 +49,9 @@ import androidx.compose.foundation.gestures.ScrollableState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import com.chordly.data.canvas.CanvasArtwork
+import com.chordly.data.canvas.CanvasSource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.chordly.ui.player.PlayerSettings
 import com.chordly.ui.AppUi
 import com.chordly.ui.player.CanvasArtworkPlayer
 import androidx.compose.ui.Alignment
@@ -513,9 +516,14 @@ private fun CardMotion(
     onCover: (Float) -> Unit = {},
 ) {
     if (source == null || !LocalArtworkImages.current) return
+    val disableSpotifyCanvas by PlayerSettings.disableSpotifyCanvas.collectAsStateWithLifecycle()
     // Looked up whether or not the clip may play yet, so the answer is to hand
     // when it may, and the row knows which cards have one to give the slot to.
-    val clip by produceState<CanvasArtwork?>(null, source.key) { value = source.lookup() }
+    val resolvedClip by produceState<CanvasArtwork?>(null, source.key, disableSpotifyCanvas) {
+        if (disableSpotifyCanvas && value?.source == CanvasSource.SPOTIFY) value = null
+        value = source.lookup()
+    }
+    val clip = resolvedClip?.takeIf { !disableSpotifyCanvas || it.source != CanvasSource.SPOTIFY }
     val slot = LocalClipSlot.current
     val reportFound by rememberUpdatedState(slot?.onClipFound)
     val found = clip != null

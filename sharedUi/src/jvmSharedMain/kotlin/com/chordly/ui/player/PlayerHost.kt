@@ -259,6 +259,7 @@ interface PlayerSettingsSource {
     val streamCeilingOverride: StateFlow<AudioQuality?>
     val preferUsbDac: StateFlow<Boolean>
     val prioritizeSpotifyCanvas: StateFlow<Boolean>
+    val disableSpotifyCanvas: StateFlow<Boolean>
     val reduceAnimation: StateFlow<Boolean>
     val reduceDynamicBlur: StateFlow<Boolean>
     val showNerdStats: StateFlow<Boolean>

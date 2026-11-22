@@ -140,6 +140,7 @@ import com.chordly.data.canvas.AppleArtistArtRepository
 import com.chordly.data.canvas.appleCatalogue
 import com.chordly.data.canvas.ArtistSignature
 import com.chordly.data.canvas.ArtistSignatureRepository
+import com.chordly.data.canvas.CanvasSource
 import com.chordly.data.canvas.SignatureInkTransformation
 import com.chordly.data.canvas.keyColors
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
@@ -489,19 +490,21 @@ fun DetailScreen(
     // photograph, and neither is something a label publishes a canvas for.
     val canvasEnabled by AppSettings.animatedCanvas.collectAsStateWithLifecycle()
     val fullBleedArtwork by AppSettings.fullBleedDetailArtwork.collectAsStateWithLifecycle()
-    val prioritizeSpotifyCanvas by AppSettings.prioritizeSpotifyCanvas.collectAsStateWithLifecycle()
+    val prioritizeSpotifyCanvas by AppSettings.effectivePrioritizeSpotifyCanvas.collectAsStateWithLifecycle()
+    val disableSpotifyCanvas by AppSettings.disableSpotifyCanvas.collectAsStateWithLifecycle()
     // The credit line the header shows is the artist as far as the catalogue
     // services are concerned. A browse card's subtitle sometimes omits it, in
     // which case the tracks themselves know who it is.
     val credit = page.headerLines(songs.size).first.ifBlank { songs.firstOrNull()?.artist.orEmpty() }
     var canvas by remember(page.browseId) { mutableStateOf<CanvasArtwork?>(null) }
-    LaunchedEffect(page.browseId, page.title, credit, canvasEnabled, prioritizeSpotifyCanvas) {
+    LaunchedEffect(page.browseId, page.title, credit, canvasEnabled, prioritizeSpotifyCanvas, disableSpotifyCanvas) {
         // An artist's clip is set below, by the lookup that finds it.
         if (isArtist) return@LaunchedEffect
         if (!canvasEnabled || page.type != BrowseType.ALBUM) {
             canvas = null
             return@LaunchedEffect
         }
+        if (disableSpotifyCanvas && canvas?.source == CanvasSource.SPOTIFY) canvas = null
         // As on the player: the credit fills in once the tracks load, so this
         // can run twice. Keep a clip that is already playing if the second
         // pass comes back empty.
@@ -512,6 +515,7 @@ fun DetailScreen(
     LaunchedEffect(artistVideo, canvasEnabled) {
         if (isArtist) canvas = artistVideo?.takeIf { canvasEnabled }?.let { CanvasArtwork(url = it) }
     }
+    val visibleCanvas = canvas?.takeIf { !disableSpotifyCanvas || it.source != CanvasSource.SPOTIFY }
 
     // Opening the search carries the page up to it, so the field lands just
     // clear of the frosted bar with the tracks under it rather than at the foot
@@ -566,7 +570,7 @@ fun DetailScreen(
                     PageBackground(
                         page = page,
                         palette = palette,
-                        canvas = canvas,
+                        canvas = visibleCanvas,
                         artHeight = artHeight,
                         listState = listState,
                         heroUrl = appleArt?.heroUrl,
@@ -592,7 +596,7 @@ fun DetailScreen(
                         palette = palette,
                         sleeveSize = sleeveSize,
                         fullBleed = fullBleedSleeve,
-                        canvas = canvas,
+                        canvas = visibleCanvas,
                         songs = songs,
                         onPlay = { onSongClick(songs, 0) },
                         onShuffle = { onShuffle(songs) },
