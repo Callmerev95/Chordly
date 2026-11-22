@@ -256,6 +256,12 @@
     <string name="full_screen_cover_art_subtitle">Растягивает обложку до краёв плеера вместо квадратного варианта</string>
     <string name="full_screen_detail_cover">Обложка альбома/плейлиста на весь экран</string>
     <string name="full_screen_detail_cover_subtitle">Растягивает обложки альбомов и плейлистов до краёв страницы вместо рамки</string>
+    <string name="hide_lyrics_preview">Скрыть текст</string>
+    <string name="hide_lyrics_preview_subtitle">Скрывает строку текста в плеере</string>
+    <string name="show_total_duration">Показывать общую длительность</string>
+    <string name="show_total_duration_subtitle">Показывает полную длительность трека вместо оставшегося времени</string>
+    <string name="disable_spotify_canvas">Отключить Spotify Canvas</string>
+    <string name="disable_spotify_canvas_subtitle">Никогда не использовать Spotify Canvas. Анимированные обложки берутся из других источников</string>
     <string name="animated_cover_art_subtitle">Воспроизводит зацикленное видео, которое есть у некоторых релизов вместо неподвижной обложки</string>
     <string name="dont_repeat_songs_subtitle">Автовоспроизведение не будет предлагать уже сыгранную или предложенную в этой сессии песню</string>
     <string name="download_quality_subtitle">%1$s за трек, независимо от соединения</string>

@@ -246,6 +246,12 @@
     <string name="full_screen_cover_art_subtitle">चौकोर स्लीव के बजाय कवर को प्लेयर के किनारों तक ले जाता है</string>
     <string name="full_screen_detail_cover">फ़ुल-स्क्रीन एल्बम/प्लेलिस्ट कवर</string>
     <string name="full_screen_detail_cover_subtitle">एल्बम और प्लेलिस्ट कवर को फ़्रेम के बजाय पेज के किनारों तक ले जाता है</string>
+    <string name="hide_lyrics_preview">लिरिक्स छिपाएँ</string>
+    <string name="hide_lyrics_preview_subtitle">प्लेयर पर लिरिक्स की लाइन छिपाता है</string>
+    <string name="show_total_duration">कुल अवधि दिखाएँ</string>
+    <string name="show_total_duration_subtitle">बचे हुए समय की जगह गाने की पूरी अवधि दिखाता है</string>
+    <string name="disable_spotify_canvas">Spotify Canvas बंद करें</string>
+    <string name="disable_spotify_canvas_subtitle">Spotify Canvas कभी इस्तेमाल न करें। एनिमेटेड कवर बाकी स्रोतों से आएँगे</string>
     <string name="animated_cover_art_subtitle">स्थिर स्लीव के बजाय कुछ रिलीज़ में मौजूद लूपिंग वीडियो चलाता है</string>
     <string name="dont_repeat_songs_subtitle">ऑटोप्ले इस सेशन में पहले से चलाया या सुझाया गया गाना दोबारा सुझाव नहीं देगा</string>
     <string name="download_quality_subtitle">%1$s प्रति ट्रैक, कनेक्शन चाहे जो भी हो</string>

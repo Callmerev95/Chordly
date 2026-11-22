@@ -244,6 +244,12 @@
     <string name="full_screen_cover_art_subtitle">Wyświetla okładkę na całym ekranie odtwarzacza zamiast kwadratowej okładki</string>
     <string name="full_screen_detail_cover">Pełnoekranowa okładka albumu/playlisty</string>
     <string name="full_screen_detail_cover_subtitle">Wyświetla okładki albumów i playlist do krawędzi strony zamiast w ramce</string>
+    <string name="hide_lyrics_preview">Ukryj tekst</string>
+    <string name="hide_lyrics_preview_subtitle">Ukrywa wiersz tekstu w odtwarzaczu</string>
+    <string name="show_total_duration">Pokazuj całkowity czas</string>
+    <string name="show_total_duration_subtitle">Pokazuje pełną długość utworu zamiast pozostałego czasu</string>
+    <string name="disable_spotify_canvas">Wyłącz Spotify Canvas</string>
+    <string name="disable_spotify_canvas_subtitle">Nigdy nie używaj Spotify Canvas. Animowane okładki pochodzą z innych źródeł</string>
     <string name="animated_cover_art_subtitle">Odtwarza animowaną okładkę dostępną w niektórych wydaniach zamiast statycznej</string>
     <string name="dont_repeat_songs_subtitle">AutoPlay nie zaproponuje utworu, który został już odtworzony lub zaproponowany w tej sesji</string>
     <string name="download_quality_subtitle">%1$s na utwór, niezależnie od połączenia</string>

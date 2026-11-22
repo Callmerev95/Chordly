@@ -382,6 +382,12 @@
     <string name="full_screen_cover_art_subtitle">커버를 정사각형에 가두지 않고 화면 모서리까지 확대합니다</string>
     <string name="full_screen_detail_cover">앨범/재생목록 전체화면 커버</string>
     <string name="full_screen_detail_cover_subtitle">앨범과 재생목록 커버를 액자 대신 페이지 모서리까지 확대합니다</string>
+    <string name="hide_lyrics_preview">가사 숨기기</string>
+    <string name="hide_lyrics_preview_subtitle">플레이어의 가사 줄을 숨깁니다</string>
+    <string name="show_total_duration">전체 재생 시간 표시</string>
+    <string name="show_total_duration_subtitle">남은 시간 대신 곡의 전체 길이를 표시합니다</string>
+    <string name="disable_spotify_canvas">Spotify Canvas 사용 안 함</string>
+    <string name="disable_spotify_canvas_subtitle">Spotify Canvas를 사용하지 않습니다. 움직이는 아트워크는 다른 소스에서 가져옵니다</string>
     <string name="animated_cover_art_subtitle">일부 출시 버전에 반복 동영상이 있다면 정적 커버 대신 우선으로 재생합니다</string>
     <string name="dont_repeat_songs_subtitle">이번 세션에서 제안했거나 이미 재생한 곡은 다시 자동 재생으로 제안하지 않습니다</string>
     <string name="download_quality_subtitle">연결에 상관없이 곡당 %1$s</string>

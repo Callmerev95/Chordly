@@ -289,6 +289,12 @@
     <string name="full_screen_cover_art_subtitle">Estende la copertina fino ai bordi del player invece di un quadrato</string>
     <string name="full_screen_detail_cover">Copertina album/playlist a tutto schermo</string>
     <string name="full_screen_detail_cover_subtitle">Estende le copertine di album e playlist fino ai bordi della pagina invece di incorniciarle</string>
+    <string name="hide_lyrics_preview">Nascondi testo</string>
+    <string name="hide_lyrics_preview_subtitle">Nasconde la riga del testo nel player</string>
+    <string name="show_total_duration">Mostra durata totale</string>
+    <string name="show_total_duration_subtitle">Mostra la durata completa del brano invece del tempo rimanente</string>
+    <string name="disable_spotify_canvas">Disattiva Spotify Canvas</string>
+    <string name="disable_spotify_canvas_subtitle">Non usare mai Spotify Canvas. Le copertine animate arrivano dalle altre fonti</string>
     <string name="animated_cover_art_subtitle">Riproduce il video in loop fornito da alcune release invece di una copertina statica</string>
     <string name="dont_repeat_songs_subtitle">AutoPlay non suggerirà un brano già riprodotto o suggerito in questa sessione</string>
     <string name="download_quality_subtitle">%1$s per brano, indipendentemente dalla connessione</string>

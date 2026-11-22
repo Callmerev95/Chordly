@@ -241,6 +241,12 @@
     <string name="full_screen_cover_art_subtitle">正方形のジャケットの代わりにカバーをプレイヤーの端まで広げます</string>
     <string name="full_screen_detail_cover">アルバム/プレイリストの全画面カバー</string>
     <string name="full_screen_detail_cover_subtitle">アルバムとプレイリストのカバーを枠に収めず、ページの端まで広げます</string>
+    <string name="hide_lyrics_preview">歌詞を非表示</string>
+    <string name="hide_lyrics_preview_subtitle">プレーヤーの歌詞の行を非表示にします</string>
+    <string name="show_total_duration">合計時間を表示</string>
+    <string name="show_total_duration_subtitle">残り時間の代わりに曲の長さを表示します</string>
+    <string name="disable_spotify_canvas">Spotify Canvasを無効にする</string>
+    <string name="disable_spotify_canvas_subtitle">Spotify Canvasを使用しません。アニメーションアートワークは他のソースから取得します</string>
     <string name="animated_cover_art_subtitle">静止画のジャケットの代わりに一部のリリースが持つループ動画を再生します</string>
     <string name="dont_repeat_songs_subtitle">オートプレイは、このセッションで既に再生または提案された曲を再度提案しません</string>
     <string name="download_quality_subtitle">接続にかかわらず、1トラックあたり%1$s</string>

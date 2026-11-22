@@ -259,6 +259,12 @@
     <string name="full_screen_cover_art_subtitle">Lleva la portada a los bordes del reproductor en lugar de mostrarla cuadrada</string>
     <string name="full_screen_detail_cover">Portada de álbum/lista a pantalla completa</string>
     <string name="full_screen_detail_cover_subtitle">Lleva las portadas de álbumes y listas a los bordes de la página en lugar de enmarcarlas</string>
+    <string name="hide_lyrics_preview">Ocultar letra</string>
+    <string name="hide_lyrics_preview_subtitle">Oculta la línea de la letra en el reproductor</string>
+    <string name="show_total_duration">Mostrar duración total</string>
+    <string name="show_total_duration_subtitle">Muestra la duración completa de la canción en lugar del tiempo restante</string>
+    <string name="disable_spotify_canvas">Desactivar Spotify Canvas</string>
+    <string name="disable_spotify_canvas_subtitle">No usar nunca Spotify Canvas. Las portadas animadas vendrán de las demás fuentes</string>
     <string name="animated_cover_art_subtitle">Reproduce el video en bucle que incluyen algunos lanzamientos</string>
     <string name="dont_repeat_songs_subtitle">La reproducción automática no sugerirá una canción ya reproducida o sugerida en esta sesión</string>
     <string name="download_quality_subtitle">%1$s por pista, sin importar la conexión</string>

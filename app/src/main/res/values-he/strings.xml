@@ -247,6 +247,12 @@
     <string name="full_screen_cover_art_subtitle">מותח את העטיפה עד לקצוות הנגן במקום עטיפה מרובעת</string>
     <string name="full_screen_detail_cover">עטיפת אלבום/פלייליסט במסך מלא</string>
     <string name="full_screen_detail_cover_subtitle">מותח את עטיפות האלבומים והפלייליסטים עד לקצוות העמוד במקום עטיפה ממוסגרת</string>
+    <string name="hide_lyrics_preview">הסתרת מילות השיר</string>
+    <string name="hide_lyrics_preview_subtitle">מסתיר את שורת מילות השיר בנגן</string>
+    <string name="show_total_duration">הצגת משך כולל</string>
+    <string name="show_total_duration_subtitle">מציג את האורך המלא של השיר במקום הזמן שנותר</string>
+    <string name="disable_spotify_canvas">השבתת Spotify Canvas</string>
+    <string name="disable_spotify_canvas_subtitle">לעולם לא להשתמש ב־Spotify Canvas. עטיפות מונפשות יגיעו מהמקורות האחרים</string>
     <string name="animated_cover_art_subtitle">מנגן את סרטון הלופ שמגיע עם חלק מההוצאות במקום עטיפה סטטית</string>
     <string name="dont_repeat_songs_subtitle">ההשמעה האוטומטית לא תציע שיר שכבר הושמע או הוצע בהפעלה הנוכחית</string>
     <string name="download_quality_subtitle">%1$s לרצועה, ללא קשר לחיבור</string>

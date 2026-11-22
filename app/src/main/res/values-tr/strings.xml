@@ -271,6 +271,12 @@
     <string name="full_screen_cover_art_subtitle">Kapağı kare bir kılıf yerine oynatıcının kenarlarına kadar uzatır</string>
     <string name="full_screen_detail_cover">Tam ekran albüm/çalma listesi kapağı</string>
     <string name="full_screen_detail_cover_subtitle">Albüm ve çalma listesi kapaklarını çerçeve yerine sayfanın kenarlarına kadar uzatır</string>
+    <string name="hide_lyrics_preview">Şarkı sözlerini gizle</string>
+    <string name="hide_lyrics_preview_subtitle">Oynatıcıdaki şarkı sözü satırını gizler</string>
+    <string name="show_total_duration">Toplam süreyi göster</string>
+    <string name="show_total_duration_subtitle">Kalan süre yerine şarkının tam uzunluğunu gösterir</string>
+    <string name="disable_spotify_canvas">Spotify Canvas\'ı devre dışı bırak</string>
+    <string name="disable_spotify_canvas_subtitle">Spotify Canvas hiç kullanılmaz. Hareketli kapaklar diğer kaynaklardan gelir</string>
     <string name="animated_cover_art_subtitle">Bazı sürümlerin geldiği döngülü videoyu sabit bir kılıf yerine oynatır</string>
     <string name="dont_repeat_songs_subtitle">AutoPlay bu oturumda zaten çalınmış veya önerilmiş bir şarkıyı önermez</string>
     <string name="download_quality_subtitle">Bağlantı ne olursa olsun parça başına %1$s</string>
