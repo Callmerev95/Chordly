@@ -493,6 +493,8 @@
     <string name="sleep_timer">Uyku zamanlayıcısı</string>
     <string name="sleep_timer_custom">Özel</string>
     <string name="start_sleep_timer">Zamanlayıcıyı başlat</string>
+    <string name="sleep_timer_fade_out">Duraklatmadan önce sesi azalt</string>
+    <string name="sleep_timer_fade_out_subtitle">Son 30 saniyede sesi yavaş yavaş kısar</string>
     <string name="sources_no_lossless">Etkin hiçbir kaynak kayıpsız ses sağlayamıyor. Yeniden kodlama yapmadan mevcut kayıpsız dosyaları çalmak için özel bir modül ekleyin.</string>
     <string name="sources_order_footer">Bir kaynakta parça yoksa veya ulaşılamıyorsa Chordly bir sonrakini dener. YouTube üzerindeki kaynaklar daha iyi bir sürüm döndürdüklerinde onun kaydının yerini alabilir.</string>
     <string name="sources_order_header">Kaynaklar, bu sırayla denenir</string>

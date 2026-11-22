@@ -465,6 +465,8 @@
     <string name="sleep_timer">Minuteur de veille</string>
     <string name="sleep_timer_custom">Personnalisé</string>
     <string name="start_sleep_timer">Démarrer le minuteur</string>
+    <string name="sleep_timer_fade_out">Fondu avant la pause</string>
+    <string name="sleep_timer_fade_out_subtitle">Baisse progressivement le volume pendant les 30 dernières secondes</string>
     <string name="sources_no_lossless">Aucune source activée ne peut fournir de l\'audio sans perte. Ajoutez un module personnalisé pour lire les fichiers sans perte disponibles sans transcodage.</string>
     <string name="sources_order_footer">Si une source n\'a pas un titre ou est inaccessible, Chordly essaie la suivante. Les sources situées au-dessus de YouTube peuvent remplacer son enregistrement lorsqu\'elles renvoient une meilleure version.</string>
     <string name="sources_order_header">Sources, testées dans cet ordre</string>

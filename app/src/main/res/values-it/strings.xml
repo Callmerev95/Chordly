@@ -511,6 +511,8 @@
     <string name="sleep_timer">Timer di spegnimento</string>
     <string name="sleep_timer_custom">Personalizzato</string>
     <string name="start_sleep_timer">Avvia timer</string>
+    <string name="sleep_timer_fade_out">Dissolvenza prima della pausa</string>
+    <string name="sleep_timer_fade_out_subtitle">Abbassa gradualmente il volume negli ultimi 30 secondi</string>
     <string name="sources_no_lossless">Nessuna sorgente attiva può fornire audio lossless. Aggiungi un modulo personalizzato per riprodurre i file lossless disponibili senza transcodifica.</string>
     <string name="sources_order_footer">Se una sorgente non ha un brano o non è raggiungibile, Chordly prova la successiva. Le sorgenti sopra YouTube possono sostituire la sua registrazione quando restituiscono una versione migliore.</string>
     <string name="sources_order_header">Sorgenti, provate in quest\'ordine</string>

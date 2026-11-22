@@ -665,6 +665,8 @@
     <string name="signed_in_as">%1$s 계정으로 로그인함</string>
     <string name="signing_in">로그인하는 중…</string>
     <string name="sleep_timer">수면 타이머</string>
+    <string name="sleep_timer_fade_out">일시정지 전 페이드 아웃</string>
+    <string name="sleep_timer_fade_out_subtitle">마지막 30초 동안 볼륨을 서서히 줄입니다</string>
     <string name="sources_no_lossless">켜진 소스 중 무손실 오디오를 지원하는 소스가 없습니다. 트랜스코딩 없이 무손실 파일을 재생하려면 애드온을 추가하세요.</string>
     <string name="sources_order_footer">해당 소스에 음악이 없거나 연결할 수 없으면, Chordly에서 다음 소스 연결을 시도합니다. YouTube보다 상위에 있는 소스에서 더 나은 버전을 제공하는 경우 기존 음원을 교체할 수 있습니다.</string>
     <string name="sources_order_header">소스, 이 순서로 연결 시도</string>

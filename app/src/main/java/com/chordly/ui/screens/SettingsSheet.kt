@@ -241,6 +241,7 @@ fun SettingsScreen(
     // against a key that can never change — see [DeviceCodecs.playsDolbyAtmos],
     // which caches the codec-list walk for the life of the process.
     val dolbyAtmosSupported = DeviceCodecs.playsDolbyAtmos
+    val sleepTimerFadeOut by AppSettings.sleepTimerFadeOut.collectAsStateWithLifecycle()
     val spatialAudio by AppSettings.spatialAudio.collectAsStateWithLifecycle()
     val nerdStats by AppSettings.showNerdStats.collectAsStateWithLifecycle()
     val listenTogetherButton by AppSettings.showListenTogetherButton.collectAsStateWithLifecycle()
@@ -922,6 +923,21 @@ fun SettingsScreen(
                         onClick = { AppSettings.setSkipSilence(!skipSilence) },
                     )
                 }
+            }
+            val sleepTimerFadeOutTitle = stringResource(R.string.sleep_timer_fade_out)
+            row(sleepTimerFadeOutTitle, "sleep", "timer", "fade") {
+                SettingsRow(
+                    icon = SfIcons.SleepTimer,
+                    title = sleepTimerFadeOutTitle,
+                    subtitle = stringResource(R.string.sleep_timer_fade_out_subtitle),
+                    trailing = {
+                        IosSwitch(
+                            checked = sleepTimerFadeOut,
+                            onCheckedChange = AppSettings::setSleepTimerFadeOut,
+                        )
+                    },
+                    onClick = { AppSettings.setSleepTimerFadeOut(!sleepTimerFadeOut) },
+                )
             }
             val spatialAudioTitle = stringResource(R.string.spatial_audio)
             row(spatialAudioTitle, "surround", "3d") {
