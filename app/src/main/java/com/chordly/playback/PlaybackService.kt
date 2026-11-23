@@ -105,6 +105,7 @@ import com.chordly.data.innertube.InnertubeParser
 import com.chordly.data.YtMusicRepository
 import com.chordly.data.lyrics.EmbeddedLyrics
 import com.chordly.data.lyrics.LyricLine
+import com.chordly.data.lyrics.LyricsSource
 import com.chordly.data.lyrics.LyricsRepository
 import com.chordly.data.model.NOTIFICATION_ART_PX
 import com.chordly.data.model.PlaybackSourceType
@@ -162,6 +163,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
@@ -7336,14 +7338,12 @@ class PlaybackService : MediaLibraryService() {
             }
         }
         scope.launch {
-            combine(
+            lyricsSettingChanges(
                 AppSettings.syncedLyrics,
                 AppSettings.lyricsSources,
                 AppSettings.lyricsSourceOrder,
                 AppSettings.prioritizeSyllableSync,
-            ) { synced, sources, order, prio ->
-                synced to sources
-            }.distinctUntilChanged().collect {
+            ).collect {
                 loadLyricsForCurrentTrack()
             }
         }
@@ -9917,3 +9917,17 @@ private fun withoutUnreliablePlatformDecoders(selector: MediaCodecSelector) =
  */
 private val ffmpegDecodesAlac by lazy { FfmpegLibrary.supportsFormat(MimeTypes.AUDIO_ALAC) }
 private val ffmpegDecodesAc4 by lazy { FfmpegLibrary.supportsFormat(MimeTypes.AUDIO_AC4) }
+
+/**
+ * Every lyric setting the service's lyrics depend on, emitting once per real
+ * change. The order and the syllable preference pick a different answer from
+ * the same providers, so each of them is a reload as much as the switch is.
+ */
+internal fun lyricsSettingChanges(
+    synced: Flow<Boolean>,
+    sources: Flow<Set<LyricsSource>>,
+    order: Flow<List<LyricsSource>>,
+    prioritizeSyllableSync: Flow<Boolean>,
+): Flow<List<Any>> = combine(synced, sources, order, prioritizeSyllableSync) { s, src, o, p ->
+    listOf(s, src, o, p)
+}.distinctUntilChanged()
