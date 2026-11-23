@@ -211,6 +211,7 @@ import com.chordly.playback.commitRadioQueue
 import com.chordly.playback.fromAutoplay
 import com.chordly.playback.hasYouTubeOriginal
 import com.chordly.playback.loadAutoplayTracks
+import com.chordly.playback.moveQueueEntryToUser
 import com.chordly.playback.playSongs
 import com.chordly.playback.BoundedQueuePlanner
 import com.chordly.playback.playBoundedContext
@@ -2640,6 +2641,7 @@ private fun ChordlyApp(
                 }
             },
             onRemoveFromQueue = { controller?.removeMediaItem(it) },
+            onQueueSwipeToQueue = { index, queueSong -> controller?.moveQueueEntryToUser(index, queueSong) ?: false },
             onMoveInQueue = { from, to -> controller?.moveMediaItem(from, to) },
             onQueueDragActiveChange = { active -> controller?.setQueueDragActive(active) },
             onQueueSongMenu = { _, queueSong ->
