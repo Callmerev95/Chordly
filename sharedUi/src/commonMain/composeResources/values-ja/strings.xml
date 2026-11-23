@@ -200,6 +200,8 @@
     <string name="search_library_no_results">ローカル音楽に「%1$s」に一致するものはありません。</string>
     <string name="queue_selected_count">%1$d件を選択中</string>
     <string name="queue_select_all">すべて選択</string>
+    <string name="queue_select">選択</string>
+    <string name="queue_add_all_to_playlist">すべてプレイリストに追加</string>
     <string name="queue_close_selection">選択モードを閉じる</string>
     <string name="queue_add_to_playlist">プレイリストに追加</string>
     <string name="queue_download">ダウンロード</string>

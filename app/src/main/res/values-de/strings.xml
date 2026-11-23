@@ -1488,7 +1488,6 @@
     <string name="queue_undo_action">Rückgängig</string>
     <string name="queue_removed_song">%1$s entfernt</string>
     <string name="queue_cleared_section">%1$s geleert</string>
-    <string name="select_queue_songs">Warteschlange auswählen</string>
     <string name="queue_selected_count">%1$d ausgewählt</string>
     <string name="queue_playlist_added">%1$d von %2$d Titeln hinzugefügt</string>
     <string name="queue_playlist_partial">%1$s (%2$d inkompatibel, %3$d bereits vorhanden, %4$d fehlgeschlagen)</string>

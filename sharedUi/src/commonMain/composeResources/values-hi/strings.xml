@@ -200,6 +200,8 @@
     <string name="search_library_no_results">लोकल म्यूज़िक में “%1$s” से मेल खाता कुछ नहीं.</string>
     <string name="queue_selected_count">%1$d चयनित</string>
     <string name="queue_select_all">सभी चुनें</string>
+    <string name="queue_select">चुनें</string>
+    <string name="queue_add_all_to_playlist">प्लेलिस्ट में सभी जोड़ें</string>
     <string name="queue_close_selection">चयन मोड बंद करें</string>
     <string name="queue_add_to_playlist">प्लेलिस्ट में जोड़ें</string>
     <string name="queue_download">डाउनलोड</string>

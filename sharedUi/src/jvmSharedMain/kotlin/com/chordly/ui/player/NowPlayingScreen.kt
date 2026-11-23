@@ -762,9 +762,8 @@ fun NowPlayingScreen(
     onQueueSongMenu: (Int, Song) -> Unit = { _, _ -> },
     onQueueSwipeToQueue: suspend (Int, Song) -> Boolean = { _, _ -> false },
     queueUndoNotice: @Composable () -> Unit = {},
-    queueSelectionTarget: Pair<Int, Song>? = null,
-    onQueueSelectionConsumed: () -> Unit = {},
     onQueueBulkAction: suspend (List<Song>, QueueBulkAction) -> Boolean = { _, _ -> false },
+    onQueueAddAllToPlaylist: (List<Song>) -> Unit = {},
     onOpenMenu: () -> Unit,
     onOpenAlbum: (String) -> Unit,
     /**
@@ -977,13 +976,8 @@ fun NowPlayingScreen(
         mutableStateOf(restoredPlayerScreen == LastPlayerScreen.QUEUE)
     }
     val queueSelection = remember { QueueSelectionState() }
-    val showQueueHistory by PlayerSettings.showQueueHistory.collectAsStateWithLifecycle()
-    LaunchedEffect(queueOpen, queueSelectionTarget, controlsLocked) {
+    LaunchedEffect(queueOpen, controlsLocked) {
         if (!queueOpen || controlsLocked) queueSelection.clear()
-        else queueSelectionTarget?.let { target ->
-            queueSelection.start(target, splitQueue(queue, queueIndex, showQueueHistory).rows)
-        }
-        if (queueSelectionTarget != null) onQueueSelectionConsumed()
     }
     var lyricsOpen by remember {
         mutableStateOf(restoredPlayerScreen == LastPlayerScreen.LYRICS)
@@ -2339,6 +2333,7 @@ fun NowPlayingScreen(
                             undoNotice = queueUndoNotice,
                             selection = queueSelection,
                             onBulkAction = onQueueBulkAction,
+                            onAddAllToPlaylist = onQueueAddAllToPlaylist,
                             modifier = Modifier.fillMaxSize(),
                         )
                     },
@@ -3947,6 +3942,7 @@ fun NowPlayingScreen(
                                 undoNotice = queueUndoNotice,
                                 selection = queueSelection,
                                 onBulkAction = onQueueBulkAction,
+                                onAddAllToPlaylist = onQueueAddAllToPlaylist,
                                 onDragActiveChange = onQueueDragActiveChange,
                                     collapsePlayerOnScroll = true,
                                     onRevealPlayer = { queueControlsOpen = true },

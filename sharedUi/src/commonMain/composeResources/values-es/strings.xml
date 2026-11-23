@@ -200,6 +200,8 @@
     <string name="search_library_no_results">Nada en Música local coincide con “%1$s”.</string>
     <string name="queue_selected_count">%1$d seleccionadas</string>
     <string name="queue_select_all">Seleccionar todas</string>
+    <string name="queue_select">Seleccionar</string>
+    <string name="queue_add_all_to_playlist">Agregar todas a la playlist</string>
     <string name="queue_close_selection">Cerrar el modo de selección</string>
     <string name="queue_add_to_playlist">Agregar a la playlist</string>
     <string name="queue_download">Descargar</string>

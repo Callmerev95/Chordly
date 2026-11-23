@@ -187,7 +187,6 @@ fun SongActionsMenu(
     resolvingLinks: Boolean = false,
     /** Queue rows already belong to the queue, so hide its insertion actions. */
     fromQueue: Boolean = false,
-    onSelectQueueSongs: (() -> Unit)? = null,
 ) {
     var showingSongInfo by remember(song.videoId) { mutableStateOf(false) }
     var pickingSleepTimer by remember { mutableStateOf(false) }
@@ -239,17 +238,6 @@ fun SongActionsMenu(
                     IosMenuQuickAction(icon = SfIcons.Share, label = stringResource(R.string.share), onClick = it)
                 }
             }
-        }
-
-        // Queue selection precedes the normal song action groups.
-        if (fromQueue && onSelectQueueSongs != null) {
-            if (startsGroup()) IosMenuSeparator()
-            ActionRow(
-                icon = SfIcons.Check,
-                label = stringResource(R.string.select_queue_songs),
-                accent = palette.accent,
-                onClick = onSelectQueueSongs,
-            )
         }
 
         // Leads the list whenever it's available: which recording is playing

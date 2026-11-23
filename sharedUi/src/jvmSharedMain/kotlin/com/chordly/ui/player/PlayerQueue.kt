@@ -31,6 +31,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.PlaylistAdd
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.GraphicEq
@@ -40,6 +41,11 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.PlainTooltip
+import androidx.compose.material3.TooltipBox
+import androidx.compose.material3.TooltipDefaults
+import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -267,6 +273,7 @@ internal fun InlineQueue(
     undoNotice: @Composable () -> Unit = {},
     selection: QueueSelectionState? = null,
     onBulkAction: suspend (List<Song>, QueueBulkAction) -> Boolean = { _, _ -> false },
+    onAddAllToPlaylist: (List<Song>) -> Unit = {},
     /** Prewarmed/offscreen queue panes must not accept or finish a swipe. */
     gesturesEnabled: Boolean = true,
     onScrollingChange: (Boolean) -> Unit = {},
@@ -300,6 +307,9 @@ internal fun InlineQueue(
         if (selectionState.active) drag.held?.let { drag.end(it.key) }
     }
     val swipesEnabled = !controlsLocked && !selectionState.active && gesturesEnabled && drag.held == null
+    fun addAll(rows: List<QueueTrack>) {
+        if (!selectionState.active && rows.isNotEmpty()) onAddAllToPlaylist(rows.map { it.song })
+    }
     fun resolveSwipeTrack(original: QueueTrack): QueueTrack? {
         val live = tracks.nowPlaying?.takeIf { it.key == original.key }
             ?: tracks.history.firstOrNull { it.key == original.key }
@@ -388,8 +398,16 @@ internal fun InlineQueue(
                 IconButton(onClick = selectionState::clear) {
                     Icon(Icons.Rounded.Close, contentDescription = stringResource(Res.string.queue_close_selection), tint = Color.White)
                 }
-            } else if (tracks.user.isNotEmpty()) {
-                QueueClearButton(MaterialTheme.typography.titleMedium, controlsLocked, onClear)
+            } else {
+                Text(
+                    text = stringResource(Res.string.queue_select),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = Color.White.copy(alpha = if (controlsLocked) 0.25f else 0.75f),
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(percent = 50))
+                        .clickable(enabled = !controlsLocked, onClick = selectionState::start)
+                        .padding(horizontal = 8.dp, vertical = 4.dp),
+                )
             }
         }
         Spacer(Modifier.height(4.dp))
@@ -415,7 +433,9 @@ internal fun InlineQueue(
                         QueueHeading(
                             title = stringResource(Res.string.previously_played),
                             modifier = queueMotion(reduceAnimation, heading = true).padding(top = 12.dp, bottom = 6.dp),
-                        )
+                        ) {
+                            if (!selectionState.active) QueueAddAllButton(controlsLocked) { addAll(tracks.history) }
+                        }
                     }
                     items(tracks.history, key = { it.key }) { track ->
                         SwipeableQueueRow(
@@ -464,7 +484,13 @@ internal fun InlineQueue(
                             title = stringResource(Res.string.next_in_queue),
                             modifier = queueMotion(reduceAnimation, heading = true).padding(top = 16.dp, bottom = 6.dp),
                         ) {
-                            if (!selectionState.active) QueueClearButton(MaterialTheme.typography.labelLarge, controlsLocked, onClear)
+                            if (!selectionState.active) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    QueueAddAllButton(controlsLocked) { addAll(tracks.user) }
+                                    Spacer(Modifier.width(4.dp))
+                                    QueueClearButton(MaterialTheme.typography.labelLarge, controlsLocked, onClear)
+                                }
+                            }
                         }
                     }
                     queueSection(tracks.user, QueueSection.USER, drag, controlsLocked, onJumpTo, onRemove, onSongMenu,
@@ -479,14 +505,20 @@ internal fun InlineQueue(
                                 stringResource(Res.string.queue)
                             },
                             modifier = queueMotion(reduceAnimation, heading = true).padding(top = 16.dp, bottom = 6.dp),
-                        )
+                        ) {
+                            if (!selectionState.active) QueueAddAllButton(controlsLocked) { addAll(tracks.context) }
+                        }
                     }
                     queueSection(tracks.context, QueueSection.CONTEXT, drag, controlsLocked, onJumpTo, onRemove, onSongMenu,
                         swipesEnabled, reduceAnimation, canCommitSwipe, commitSwipe, selectionState)
                 }
                 if (autoplayEnabled || tracks.autoplay.isNotEmpty()) {
                     item(key = "autoplay-heading") {
-                        AutoplayHeading(hasTracks = tracks.autoplay.isNotEmpty(), modifier = queueMotion(reduceAnimation, heading = true))
+                        AutoplayHeading(hasTracks = tracks.autoplay.isNotEmpty(), modifier = queueMotion(reduceAnimation, heading = true)) {
+                            if (!selectionState.active && tracks.autoplay.isNotEmpty()) {
+                                QueueAddAllButton(controlsLocked) { addAll(tracks.autoplay) }
+                            }
+                        }
                     }
                     queueSection(tracks.autoplay, QueueSection.AUTOPLAY, drag, controlsLocked, onJumpTo, onRemove, onSongMenu,
                         swipesEnabled, reduceAnimation, canCommitSwipe, commitSwipe, selectionState)
@@ -647,6 +679,32 @@ private fun QueueHeading(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun QueueAddAllButton(locked: Boolean, onClick: () -> Unit) {
+    val label = stringResource(Res.string.queue_add_all_to_playlist)
+    TooltipBox(
+        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+        tooltip = {
+            PlainTooltip(containerColor = Color(0xFF282828), contentColor = Color.White) {
+                Text(label, color = Color.White)
+            }
+        },
+        state = rememberTooltipState(),
+        focusable = false,
+        enableUserInput = !locked,
+    ) {
+        IconButton(onClick = onClick, enabled = !locked) {
+            Icon(
+                Icons.AutoMirrored.Rounded.PlaylistAdd,
+                contentDescription = label,
+                tint = Color.White.copy(alpha = if (locked) 0.25f else 0.75f),
+                modifier = Modifier.size(20.dp),
+            )
+        }
+    }
+}
+
 @Composable
 private fun QueueClearButton(style: TextStyle, locked: Boolean, onClear: () -> Unit) {
     Text(
@@ -661,7 +719,11 @@ private fun QueueClearButton(style: TextStyle, locked: Boolean, onClear: () -> U
 }
 
 @Composable
-private fun AutoplayHeading(hasTracks: Boolean, modifier: Modifier = Modifier) {
+private fun AutoplayHeading(
+    hasTracks: Boolean,
+    modifier: Modifier = Modifier,
+    trailing: @Composable () -> Unit = {},
+) {
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -675,7 +737,7 @@ private fun AutoplayHeading(hasTracks: Boolean, modifier: Modifier = Modifier) {
             modifier = Modifier.size(18.dp),
         )
         Spacer(Modifier.width(8.dp))
-        Column {
+        Column(Modifier.weight(1f)) {
             Text(
                 text = stringResource(Res.string.autoplay),
                 style = MaterialTheme.typography.titleMedium,
@@ -689,6 +751,7 @@ private fun AutoplayHeading(hasTracks: Boolean, modifier: Modifier = Modifier) {
                 color = Color.White.copy(alpha = 0.55f),
             )
         }
+        trailing()
     }
 }
 
@@ -921,6 +984,12 @@ private class QueueDrag(private val listState: LazyListState) {
     }
 }
 
+/** The held menu keeps the row's metadata, but not its queue editing controls. */
+@Composable
+fun QueueSongPreview(song: Song) {
+    InlineQueueRow(song = song, isCurrent = false, onClick = {}, onRemove = {}, preview = true)
+}
+
 @Composable
 private fun InlineQueueRow(
     song: Song,
@@ -929,6 +998,7 @@ private fun InlineQueueRow(
     onRemove: () -> Unit,
     onLongPress: (() -> Unit)? = null,
     selectionChecked: Boolean? = null,
+    preview: Boolean = false,
     modifier: Modifier = Modifier,
     /** @see InlineQueue */
     locked: Boolean = false,
@@ -1006,7 +1076,7 @@ private fun InlineQueueRow(
                 enabled = !locked,
                 modifier = Modifier.size(32.dp),
             )
-        } else {
+        } else if (!preview) {
             if (ltr) removeControl() else handle()
         }
         AsyncImage(
@@ -1045,7 +1115,7 @@ private fun InlineQueueRow(
         }
         if (selectionChecked != null) {
             Spacer(Modifier.width(24.dp))
-        } else {
+        } else if (!preview) {
             if (ltr) handle() else removeControl()
         }
     }

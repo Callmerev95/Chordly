@@ -1464,7 +1464,6 @@
     <string name="queue_undo_action">撤销</string>
     <string name="queue_removed_song">已移除 %1$s</string>
     <string name="queue_cleared_section">已清空 %1$s</string>
-    <string name="select_queue_songs">选择队列歌曲</string>
     <string name="queue_selected_count">已选 %1$d 首</string>
     <string name="queue_playlist_added">已添加 %2$d 首中的 %1$d 首</string>
     <string name="queue_playlist_partial">%1$s（不兼容 %2$d 首，已存在 %3$d 首，失败 %4$d 首）</string>
