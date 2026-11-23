@@ -57,10 +57,28 @@ fun menuFrost(fill: Color, alpha: Float = MENU_FROST_ALPHA): HazeStyle = HazeSty
  * Canvas. Sampled at a tenth: it is re-blurred on every frame of the video, and
  * under a blur this wide and a slab this opaque, more pixels than that are not
  * there to be seen.
+ *
+ * Blurs every one of [state]'s sources, whatever their z-index, when
+ * [everySource] is set. Haze otherwise keeps an effect nested in any source to
+ * the areas below that source's z-index, and z-indexes compound down the tree —
+ * so the whole player sitting in the app's own source put each of the player's
+ * sources level with every panel over it, and kept all of them out. A panel
+ * left with no area draws nothing at all, not even its slab. Safe only because
+ * no caller with [everySource] sits inside one of [state]'s own sources, which
+ * Haze refuses to draw.
  */
-fun Modifier.liveMenuFrost(state: HazeState, fill: Color): Modifier =
-    optimizedHazeEffect(state = state, style = menuFrost(fill)) {
+@OptIn(ExperimentalHazeApi::class)
+fun Modifier.liveMenuFrost(
+    state: HazeState,
+    fill: Color,
+    everySource: Boolean = false,
+    alpha: Float = MENU_FROST_ALPHA,
+): Modifier =
+    optimizedHazeEffect(state = state, style = menuFrost(fill, alpha)) {
         inputScale = HazeInputScale.Fixed(LIVE_FROST_INPUT_SCALE)
+        // A surface inside the player sits under the app's own haze source, whose
+        // z-index would otherwise hide the player's sources from it.
+        if (everySource) canDrawArea = { true }
     }
 
 private const val LIVE_FROST_INPUT_SCALE = 0.10f

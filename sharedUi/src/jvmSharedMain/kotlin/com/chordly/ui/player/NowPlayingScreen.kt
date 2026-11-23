@@ -81,6 +81,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.remember
@@ -101,6 +102,8 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.graphics.layer.drawLayer
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.graphics.layer.GraphicsLayer
 import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.layout.positionOnScreen
 import androidx.compose.ui.draw.drawBehind
@@ -303,6 +306,12 @@ private const val MESH_REFRESH_MS = 3_000L
 
 /** How long a full-screen Spotify Canvas holds still after the player has opened. */
 private const val SPOTIFY_CANVAS_RESUME_DELAY_MS = 1_000L
+
+/** Draws as usual, and keeps what it drew in [layer] for a still taken later. */
+private fun Modifier.recordBackdrop(layer: GraphicsLayer): Modifier = drawWithContent {
+    layer.record { this@drawWithContent.drawContent() }
+    drawLayer(layer)
+}
 
 /** [image] filling this scope, centred and cropped as [ContentScale.Crop] would. */
 private fun DrawScope.drawCropped(image: ImageBitmap) {
@@ -829,6 +838,11 @@ fun NowPlayingScreen(
     // source tree, so it needs its own source for the same frosted material as
     // the bottom navigation pill.
     val playerHaze = remember { HazeState() }
+    // The queue's and lyrics' own source, for the bars laid over them: the
+    // lyrics pick bar and the queue selection bar frost this rather than the
+    // player's (they sit inside the player's own frost, so blurring the player's
+    // sources drew nothing at all).
+    val queueHaze = remember { HazeState() }
     var showAudioPipeline by remember { mutableStateOf(false) }
     var showCast by remember { mutableStateOf(false) }
     var showAudioOutput by remember { mutableStateOf(false) }
@@ -1049,6 +1063,10 @@ fun NowPlayingScreen(
     // phone's to make, so the request is handed down and the sheet comes back
     // through [PlayerHost.LyricsShareSheet].
     var lyricsShare by remember { mutableStateOf<LyricsShareRequest?>(null) }
+    // The backdrop the lyrics and queue sit on, kept as it draws, so a shared
+    // card carries the player's own background rather than a redrawing of it.
+    val backdropLayer = rememberGraphicsLayer()
+    val shareScope = rememberCoroutineScope()
     // Whether anything is up over the player: a drawer, a popup, the ⋯ menu.
     // A canvas holds still under them, as it does for the lyrics and the
     // queue — each blurs a still of the player, and a clip playing on behind
@@ -1071,8 +1089,19 @@ fun NowPlayingScreen(
         subLines = lyricsTranslation.subLines,
         artworkUrl = remoteArt,
         haptics = haptics,
-        onCard = { lyricsShare = it },
+        onCard = { request ->
+            shareScope.launch {
+                val backdrop = runCatching { backdropLayer.toImageBitmap() }.getOrNull()
+                lyricsShare = request.copy(backdrop = backdrop)
+            }
+        },
     )
+    // A pick lives in the lyrics panel. Leaving it any way — the cover in the
+    // header, a swipe, the queue — ends the pick, or its bar stays up over the
+    // main player and keeps the transport hidden.
+    LaunchedEffect(lyricsOpen) {
+        if (!lyricsOpen && lyricPicker.picking) lyricPicker.cancel()
+    }
     // Nothing here resets [lyricsOpen] on a track change, deliberately. The
     // panel is a place, not a property of the track: someone reading along who
     // skips — or who simply lets the queue run on — means to carry on reading,
@@ -2037,7 +2066,12 @@ fun NowPlayingScreen(
                     background = { backgroundModifier ->
                         // The whole screen is the sheets' frost source: there is
                         // no full-bleed banner here to be it instead.
-                        fullArtworkBlurContent(backgroundModifier.hazeSource(playerHaze))
+                        fullArtworkBlurContent(
+                            backgroundModifier
+                                .recordBackdrop(backdropLayer)
+                                .hazeSource(playerHaze)
+                                .then(if (!frostOff) Modifier.hazeSource(queueHaze, zIndex = -1f) else Modifier),
+                        )
                     },
                     artwork = { artworkModifier ->
                         LandscapeArtwork(
@@ -2217,6 +2251,7 @@ fun NowPlayingScreen(
                                         !lyricPicker.overBudget,
                                     onCancel = lyricPicker.cancel,
                                     onShare = lyricPicker.share,
+                                    hazeState = queueHaze,
                                 )
                             },
                             romanizationToggle = {
@@ -2314,6 +2349,8 @@ fun NowPlayingScreen(
                     animationSpec = tween(durationMillis = 360, easing = FastOutSlowInEasing),
                     label = "fullArtworkBackdropCrossfade",
                 )
+                // One layer for all three, recorded for a shared lyrics card.
+                Box(Modifier.fillMaxSize().recordBackdrop(backdropLayer)) {
                 if (legacyMeshBackdrop) {
                     // v1.5's backdrop, restored verbatim: no seam, because the blobs
                     // are not anchored to anything on screen — they fill the player and
@@ -2325,12 +2362,17 @@ fun NowPlayingScreen(
                     MeshGradientBackground(
                         palette = rememberArtworkColors(remoteArt, canvasFrame),
                         trackKey = song.videoId,
-                        modifier = Modifier.graphicsLayer { alpha = 1f - fullArtworkBackdropAlpha },
+                        modifier = Modifier
+                            .then(if (!frostOff) Modifier.hazeSource(queueHaze, zIndex = -1f) else Modifier)
+                            .graphicsLayer { alpha = 1f - fullArtworkBackdropAlpha },
                     )
                 }
                 fullArtworkBlurContent(
-                    Modifier.graphicsLayer { alpha = fullArtworkBackdropAlpha },
+                    Modifier
+                        .then(if (!frostOff) Modifier.hazeSource(queueHaze, zIndex = -1f) else Modifier)
+                        .graphicsLayer { alpha = fullArtworkBackdropAlpha },
                 )
+                }
 
                 // Mount once, behind the controls. A known portrait aspect changes the
                 // invisible view to full-player bounds before its first frame is shown.
@@ -3739,7 +3781,10 @@ fun NowPlayingScreen(
                                         // still mid-collapse doubled the same movement in
                                         // two places on screen at once, and composing them
                                         // there was what made the collapse stutter.
-                                        .graphicsLayer { alpha = if (lyricsPanelVisible) panelFade.value else 0f },
+                                        .graphicsLayer { alpha = if (lyricsPanelVisible) panelFade.value else 0f }
+                                        // Above the mesh, so the share bar frosts the words
+                                        // under it and not just the backdrop.
+                                        .then(if (!frostOff) Modifier.hazeSource(queueHaze, zIndex = 1f) else Modifier),
                                 ) { particleProgress ->
                                     LyricsPanel(
                                         lines = lyrics.orEmpty(),
@@ -3820,6 +3865,7 @@ fun NowPlayingScreen(
                                         !lyricPicker.overBudget,
                                     onCancel = lyricPicker.cancel,
                                     onShare = lyricPicker.share,
+                                    hazeState = queueHaze,
                                     modifier = Modifier.align(Alignment.BottomCenter),
                                 )
                             }
