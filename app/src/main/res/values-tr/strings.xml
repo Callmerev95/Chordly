@@ -420,6 +420,10 @@
         <item quantity="one">%1$d şarkı sıraya eklendi</item>
         <item quantity="other">%1$d şarkı sıraya eklendi</item>
     </plurals>
+    <plurals name="queue_removed_count">
+        <item quantity="one">%1$d parça kaldırıldı</item>
+        <item quantity="other">%1$d parça kaldırıldı</item>
+    </plurals>
     <plurals name="log_copied_line_count">
         <item quantity="one">Günlük kopyalandı · %1$d satır</item>
         <item quantity="other">Günlük kopyalandı · %1$d satır</item>

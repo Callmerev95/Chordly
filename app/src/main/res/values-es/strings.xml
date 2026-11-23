@@ -406,6 +406,10 @@
         <item quantity="one">Se añadió %1$d canción a la cola</item>
         <item quantity="other">Se añadieron %1$d canciones a la cola</item>
     </plurals>
+    <plurals name="queue_removed_count">
+        <item quantity="one">Se eliminó %1$d canción</item>
+        <item quantity="other">Se eliminaron %1$d canciones</item>
+    </plurals>
     <plurals name="log_copied_line_count">
         <item quantity="one">Registro copiado · %1$d línea</item>
         <item quantity="other">Registro copiado · %1$d líneas</item>

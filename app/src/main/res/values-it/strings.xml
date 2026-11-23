@@ -438,6 +438,10 @@
         <item quantity="one">Aggiunto %1$d brano alla coda</item>
         <item quantity="other">Aggiunti %1$d brani alla coda</item>
     </plurals>
+    <plurals name="queue_removed_count">
+        <item quantity="one">%1$d brano rimosso</item>
+        <item quantity="other">Rimossi %1$d brani</item>
+    </plurals>
     <plurals name="log_copied_line_count">
         <item quantity="one">Log copiato · %1$d riga</item>
         <item quantity="other">Log copiato · %1$d righe</item>

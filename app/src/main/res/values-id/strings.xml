@@ -380,6 +380,10 @@
     <plurals name="songs_added_to_queue">
         <item quantity="other">%1$d lagu ditambahkan ke antrean</item>
     </plurals>
+    <plurals name="queue_removed_count">
+        <item quantity="one">%1$d lagu dihapus</item>
+        <item quantity="other">%1$d lagu dihapus</item>
+    </plurals>
     <plurals name="log_copied_line_count">
         <item quantity="other">Log disalin · %1$d baris</item>
     </plurals>

@@ -679,6 +679,10 @@
         <item quantity="one">Adicionada %1$d música à fila</item>
         <item quantity="other">Adicionadas %1$d músicas à fila</item>
     </plurals>
+    <plurals name="queue_removed_count">
+        <item quantity="one">%1$d música removida</item>
+        <item quantity="other">%1$d músicas removidas</item>
+    </plurals>
     <plurals name="log_copied_line_count">
         <item quantity="one">Log copiado · %1$d linha</item>
         <item quantity="other">Log copiado · %1$d linhas</item>

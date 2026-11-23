@@ -29,6 +29,7 @@ import com.chordly.data.model.ArtistRef
 import com.chordly.data.model.NOTIFICATION_ART_PX
 import com.chordly.data.model.PlaybackSourceType
 import com.chordly.data.model.QueueTier
+import com.chordly.data.model.QueueEntryIdentity
 import com.chordly.data.model.Song
 import com.chordly.data.model.artworkAt
 import com.chordly.data.sources.SourceKind
@@ -361,6 +362,17 @@ suspend fun MediaController.removeQueueItemWithUndo(index: Int, song: Song): Boo
             EXTRA_QUEUE_MOVE_MEDIA to song.videoId,
         ),
     )
+
+suspend fun MediaController.removeQueueEntriesWithUndo(entries: List<QueueEntryIdentity>): Boolean {
+    if (entries.isEmpty()) return false
+    val args = Bundle().apply {
+        putStringArrayList(EXTRA_QUEUE_BULK_MEDIA_IDS, ArrayList(entries.map { it.mediaId }))
+        putStringArrayList(EXTRA_QUEUE_BULK_ENTRY_IDS, ArrayList(entries.map { it.queueEntryId.orEmpty() }))
+        putBooleanArray(EXTRA_QUEUE_BULK_ENTRY_ID_PRESENT, entries.map { it.queueEntryId != null }.toBooleanArray())
+        putIntArray(EXTRA_QUEUE_BULK_OCCURRENCES, entries.map { it.occurrence }.toIntArray())
+    }
+    return acknowledgedQueueEdit(ACTION_QUEUE_REMOVE_ENTRIES_WITH_UNDO, args)
+}
 
 suspend fun MediaController.clearUserQueueWithUndo(): Boolean =
     acknowledgedQueueEdit(ACTION_QUEUE_CLEAR_WITH_UNDO, Bundle.EMPTY)

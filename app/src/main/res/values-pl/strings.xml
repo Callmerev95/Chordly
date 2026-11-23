@@ -693,6 +693,10 @@
         <item quantity="many">Dodano %1$d piosenek do kolejki</item>
         <item quantity="other">Dodano %1$d piosenek do kolejki</item>
     </plurals>
+    <plurals name="queue_removed_count">
+        <item quantity="one">Usunięto %1$d utwór</item>
+        <item quantity="other">Usunięto %1$d utworów</item>
+    </plurals>
     <plurals name="log_copied_line_count">
         <item quantity="one">Log skopiowany · %1$d linia</item>
         <item quantity="few">Log skopiowany · %1$d linie</item>

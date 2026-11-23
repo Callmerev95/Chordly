@@ -411,6 +411,10 @@
         <item quantity="few">Добавлено %1$d песни в очередь</item>
         <item quantity="many">Добавлено %1$d песен в очередь</item>
     </plurals>
+    <plurals name="queue_removed_count">
+        <item quantity="one">Удалён %1$d трек</item>
+        <item quantity="other">Удалено треков: %1$d</item>
+    </plurals>
     <plurals name="log_copied_line_count">
         <item quantity="one">Журнал скопирован · %1$d строка</item>
         <item quantity="few">Журнал скопирован · %1$d строки</item>

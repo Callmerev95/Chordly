@@ -406,6 +406,10 @@
     <plurals name="songs_added_to_queue">
         <item quantity="other">เพิ่ม %1$d เพลงลงในคิวแล้ว</item>
     </plurals>
+    <plurals name="queue_removed_count">
+        <item quantity="one">ลบ %1$d เพลงแล้ว</item>
+        <item quantity="other">ลบ %1$d เพลงแล้ว</item>
+    </plurals>
     <plurals name="log_copied_line_count">
         <item quantity="other">คัดลอกล็อกแล้ว · %1$d บรรทัด</item>
     </plurals>

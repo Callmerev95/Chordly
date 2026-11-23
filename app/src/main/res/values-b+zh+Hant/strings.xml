@@ -379,6 +379,10 @@
     <plurals name="songs_added_to_queue">
         <item quantity="other">已將 %1$d 首歌曲新增到播放佇列</item>
     </plurals>
+    <plurals name="queue_removed_count">
+        <item quantity="one">已移除 %1$d 首歌曲</item>
+        <item quantity="other">已移除 %1$d 首歌曲</item>
+    </plurals>
     <plurals name="log_copied_line_count">
         <item quantity="other">日誌已複製 · %1$d 行</item>
     </plurals>

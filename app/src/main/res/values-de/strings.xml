@@ -393,6 +393,10 @@
         <item quantity="one">%1$d Song zur Warteschlange hinzugefügt</item>
         <item quantity="other">%1$d Songs zur Warteschlange hinzugefügt</item>
     </plurals>
+    <plurals name="queue_removed_count">
+        <item quantity="one">%1$d Titel entfernt</item>
+        <item quantity="other">%1$d Titel entfernt</item>
+    </plurals>
     <plurals name="log_copied_line_count">
         <item quantity="one">Protokoll kopiert · %1$d Zeile</item>
         <item quantity="other">Protokoll kopiert · %1$d Zeilen</item>

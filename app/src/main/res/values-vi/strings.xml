@@ -426,6 +426,10 @@
     <plurals name="songs_added_to_queue">
         <item quantity="other">Đã thêm %1$d bài hát vào hàng đợi</item>
     </plurals>
+    <plurals name="queue_removed_count">
+        <item quantity="one">Đã xóa %1$d bài</item>
+        <item quantity="other">Đã xóa %1$d bài</item>
+    </plurals>
     <plurals name="log_copied_line_count">
         <item quantity="other">Đã sao chép nhật ký · %1$d dòng</item>
     </plurals>

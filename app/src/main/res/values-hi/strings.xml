@@ -393,6 +393,10 @@
         <item quantity="one">%1$d गाना कतार में जोड़ा गया</item>
         <item quantity="other">%1$d गाने कतार में जोड़े गए</item>
     </plurals>
+    <plurals name="queue_removed_count">
+        <item quantity="one">%1$d गाना हटाया गया</item>
+        <item quantity="other">%1$d गाने हटाए गए</item>
+    </plurals>
     <plurals name="log_copied_line_count">
         <item quantity="one">लॉग कॉपी किया गया · %1$d लाइन</item>
         <item quantity="other">लॉग कॉपी किया गया · %1$d लाइनें</item>

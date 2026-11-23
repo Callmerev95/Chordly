@@ -394,6 +394,10 @@
         <item quantity="one">%1$d chanson ajoutée à la file d\'attente</item>
         <item quantity="other">%1$d chansons ajoutées à la file d\'attente</item>
     </plurals>
+    <plurals name="queue_removed_count">
+        <item quantity="one">%1$d morceau supprimé</item>
+        <item quantity="other">%1$d morceaux supprimés</item>
+    </plurals>
     <plurals name="log_copied_line_count">
         <item quantity="one">Journal copié · %1$d ligne</item>
         <item quantity="other">Journal copié · %1$d lignes</item>
