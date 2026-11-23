@@ -77,7 +77,14 @@ object LyricsTranslation {
     private const val MAX_PARALLEL_REQUESTS = 2
     // Input Tools changes ASCII digits to the destination script, so match the
     // private-use wrapper rather than assuming the counter remains ASCII.
-    private val markerRegex = Regex("\\uE000[^\\uE001]*\\uE001")
+    // Either private-use character closes it: a Chinese answer (zh-CN, zh-TW)
+    // comes back with the closing U+E001 turned into a second U+E000, and a
+    // marker that never closed left the whole song as one part, so every
+    // translation into Chinese came back Unavailable.
+    private val markerRegex = Regex("\\uE000[^\\uE000\\uE001]*[\\uE000\\uE001]")
+
+    /** A batch's answer, cut back into one string per line it was sent. */
+    internal fun splitMarked(body: String): List<String> = body.split(markerRegex).map(String::trim)
     private val json = Json { ignoreUnknownKeys = true }
     private val diskMutex = Mutex()
     private val memory = object {
