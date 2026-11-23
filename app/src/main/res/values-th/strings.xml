@@ -1465,4 +1465,8 @@
     <string name="bit_perfect_status_inexact">%1$s · ไม่ตรงทุกบิต: แหล่งนี้ไม่ใช่ PCM แบบไม่สูญเสียคุณภาพ</string>
     <string name="bit_perfect_status_waiting">กำลังรอแทร็กแบบไม่สูญเสียคุณภาพบนเอาต์พุตที่รองรับ</string>
     <string name="bit_perfect_status_unavailable">ไม่พร้อมใช้งานสำหรับแทร็กนี้ (%1$s)</string>
+    <string name="next_in_queue">ถัดไปในคิว</string>
+    <string name="queue_undo_action">เลิกทำ</string>
+    <string name="queue_removed_song">นำ %1$s ออกแล้ว</string>
+    <string name="queue_cleared_section">ล้าง %1$s แล้ว</string>
 </resources>

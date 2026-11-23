@@ -1515,4 +1515,8 @@
     <string name="bit_perfect_status_inexact">%1$s · неточно: этот источник не является PCM без потерь</string>
     <string name="bit_perfect_status_waiting">Ожидание трека без потерь на поддерживаемом выходе</string>
     <string name="bit_perfect_status_unavailable">Недоступно для этого трека (%1$s)</string>
+    <string name="next_in_queue">Следующая в очереди</string>
+    <string name="queue_undo_action">Отменить</string>
+    <string name="queue_removed_song">Удалено: %1$s</string>
+    <string name="queue_cleared_section">Очищено: %1$s</string>
 </resources>

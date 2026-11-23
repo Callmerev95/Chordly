@@ -1523,4 +1523,8 @@
     <string name="bit_perfect_status_inexact">%1$s · niedokładne: to źródło nie jest bezstratnym PCM</string>
     <string name="bit_perfect_status_waiting">Oczekiwanie na bezstratny utwór na obsługiwanym wyjściu</string>
     <string name="bit_perfect_status_unavailable">Niedostępne dla tego utworu (%1$s)</string>
+    <string name="next_in_queue">Następny w kolejce</string>
+    <string name="queue_undo_action">Cofnij</string>
+    <string name="queue_removed_song">Usunięto %1$s</string>
+    <string name="queue_cleared_section">Wyczyszczono %1$s</string>
 </resources>

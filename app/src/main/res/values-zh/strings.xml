@@ -1460,4 +1460,8 @@
     <string name="bit_perfect_status_inexact">%1$s · 不精确：此音源不是无损 PCM</string>
     <string name="bit_perfect_status_waiting">正在等待受支持输出上的无损曲目</string>
     <string name="bit_perfect_status_unavailable">此曲目不可用（%1$s）</string>
+    <string name="next_in_queue">队列中的下一首</string>
+    <string name="queue_undo_action">撤销</string>
+    <string name="queue_removed_song">已移除 %1$s</string>
+    <string name="queue_cleared_section">已清空 %1$s</string>
 </resources>

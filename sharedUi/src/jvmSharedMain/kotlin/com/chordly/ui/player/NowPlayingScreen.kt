@@ -761,6 +761,7 @@ fun NowPlayingScreen(
     onClearQueue: () -> Unit,
     onQueueSongMenu: (Int, Song) -> Unit = { _, _ -> },
     onQueueSwipeToQueue: suspend (Int, Song) -> Boolean = { _, _ -> false },
+    queueUndoNotice: @Composable () -> Unit = {},
     onOpenMenu: () -> Unit,
     onOpenAlbum: (String) -> Unit,
     /**
@@ -2321,6 +2322,7 @@ fun NowPlayingScreen(
                             onDragActiveChange = onQueueDragActiveChange,
                             onSwipeToQueue = onQueueSwipeToQueue,
                             gesturesEnabled = queueOpen && !lyricsOpen && !queueDragging,
+                            undoNotice = queueUndoNotice,
                             modifier = Modifier.fillMaxSize(),
                         )
                     },
@@ -3926,6 +3928,7 @@ fun NowPlayingScreen(
                                 onScrollingChange = { queueScrolling = it },
                                 onSwipeToQueue = onQueueSwipeToQueue,
                                 gesturesEnabled = queuePanelVisible && queueOpen && !queueDragging,
+                                undoNotice = queueUndoNotice,
                                 onDragActiveChange = onQueueDragActiveChange,
                                     collapsePlayerOnScroll = true,
                                     onRevealPlayer = { queueControlsOpen = true },

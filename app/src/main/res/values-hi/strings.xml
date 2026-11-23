@@ -1483,4 +1483,8 @@
     <string name="bit_perfect_status_inexact">%1$s · सटीक नहीं: यह सोर्स लॉसलेस PCM नहीं है</string>
     <string name="bit_perfect_status_waiting">समर्थित आउटपुट पर लॉसलेस ट्रैक का इंतज़ार है</string>
     <string name="bit_perfect_status_unavailable">इस ट्रैक के लिए उपलब्ध नहीं (%1$s)</string>
+    <string name="next_in_queue">कतार में अगला</string>
+    <string name="queue_undo_action">पहले जैसा करें</string>
+    <string name="queue_removed_song">%1$s हटाया गया</string>
+    <string name="queue_cleared_section">%1$s साफ़ किए</string>
 </resources>

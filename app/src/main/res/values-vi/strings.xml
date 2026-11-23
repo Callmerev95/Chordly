@@ -1402,4 +1402,8 @@
     <string name="bit_perfect_status_inexact">%1$s · không chính xác: nguồn này không phải PCM lossless</string>
     <string name="bit_perfect_status_waiting">Đang chờ bản nhạc lossless trên đầu ra được hỗ trợ</string>
     <string name="bit_perfect_status_unavailable">Không khả dụng cho bản nhạc này (%1$s)</string>
+    <string name="next_in_queue">Tiếp theo trong hàng đợi</string>
+    <string name="queue_undo_action">Hoàn tác</string>
+    <string name="queue_removed_song">Đã xóa %1$s</string>
+    <string name="queue_cleared_section">Đã xóa %1$s</string>
 </resources>

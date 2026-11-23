@@ -1461,4 +1461,8 @@
     <string name="bit_perfect_status_inexact">%1$s · 正確ではありません： このソースはロスレス PCM ではありません</string>
     <string name="bit_perfect_status_waiting">対応する出力でロスレスのトラックを待っています</string>
     <string name="bit_perfect_status_unavailable">このトラックでは利用できません（%1$s）</string>
+    <string name="next_in_queue">キューの次の曲</string>
+    <string name="queue_undo_action">元に戻す</string>
+    <string name="queue_removed_song">%1$sを削除しました</string>
+    <string name="queue_cleared_section">%1$sをクリアしました</string>
 </resources>

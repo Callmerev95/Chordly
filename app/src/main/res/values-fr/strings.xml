@@ -1484,4 +1484,8 @@
     <string name="bit_perfect_status_inexact">%1$s · inexact : cette source n\'est pas du PCM sans perte</string>
     <string name="bit_perfect_status_waiting">En attente d\'un morceau sans perte sur une sortie compatible</string>
     <string name="bit_perfect_status_unavailable">Indisponible pour ce morceau (%1$s)</string>
+    <string name="next_in_queue">Suivant dans la file d\'attente</string>
+    <string name="queue_undo_action">Annuler</string>
+    <string name="queue_removed_song">%1$s retiré</string>
+    <string name="queue_cleared_section">%1$s vidé</string>
 </resources>
