@@ -1330,7 +1330,7 @@
     <string name="next_in_queue">대기열의 다음 곡</string>
     <string name="queue_undo_action">실행취소</string>
     <string name="queue_removed_song">%1$s 제거됨</string>
-    <string name="queue_cleared_section">%1$s 지움</string>
+    <string name="queue_cleared">대기열을 비웠습니다</string>
     <string name="queue_selected_count">%1$d개 선택됨</string>
     <string name="queue_playlist_added">%2$d곡 중 %1$d곡 추가됨</string>
     <string name="queue_playlist_partial">%1$s(비호환 %2$d개, 이미 있음 %3$d개, 실패 %4$d개)</string>

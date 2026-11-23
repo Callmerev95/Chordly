@@ -1429,7 +1429,7 @@
     <string name="next_in_queue">Prossimo in coda</string>
     <string name="queue_undo_action">Annulla</string>
     <string name="queue_removed_song">%1$s rimosso</string>
-    <string name="queue_cleared_section">%1$s svuotato</string>
+    <string name="queue_cleared">Coda svuotata</string>
     <string name="queue_selected_count">%1$d selezionati</string>
     <string name="queue_playlist_added">Aggiunti %1$d brani su %2$d</string>
     <string name="queue_playlist_partial">%1$s (%2$d incompatibili, %3$d già presenti, %4$d non riusciti)</string>

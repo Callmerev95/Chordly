@@ -1467,7 +1467,7 @@
     <string name="next_in_queue">佇列中的下一首</string>
     <string name="queue_undo_action">復原</string>
     <string name="queue_removed_song">已移除 %1$s</string>
-    <string name="queue_cleared_section">已清空 %1$s</string>
+    <string name="queue_cleared">已清空播放佇列</string>
     <string name="queue_selected_count">已選 %1$d 首</string>
     <string name="queue_playlist_added">已加入 %2$d 首中的 %1$d 首</string>
     <string name="queue_playlist_partial">%1$s（不兼容 %2$d 首，已存在 %3$d 首，失敗 %4$d 首）</string>

@@ -1491,7 +1491,7 @@
     <string name="next_in_queue">Suivant dans la file d\'attente</string>
     <string name="queue_undo_action">Annuler</string>
     <string name="queue_removed_song">%1$s retiré</string>
-    <string name="queue_cleared_section">%1$s vidé</string>
+    <string name="queue_cleared">File d’attente vidée</string>
     <string name="queue_selected_count">%1$d sélectionnés</string>
     <string name="queue_playlist_added">Ajout de %1$d sur %2$d morceaux</string>
     <string name="queue_playlist_partial">%1$s (%2$d incompatibles, %3$d déjà présents, %4$d échoués)</string>
