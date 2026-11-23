@@ -3046,6 +3046,20 @@ class PlaybackService : MediaLibraryService() {
         // resolveMediaItems: retain canonical metadata, URI, and occurrence identity.
         activePlayer.replaceMediaItem(from, QueueShuffle.withQueueMetadata(item, newTier = QueueTier.USER_QUEUE))
         if (from != target) activePlayer.moveMediaItem(from, target)
+        if (from == target) {
+            val entryId = item.queueEntryId
+            if (entryId != null) {
+                mediaSession?.let { session ->
+                    val extras = Bundle(session.sessionExtras)
+                    val revision = extras.getLong(EXTRA_QUEUE_REFRESH_REVISION, 0L) + 1L
+                    extras.putLong(EXTRA_QUEUE_REFRESH_REVISION, revision)
+                    extras.putString(EXTRA_QUEUE_REFRESH_ENTRY_ID, entryId)
+                    extras.putString(EXTRA_QUEUE_REFRESH_MEDIA_ID, item.mediaId)
+                    extras.putString(EXTRA_QUEUE_REFRESH_TIER, QueueTier.USER_QUEUE.name)
+                    session.setSessionExtras(extras)
+                }
+            }
+        }
         // Retiering the first context row can leave its index unchanged; that
         // still counts as an explicit queue edit for a listening party.
         partySync?.onLocalIntent()
