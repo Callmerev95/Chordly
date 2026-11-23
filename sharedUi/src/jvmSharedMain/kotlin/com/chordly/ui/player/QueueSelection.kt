@@ -9,7 +9,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,9 +31,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.chordly.data.model.Song
 import com.chordly.sharedui.resources.*
+import com.chordly.ui.components.queueActionSurface
 import com.chordly.ui.icons.ChordlyIcons
+import dev.chrisbanes.haze.HazeState
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
@@ -94,8 +97,10 @@ internal fun QueueSelectionBar(
     rows: List<QueueTrack>,
     reduceAnimation: Boolean,
     onAction: suspend (List<Song>, QueueBulkAction) -> Boolean,
+    hazeState: HazeState,
 ) {
     val scope = rememberCoroutineScope()
+    val reduceDynamicBlur by PlayerSettings.reduceDynamicBlur.collectAsStateWithLifecycle()
     AnimatedVisibility(
         visible = selection.active,
         enter = if (reduceAnimation) EnterTransition.None else
@@ -123,26 +128,26 @@ internal fun QueueSelectionBar(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color(0xFF202020))
+                .queueActionSurface(hazeState, reduceDynamicBlur)
+                .clickable(onClick = {})
                 .navigationBarsPadding()
-                .padding(vertical = 8.dp)
-                .alpha(if (enabled) 1f else 0.38f),
+                .padding(vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             TextButton(onClick = { perform(QueueBulkAction.PLAYLIST) }, enabled = enabled, modifier = Modifier.weight(1f)) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(Modifier.alpha(if (enabled) 1f else 0.38f), horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(ChordlyIcons.Plus, contentDescription = null, tint = Color.White, modifier = Modifier.size(22.dp))
                     Text(stringResource(Res.string.queue_add_to_playlist), color = Color.White, style = MaterialTheme.typography.labelMedium)
                 }
             }
             TextButton(onClick = { perform(QueueBulkAction.LIKE) }, enabled = enabled, modifier = Modifier.weight(1f)) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(Modifier.alpha(if (enabled) 1f else 0.38f), horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(ChordlyIcons.Heart, contentDescription = null, tint = Color.White, modifier = Modifier.size(22.dp))
                     Text(stringResource(Res.string.like), color = Color.White, style = MaterialTheme.typography.labelMedium)
                 }
             }
             TextButton(onClick = { perform(QueueBulkAction.DOWNLOAD) }, enabled = enabled, modifier = Modifier.weight(1f)) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(Modifier.alpha(if (enabled) 1f else 0.38f), horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(ChordlyIcons.Download, contentDescription = null, tint = Color.White, modifier = Modifier.size(22.dp))
                     Text(stringResource(Res.string.queue_download), color = Color.White, style = MaterialTheme.typography.labelMedium)
                 }

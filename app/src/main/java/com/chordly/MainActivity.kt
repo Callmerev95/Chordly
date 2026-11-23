@@ -2717,9 +2717,10 @@ private fun ChordlyApp(
             onQueueAddAllToPlaylist = { songs ->
                 scope.launch { performQueueBulkAction(songs, QueueBulkAction.PLAYLIST) }
             },
-            queueUndoNotice = {
+            queueUndoNotice = { queueHaze ->
                 QueueActionNoticeHost(
                     notice = queueUndoNotice,
+                    hazeState = queueHaze,
                     modifier = Modifier.navigationBarsPadding(),
                     actionLabel = stringResource(R.string.queue_undo_action),
                     onAction = {

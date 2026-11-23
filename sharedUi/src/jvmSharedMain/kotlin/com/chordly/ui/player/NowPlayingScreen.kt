@@ -761,7 +761,7 @@ fun NowPlayingScreen(
     onClearQueue: () -> Unit,
     onQueueSongMenu: (Int, Song) -> Unit = { _, _ -> },
     onQueueSwipeToQueue: suspend (Int, Song) -> Boolean = { _, _ -> false },
-    queueUndoNotice: @Composable () -> Unit = {},
+    queueUndoNotice: @Composable (HazeState) -> Unit = {},
     onQueueBulkAction: suspend (List<Song>, QueueBulkAction) -> Boolean = { _, _ -> false },
     onQueueAddAllToPlaylist: (List<Song>) -> Unit = {},
     onOpenMenu: () -> Unit,
@@ -1011,6 +1011,10 @@ fun NowPlayingScreen(
         mutableStateOf(restoredPlayerScreen == LastPlayerScreen.LYRICS)
     }
     var queueControlsOpen by remember { mutableStateOf(true) }
+    LaunchedEffect(queueSelection.active) {
+        // Leave it hidden on exit; the normal scroll-up reveal resumes then.
+        if (queueSelection.active) queueControlsOpen = false
+    }
     // Shared with Spotify's title placement below. The deck and credits must
     // read one clock: the weighted region changes size as this value moves, so
     // independently animating the title towards that moving target makes it
@@ -2322,6 +2326,7 @@ fun NowPlayingScreen(
                             currentIndex = queueIndex,
                             autoplayEnabled = autoplayEnabled,
                             controlsLocked = controlsLocked,
+                            hazeState = queueHaze,
                             onJumpTo = onJumpTo,
                             onRemove = onRemoveFromQueue,
                             onMove = onMoveInQueue,
@@ -3931,6 +3936,7 @@ fun NowPlayingScreen(
                                     currentIndex = queueIndex,
                                     autoplayEnabled = autoplayEnabled,
                                     controlsLocked = controlsLocked,
+                                    hazeState = queueHaze,
                                     onJumpTo = onJumpTo,
                                     onRemove = onRemoveFromQueue,
                                     onMove = onMoveInQueue,
@@ -3945,7 +3951,7 @@ fun NowPlayingScreen(
                                 onAddAllToPlaylist = onQueueAddAllToPlaylist,
                                 onDragActiveChange = onQueueDragActiveChange,
                                     collapsePlayerOnScroll = true,
-                                    onRevealPlayer = { queueControlsOpen = true },
+                                    onRevealPlayer = { if (!queueSelection.active) queueControlsOpen = true },
                                     onHidePlayer = { queueControlsOpen = false },
                                     modifier = Modifier.weight(1f),
                                 )
@@ -3965,7 +3971,7 @@ fun NowPlayingScreen(
                         // player back under somebody choosing lines.
                         visible = !lyricPicker.picking &&
                             (!lyricsOpen || lyricsControlsOpen) &&
-                            (!queueOpen || queueControlsOpen) &&
+                            (!queueOpen || (queueControlsOpen && !queueSelection.active)) &&
                             (!spotifyCanvasPresentation || spotifyCanvasControlsOpen || mixing),
                         reveal = playerDeckReveal,
                         // Back to the main player from lyrics or the queue with the

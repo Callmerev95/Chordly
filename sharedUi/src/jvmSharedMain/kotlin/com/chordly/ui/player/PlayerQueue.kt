@@ -78,6 +78,7 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import com.chordly.ui.components.longPressMenuClickable
@@ -94,6 +95,8 @@ import com.chordly.data.model.QueueTier
 import com.chordly.data.model.Song
 import com.chordly.playback.autoplaySectionStart
 import com.chordly.ui.AppUi
+import dev.chrisbanes.haze.HazeState
+import dev.chrisbanes.haze.hazeSource
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -264,13 +267,14 @@ internal fun InlineQueue(
      * the queue is here to be looked at and scrolled, not worked.
      */
     controlsLocked: Boolean,
+    hazeState: HazeState,
     onJumpTo: (Int) -> Unit,
     onRemove: (Int) -> Unit,
     onMove: (Int, Int) -> Unit,
     onClear: () -> Unit,
     onSongMenu: (Int, Song) -> Unit = { _, _ -> },
     onSwipeToQueue: suspend (Int, Song) -> Boolean = { _, _ -> false },
-    undoNotice: @Composable () -> Unit = {},
+    undoNotice: @Composable (HazeState) -> Unit = {},
     selection: QueueSelectionState? = null,
     onBulkAction: suspend (List<Song>, QueueBulkAction) -> Boolean = { _, _ -> false },
     onAddAllToPlaylist: (List<Song>) -> Unit = {},
@@ -285,6 +289,9 @@ internal fun InlineQueue(
     modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
+    val density = LocalDensity.current
+    var footerHeight by remember { mutableStateOf(0.dp) }
+    val reduceDynamicBlur by PlayerSettings.reduceDynamicBlur.collectAsStateWithLifecycle()
     LaunchedEffect(listState) {
         snapshotFlow { listState.isScrollInProgress }.collect(onScrollingChange)
     }
@@ -415,18 +422,24 @@ internal fun InlineQueue(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()
-                .bleedHorizontally(PLAYER_GUTTER)
-                .fadingEdges(),
+                .bleedHorizontally(PLAYER_GUTTER),
         ) {
             LazyColumn(
                 state = listState,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .fadingEdges()
+                    .then(
+                        if (!reduceDynamicBlur) {
+                            // Composite queue rows above the sibling player artwork.
+                            Modifier.hazeSource(hazeState, zIndex = 1f)
+                        } else Modifier,
+                    )
                     // Without this the sheet treats the list's leftover scroll as a
                     // drag on itself and slides the whole player away.
                     .nestedScroll(keepScroll)
                     .then(if (collapsePlayerOnScroll) Modifier.nestedScroll(controlsOnScroll) else Modifier),
-                contentPadding = PaddingValues(horizontal = PLAYER_GUTTER),
+                contentPadding = PaddingValues(start = PLAYER_GUTTER, end = PLAYER_GUTTER, bottom = footerHeight),
             ) {
                 if (tracks.history.isNotEmpty()) {
                     item(key = "header-history") {
@@ -540,9 +553,17 @@ internal fun InlineQueue(
                     )
                 }
             }
+            // A sibling of the source: the list scrolls behind the bar, never captures it.
+            Column(
+                Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(horizontal = PLAYER_GUTTER)
+                    .onSizeChanged { footerHeight = with(density) { it.height.toDp() } },
+            ) {
+                undoNotice(hazeState)
+                QueueSelectionBar(selectionState, allTracks, reduceAnimation, onBulkAction, hazeState)
+            }
         }
-        undoNotice()
-        QueueSelectionBar(selectionState, allTracks, reduceAnimation, onBulkAction)
     }
 }
 
@@ -633,6 +654,7 @@ private fun SwipeableQueueRow(
         canCommit = canCommitSwipe,
         onCommit = commitSwipe,
         modifier = modifier,
+        allowQueueGesture = !isCurrent,
     ) { interactive ->
         // The original handle's pointerInput(Unit) intentionally survives
         // recomposition. Its callbacks read live gates, not captured ones.
@@ -1090,28 +1112,32 @@ private fun InlineQueueRow(
                 .background(Color.White.copy(alpha = 0.08f)),
         )
         Spacer(Modifier.width(12.dp))
-        Column(Modifier.weight(1f)) {
-            ExplicitSongTitle(
-                song = song,
-                style = MaterialTheme.typography.titleMedium,
-                color = if (isCurrent) Color.White else Color.White.copy(alpha = 0.92f),
-            )
-            Text(
-                text = song.artist,
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.White.copy(alpha = 0.55f),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-        }
-        if (isCurrent) {
-            Icon(
-                Icons.Rounded.GraphicEq,
-                contentDescription = stringResource(Res.string.now_playing),
-                tint = Color.White,
-                modifier = Modifier.size(18.dp),
-            )
-            Spacer(Modifier.width(10.dp))
+        Row(Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically) {
+            // Shrink to the longer line, but reserve the indicator before measuring text.
+            Column(Modifier.weight(1f, fill = !isCurrent)) {
+                ExplicitSongTitle(
+                    song = song,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = if (isCurrent) Color.White else Color.White.copy(alpha = 0.92f),
+                )
+                Text(
+                    text = song.artist,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.White.copy(alpha = 0.55f),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+            if (isCurrent) {
+                Spacer(Modifier.width(6.dp))
+                Icon(
+                    Icons.Rounded.GraphicEq,
+                    contentDescription = stringResource(Res.string.now_playing),
+                    tint = Color.White,
+                    modifier = Modifier.size(18.dp),
+                )
+                Spacer(Modifier.width(10.dp))
+            }
         }
         if (selectionChecked != null) {
             Spacer(Modifier.width(24.dp))
