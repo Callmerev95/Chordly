@@ -198,4 +198,9 @@
     <string name="search_library_empty">Szukaj utworów w folderze muzyki lokalnej.</string>
     <string name="search_library_hint">Utwory, wykonawcy i albumy</string>
     <string name="search_library_no_results">NIC w muzyce lokalnej nie pasuje do „%1$s”.</string>
+    <string name="queue_selected_count">Wybrano %1$d</string>
+    <string name="queue_select_all">Zaznacz wszystkie</string>
+    <string name="queue_close_selection">Zamknij tryb zaznaczania</string>
+    <string name="queue_add_to_playlist">Dodaj do playlisty</string>
+    <string name="queue_download">Pobierz</string>
 </resources>

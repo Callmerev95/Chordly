@@ -198,4 +198,9 @@
     <string name="search_library_empty">Cerca i brani nella cartella Musica locale.</string>
     <string name="search_library_hint">Brani, artisti e album</string>
     <string name="search_library_no_results">Nulla in Musica locale corrisponde a «%1$s».</string>
+    <string name="queue_selected_count">%1$d selezionati</string>
+    <string name="queue_select_all">Seleziona tutti</string>
+    <string name="queue_close_selection">Chiudi la modalità di selezione</string>
+    <string name="queue_add_to_playlist">Aggiungi alla playlist</string>
+    <string name="queue_download">Scarica</string>
 </resources>

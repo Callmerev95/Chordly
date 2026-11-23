@@ -198,4 +198,9 @@
     <string name="search_library_empty">搜索本地音乐文件夹中的歌曲。</string>
     <string name="search_library_hint">歌曲、艺人和专辑</string>
     <string name="search_library_no_results">本地音乐中没有与「%1$s」匹配的内容。</string>
+    <string name="queue_selected_count">已选 %1$d 首</string>
+    <string name="queue_select_all">全选</string>
+    <string name="queue_close_selection">关闭选择模式</string>
+    <string name="queue_add_to_playlist">添加到播放列表</string>
+    <string name="queue_download">下载</string>
 </resources>

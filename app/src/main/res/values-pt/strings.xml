@@ -1492,4 +1492,9 @@
     <string name="queue_undo_action">Desfazer</string>
     <string name="queue_removed_song">Removido: %1$s</string>
     <string name="queue_cleared_section">Limpo: %1$s</string>
+    <string name="select_queue_songs">Selecionar músicas da fila</string>
+    <string name="queue_selected_count">%1$d selecionadas</string>
+    <string name="queue_playlist_added">Adicionadas %1$d de %2$d músicas</string>
+    <string name="queue_playlist_partial">%1$s (%2$d incompatíveis, %3$d já presentes, %4$d com falha)</string>
+    <string name="queue_like_sign_in">Entre para curtir músicas on-line</string>
 </resources>

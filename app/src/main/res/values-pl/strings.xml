@@ -1527,4 +1527,9 @@
     <string name="queue_undo_action">Cofnij</string>
     <string name="queue_removed_song">Usunięto %1$s</string>
     <string name="queue_cleared_section">Wyczyszczono %1$s</string>
+    <string name="select_queue_songs">Zaznacz utwory z kolejki</string>
+    <string name="queue_selected_count">Wybrano %1$d</string>
+    <string name="queue_playlist_added">Dodano %1$d z %2$d utworów</string>
+    <string name="queue_playlist_partial">%1$s (niezgodne: %2$d, już obecne: %3$d, nieudane: %4$d)</string>
+    <string name="queue_like_sign_in">Zaloguj się, aby polubić utwory online</string>
 </resources>

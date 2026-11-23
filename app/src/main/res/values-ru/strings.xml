@@ -1519,4 +1519,9 @@
     <string name="queue_undo_action">Отменить</string>
     <string name="queue_removed_song">Удалено: %1$s</string>
     <string name="queue_cleared_section">Очищено: %1$s</string>
+    <string name="select_queue_songs">Выбрать треки очереди</string>
+    <string name="queue_selected_count">Выбрано: %1$d</string>
+    <string name="queue_playlist_added">Добавлено %1$d из %2$d треков</string>
+    <string name="queue_playlist_partial">%1$s (несовместимо: %2$d, уже есть: %3$d, не удалось: %4$d)</string>
+    <string name="queue_like_sign_in">Войдите, чтобы отмечать понравившимися онлайн-треки</string>
 </resources>
