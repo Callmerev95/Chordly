@@ -171,6 +171,7 @@ import com.chordly.data.settings.LastPlayerScreen
 import com.chordly.data.settings.PlayerTheme
 import com.chordly.data.model.LikeStatus
 import com.chordly.data.model.PlaybackSourceType
+import com.chordly.data.model.QueueEntryIdentity
 import com.chordly.data.model.PLAYER_ART_PX
 import com.chordly.data.model.Song
 import com.chordly.playback.BACK_RESTARTS_AFTER_MS
@@ -763,6 +764,7 @@ fun NowPlayingScreen(
     onQueueSwipeToQueue: suspend (Int, Song) -> Boolean = { _, _ -> false },
     queueUndoNotice: @Composable (HazeState) -> Unit = {},
     onQueueBulkAction: suspend (List<Song>, QueueBulkAction) -> Boolean = { _, _ -> false },
+    onQueueRemoveEntries: suspend (List<QueueEntryIdentity>) -> Unit = {},
     onQueueAddAllToPlaylist: (List<Song>) -> Unit = {},
     onOpenMenu: () -> Unit,
     onOpenAlbum: (String) -> Unit,
@@ -2338,6 +2340,7 @@ fun NowPlayingScreen(
                             undoNotice = queueUndoNotice,
                             selection = queueSelection,
                             onBulkAction = onQueueBulkAction,
+                            onRemoveSelected = onQueueRemoveEntries,
                             onAddAllToPlaylist = onQueueAddAllToPlaylist,
                             modifier = Modifier.fillMaxSize(),
                         )
@@ -3948,6 +3951,7 @@ fun NowPlayingScreen(
                                 undoNotice = queueUndoNotice,
                                 selection = queueSelection,
                                 onBulkAction = onQueueBulkAction,
+                                onRemoveSelected = onQueueRemoveEntries,
                                 onAddAllToPlaylist = onQueueAddAllToPlaylist,
                                 onDragActiveChange = onQueueDragActiveChange,
                                     collapsePlayerOnScroll = true,

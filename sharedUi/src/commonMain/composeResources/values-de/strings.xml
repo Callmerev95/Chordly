@@ -202,6 +202,7 @@
     <string name="queue_select_all">Alle auswählen</string>
     <string name="queue_select">Select</string>
     <string name="queue_add_all_to_playlist">Alle zur Wiedergabeliste hinzufügen</string>
+    <string name="queue_selection_remove">Entfernen</string>
     <string name="queue_close_selection">Auswahlmodus schließen</string>
     <string name="queue_add_to_playlist">Zur Wiedergabeliste hinzufügen</string>
     <string name="queue_download">Herunterladen</string>

@@ -92,6 +92,7 @@ import androidx.compose.ui.unit.Velocity
 import coil3.compose.AsyncImage
 import com.chordly.ui.components.thumbnailBorder
 import com.chordly.ui.icons.ChordlyIcons
+import com.chordly.data.model.QueueEntryIdentity
 import com.chordly.data.model.QueueTier
 import com.chordly.data.model.Song
 import com.chordly.playback.autoplaySectionStart
@@ -278,6 +279,7 @@ internal fun InlineQueue(
     undoNotice: @Composable (HazeState) -> Unit = {},
     selection: QueueSelectionState? = null,
     onBulkAction: suspend (List<Song>, QueueBulkAction) -> Boolean = { _, _ -> false },
+    onRemoveSelected: suspend (List<QueueEntryIdentity>) -> Unit = {},
     onAddAllToPlaylist: (List<Song>) -> Unit = {},
     /** Prewarmed/offscreen queue panes must not accept or finish a swipe. */
     gesturesEnabled: Boolean = true,
@@ -562,7 +564,15 @@ internal fun InlineQueue(
                     .onSizeChanged { footerHeight = with(density) { it.height.toDp() } },
             ) {
                 undoNotice(hazeState)
-                QueueSelectionBar(selectionState, allTracks, reduceAnimation, onBulkAction, hazeState)
+                QueueSelectionBar(
+                    selectionState,
+                    allTracks,
+                    queue,
+                    reduceAnimation,
+                    onBulkAction,
+                    onRemoveSelected,
+                    hazeState,
+                )
             }
         }
     }

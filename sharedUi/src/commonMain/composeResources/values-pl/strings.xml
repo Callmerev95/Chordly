@@ -202,6 +202,7 @@
     <string name="queue_select_all">Zaznacz wszystkie</string>
     <string name="queue_select">Zaznacz</string>
     <string name="queue_add_all_to_playlist">Dodaj wszystkie do playlisty</string>
+    <string name="queue_selection_remove">Quitar</string>
     <string name="queue_close_selection">Zamknij tryb zaznaczania</string>
     <string name="queue_add_to_playlist">Dodaj do playlisty</string>
     <string name="queue_download">Pobierz</string>

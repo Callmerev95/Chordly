@@ -202,6 +202,7 @@
     <string name="queue_select_all">בחירת הכול</string>
     <string name="queue_select">בחירה</string>
     <string name="queue_add_all_to_playlist">הוספת הכול לפלייליסט</string>
+    <string name="queue_selection_remove">Quitar</string>
     <string name="queue_close_selection">סגירת מצב הבחירה</string>
     <string name="queue_add_to_playlist">הוספה לפלייליסט</string>
     <string name="queue_download">הורדה</string>

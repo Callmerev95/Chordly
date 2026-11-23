@@ -202,6 +202,7 @@
     <string name="queue_select_all">Выбрать все</string>
     <string name="queue_select">Выбрать</string>
     <string name="queue_add_all_to_playlist">Добавить все в плейлист</string>
+    <string name="queue_selection_remove">Quitar</string>
     <string name="queue_close_selection">Закрыть режим выбора</string>
     <string name="queue_add_to_playlist">Добавить в плейлист</string>
     <string name="queue_download">Скачать</string>

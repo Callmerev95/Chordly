@@ -214,6 +214,7 @@ import com.chordly.playback.hasYouTubeOriginal
 import com.chordly.playback.loadAutoplayTracks
 import com.chordly.playback.QueueScreenUndo
 import com.chordly.playback.removeQueueItemWithUndo
+import com.chordly.playback.removeQueueEntriesWithUndo
 import com.chordly.playback.clearUserQueueWithUndo
 import com.chordly.playback.undoQueueEdit
 import com.chordly.playback.moveQueueEntryToUser
@@ -2714,6 +2715,10 @@ private fun ChordlyApp(
             },
             onQueueSwipeToQueue = { index, queueSong -> controller?.moveQueueEntryToUser(index, queueSong) ?: false },
             onQueueBulkAction = performQueueBulkAction,
+            onQueueRemoveEntries = { entries ->
+                controller?.removeQueueEntriesWithUndo(entries)
+                Unit
+            },
             onQueueAddAllToPlaylist = { songs ->
                 scope.launch { performQueueBulkAction(songs, QueueBulkAction.PLAYLIST) }
             },
