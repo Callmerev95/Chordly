@@ -458,7 +458,10 @@ internal fun InlineQueue(
                     item(key = "header-history") {
                         QueueHeading(
                             title = stringResource(Res.string.previously_played),
-                            modifier = queueMotion(reduceAnimation, heading = true).padding(top = 12.dp, bottom = 6.dp),
+                            // The first heading is full-height and unanimated: a
+                            // zero-height leading slot makes the visible start
+                            // differ from the lazy list's logical scroll boundary.
+                            modifier = Modifier.padding(top = 12.dp, bottom = 6.dp),
                         ) {
                             if (!selectionState.active) if (canAddAll) QueueAddAllButton(controlsLocked) { addAll(tracks.history) }
                         }
