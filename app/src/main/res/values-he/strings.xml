@@ -44,6 +44,9 @@
     <string name="shuffle">ערבוב</string>
     <string name="more">עוד</string>
     <string name="add_to_playlist">הוספה לפלייליסט</string>
+    <!-- Add to playlist: the search box over the list of playlists, and what it says when nothing matches. -->
+    <string name="find_a_playlist">חיפוש פלייליסט</string>
+    <string name="no_playlists_match">אין רשימות השמעה שתואמות ל-“%1$s”</string>
     <string name="add_to_library">הוספה לספרייה</string>
     <string name="remove_from_library">הסרה מהספרייה</string>
     <string name="download_all">הורדת הכול</string>

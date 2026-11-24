@@ -42,6 +42,9 @@
     <string name="shuffle">Karışık</string>
     <string name="more">Daha fazla</string>
     <string name="add_to_playlist">Çalma listesine ekle</string>
+    <!-- Add to playlist: the search box over the list of playlists, and what it says when nothing matches. -->
+    <string name="find_a_playlist">Çalma listesi bul</string>
+    <string name="no_playlists_match">“%1$s” ile eşleşen çalma listesi yok</string>
     <string name="add_to_library">Kitaplığa ekle</string>
     <string name="remove_from_library">Kitaplıktan kaldır</string>
     <string name="download_all">Tümünü indir</string>

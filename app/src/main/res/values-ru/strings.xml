@@ -44,6 +44,9 @@
     <string name="shuffle">Перемешать</string>
     <string name="more">Ещё</string>
     <string name="add_to_playlist">Добавить в плейлист</string>
+    <!-- Add to playlist: the search box over the list of playlists, and what it says when nothing matches. -->
+    <string name="find_a_playlist">Найти плейлист</string>
+    <string name="no_playlists_match">Нет плейлистов, соответствующих «%1$s»</string>
     <string name="add_to_library">Добавить в библиотеку</string>
     <string name="remove_from_library">Убрать из библиотеки</string>
     <string name="download_all">Загрузить всё</string>

@@ -44,6 +44,9 @@
     <string name="shuffle">Aleatório</string>
     <string name="more">Mais</string>
     <string name="add_to_playlist">Adicionar à playlist</string>
+    <!-- Add to playlist: the search box over the list of playlists, and what it says when nothing matches. -->
+    <string name="find_a_playlist">Encontrar uma playlist</string>
+    <string name="no_playlists_match">Nenhuma playlist corresponde a “%1$s”</string>
     <string name="add_to_library">Adicionar à biblioteca</string>
     <string name="remove_from_library">Remover da biblioteca</string>
     <string name="download_all">Baixar tudo</string>

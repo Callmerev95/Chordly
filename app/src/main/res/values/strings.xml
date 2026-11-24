@@ -70,6 +70,9 @@
     <string name="auto_unavailable_title">Content unavailable</string>
     <string name="auto_unavailable_subtitle">Reopen the folder and try again</string>
     <string name="add_to_playlist">Add to playlist</string>
+    <!-- Add to playlist: the search box over the list of playlists, and what it says when nothing matches. -->
+    <string name="find_a_playlist">Find a playlist</string>
+    <string name="no_playlists_match">No playlists match “%1$s”</string>
     <string name="add_to_library">Add to library</string>
     <string name="remove_from_library">Remove from library</string>
     <string name="subscribe">Subscribe</string>

@@ -42,6 +42,9 @@
     <string name="shuffle">शफ़ल</string>
     <string name="more">और</string>
     <string name="add_to_playlist">प्लेलिस्ट में जोड़ें</string>
+    <!-- Add to playlist: the search box over the list of playlists, and what it says when nothing matches. -->
+    <string name="find_a_playlist">प्लेलिस्ट खोजें</string>
+    <string name="no_playlists_match">“%1$s” से मेल खाती कोई प्लेलिस्ट नहीं</string>
     <string name="add_to_library">लाइब्रेरी में जोड़ें</string>
     <string name="remove_from_library">लाइब्रेरी से हटाएं</string>
     <string name="download_all">सभी डाउनलोड करें</string>

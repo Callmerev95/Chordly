@@ -41,6 +41,9 @@
     <string name="shuffle">Acak</string>
     <string name="more">Lainnya</string>
     <string name="add_to_playlist">Tambahkan ke playlist</string>
+    <!-- Add to playlist: the search box over the list of playlists, and what it says when nothing matches. -->
+    <string name="find_a_playlist">Cari playlist</string>
+    <string name="no_playlists_match">Tidak ada playlist yang cocok dengan “%1$s”</string>
     <string name="add_to_library">Tambahkan ke perpustakaan</string>
     <string name="remove_from_library">Hapus dari perpustakaan</string>
     <string name="download_all">Unduh semua</string>

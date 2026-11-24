@@ -42,6 +42,9 @@
     <string name="shuffle">Trộn bài</string>
     <string name="more">Thêm</string>
     <string name="add_to_playlist">Thêm vào danh sách phát</string>
+    <!-- Add to playlist: the search box over the list of playlists, and what it says when nothing matches. -->
+    <string name="find_a_playlist">Tìm danh sách phát</string>
+    <string name="no_playlists_match">Không có danh sách phát nào khớp với “%1$s”</string>
     <string name="add_to_library">Thêm vào thư viện</string>
     <string name="remove_from_library">Xóa khỏi thư viện</string>
     <string name="subscribe">Đăng ký</string>

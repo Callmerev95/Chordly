@@ -41,6 +41,9 @@
     <string name="shuffle">随机播放</string>
     <string name="more">更多</string>
     <string name="add_to_playlist">添加到播放列表</string>
+    <!-- Add to playlist: the search box over the list of playlists, and what it says when nothing matches. -->
+    <string name="find_a_playlist">查找播放列表</string>
+    <string name="no_playlists_match">没有符合“%1$s”的播放列表</string>
     <string name="add_to_library">添加到资料库</string>
     <string name="remove_from_library">从资料库中移除</string>
     <string name="download_all">全部下载</string>
