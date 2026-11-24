@@ -71,6 +71,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -85,6 +86,7 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.Velocity
 import coil3.compose.AsyncImage
@@ -142,27 +144,30 @@ internal fun keepScrollInList(listState: LazyListState) = object : NestedScrollC
 private val QUEUE_ROW_MOTION = tween<IntOffset>(durationMillis = 200, easing = FastOutSlowInEasing)
 
 /** Softens the list where it meets the header and the scrubber. */
-internal fun Modifier.fadingEdges(): Modifier = this
+internal fun Modifier.fadingEdges(bottomInset: Dp = 0.dp): Modifier = this
     .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
     .drawWithContent {
-        drawContent()
-        val fade = 28.dp.toPx()
-        drawRect(
-            brush = Brush.verticalGradient(
-                colors = listOf(Color.Transparent, Color.Black),
-                startY = 0f,
-                endY = fade,
-            ),
-            blendMode = BlendMode.DstIn,
-        )
-        drawRect(
-            brush = Brush.verticalGradient(
-                colors = listOf(Color.Black, Color.Transparent),
-                startY = size.height - fade,
-                endY = size.height,
-            ),
-            blendMode = BlendMode.DstIn,
-        )
+        val bottom = (size.height - bottomInset.toPx()).coerceAtLeast(0f)
+        clipRect(bottom = bottom) {
+            this@drawWithContent.drawContent()
+            val fade = 28.dp.toPx()
+            drawRect(
+                brush = Brush.verticalGradient(
+                    colors = listOf(Color.Transparent, Color.Black),
+                    startY = 0f,
+                    endY = fade,
+                ),
+                blendMode = BlendMode.DstIn,
+            )
+            drawRect(
+                brush = Brush.verticalGradient(
+                    colors = listOf(Color.Black, Color.Transparent),
+                    startY = bottom - fade,
+                    endY = bottom,
+                ),
+                blendMode = BlendMode.DstIn,
+            )
+        }
     }
 
 /** One track in [InlineQueue], and where it sits in the player's timeline. */
@@ -432,6 +437,8 @@ internal fun InlineQueue(
         ) {
             LazyColumn(
                 state = listState,
+                // Keep queue content at its scroll bounds without a separate elastic translation.
+                overscrollEffect = null,
                 modifier = Modifier
                     .fillMaxWidth()
                     .fadingEdges()
