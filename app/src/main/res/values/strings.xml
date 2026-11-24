@@ -1369,4 +1369,69 @@
     <string name="queue_playlist_added">Added %1$d of %2$d songs</string>
     <string name="queue_playlist_partial">%1$s (%2$d incompatible, %3$d already present, %4$d failed)</string>
     <string name="queue_like_sign_in">Sign in to like online songs</string>
+    <!-- Replay year story -->
+    <!-- ponytail: every replay_year string is translatable="false" because upstream
+         (BitChord v1.10) ships English-only for them and LocaleStringsTest would
+         fail all 18 locales otherwise. Flip them back to translatable once
+         upstream translations land (or T15 finishes the story) and port them
+         from that release. -->
+    <string name="replay_year_open" translatable="false">Open your Replay %1$s</string>
+    <string name="replay_year_building" translatable="false">Building your year…</string>
+    <string name="replay_year_opener_start" translatable="false">Your</string>
+    <string name="replay_year_opener_end" translatable="false">in Chordly</string>
+    <string name="replay_year_opener_detail" translatable="false">Let’s look back at what you played.</string>
+    <string name="replay_year_minutes_start" translatable="false">This year you listened for</string>
+    <plurals name="replay_year_minutes_word" translatable="false">
+        <item quantity="one">minute</item>
+        <item quantity="other">minutes</item>
+    </plurals>
+    <string name="replay_year_minutes_days_start" translatable="false">That’s</string>
+    <string name="replay_year_minutes_days_value" translatable="false">%1$s days</string>
+    <string name="replay_year_minutes_hours_value" translatable="false">%1$s hours</string>
+    <string name="replay_year_minutes_days_end" translatable="false">of music.</string>
+    <string name="replay_year_busiest_start" translatable="false">Your biggest day was</string>
+    <string name="replay_year_busiest_minutes" translatable="false">%1$s minutes of music in one day</string>
+    <string name="replay_year_busiest_song" translatable="false">Mostly %1$s</string>
+    <string name="replay_year_clock_start" translatable="false">You came alive around</string>
+    <string name="replay_year_night_owl" translatable="false">Night Owl</string>
+    <string name="replay_year_night_owl_detail" translatable="false">So much of your listening happened after 10 pm.</string>
+    <string name="replay_year_early_bird" translatable="false">Early Riser</string>
+    <string name="replay_year_early_bird_detail" translatable="false">Your days started with music before 10 am.</string>
+    <string name="replay_year_golden_hour" translatable="false">Golden Hour</string>
+    <string name="replay_year_golden_hour_detail" translatable="false">Evenings were when the music came out.</string>
+    <string name="replay_year_daytime" translatable="false">Daytime Drifter</string>
+    <string name="replay_year_daytime_detail" translatable="false">You kept the music going through the day.</string>
+    <string name="replay_year_all_day" translatable="false">Around the Clock</string>
+    <string name="replay_year_all_day_detail" translatable="false">Morning, noon or night, something was playing.</string>
+    <string name="replay_year_genres_start" translatable="false">Your sound this year</string>
+    <string name="replay_year_artist_start" translatable="false">Your top artist this year was…</string>
+    <string name="replay_year_minutes_together" translatable="false">%1$s minutes together</string>
+    <string name="replay_year_top_artists" translatable="false">Your top artists</string>
+    <string name="replay_year_song_start" translatable="false">And your song of the year…</string>
+    <plurals name="replay_year_played_times" translatable="false">
+        <item quantity="one">Played %1$s time</item>
+        <item quantity="other">Played %1$s times</item>
+    </plurals>
+    <string name="replay_year_top_songs" translatable="false">The rest of your top songs</string>
+    <string name="replay_year_albums" translatable="false">Albums you lived in</string>
+    <string name="replay_year_months" translatable="false">Your year, month by month</string>
+    <string name="replay_year_discovery_start" translatable="false">This year you explored</string>
+    <plurals name="replay_year_songs_word" translatable="false">
+        <item quantity="one">song</item>
+        <item quantity="other">songs</item>
+    </plurals>
+    <plurals name="replay_year_artists_word" translatable="false">
+        <item quantity="one">artist</item>
+        <item quantity="other">artists</item>
+    </plurals>
+    <plurals name="replay_year_albums_word" translatable="false">
+        <item quantity="one">album</item>
+        <item quantity="other">albums</item>
+    </plurals>
+    <string name="replay_year_summary_title" translatable="false">Your %1$s</string>
+    <string name="replay_year_summary_artists" translatable="false">Top artists</string>
+    <string name="replay_year_summary_songs" translatable="false">Top songs</string>
+    <string name="replay_year_summary_minutes" translatable="false">Minutes listened</string>
+    <string name="replay_year_mute" translatable="false">Mute the story</string>
+    <string name="replay_year_unmute" translatable="false">Unmute the story</string>
 </resources>
