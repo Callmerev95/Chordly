@@ -351,6 +351,53 @@ object ListeningStats {
         }
     }
 
+    /**
+     * The Replay for a single calendar year, in the shape the year story asks
+     * for: the summary, every day's listening, each month's top song, and the
+     * song that carried the busiest day.
+     *
+     * Peers are merged in exactly as [summary] does, so the year is every
+     * synced device's year.
+     */
+    suspend fun year(year: Int): ReplayYearData = withContext(Dispatchers.IO) {
+        flushAndAwait()
+        val today = LocalDate.now()
+        val months = months().filter { it.year == year }
+        val merged = MergedBucket()
+        val dayMs = HashMap<String, Long>()
+        val monthTops = ArrayList<ReplayMonthTop>()
+        months.forEach { month ->
+            val buckets = listOfNotNull(read(month.toString()))
+            buckets.forEach(merged::add)
+            buckets.forEach { bucket ->
+                bucket.days.forEach { (day, ms) ->
+                    val date = "${bucket.month}-%02d".format(Locale.ROOT, day)
+                    dayMs[date] = (dayMs[date] ?: 0L) + ms
+                }
+            }
+            // A month on its own, for its top song only. Ranked by the same
+            // merge as the year, so a month's chart agrees with the Replay's.
+            val single = MergedBucket().apply { buckets.forEach(::add) }
+            single.toSummary(ReplayPeriod.THIS_YEAR, today).songs.firstOrNull()
+                ?.let { monthTops += ReplayMonthTop(month, it) }
+        }
+        val summary = merged.toSummary(ReplayPeriod.THIS_YEAR, today).copy(label = year.toString())
+        // The song that carried the busiest day: the track whose day entry for
+        // that date is biggest. Months recorded before tracks kept per-day
+        // entries have none, and the story picks another song.
+        val busiestDaySong = summary.busiestDay?.let { date ->
+            val month = runCatching { YearMonth.parse(date.take(7)) }.getOrNull() ?: return@let null
+            val best = months.flatMap { listOfNotNull(read(it.toString())) }.flatMap { it.tracks }
+                .groupBy { it.id }
+                .mapValues { (_, entries) -> entries.sumOf { it.days[date]?.ms ?: 0L } }
+                .filterValues { it > 0 }
+                .maxByOrNull { it.value }
+                ?.key ?: return@let null
+            summary.songs.firstOrNull { it.song.videoId == best }?.song
+        }
+        ReplayYearData(year, summary, dayMs, monthTops, busiestDaySong)
+    }
+
     /** Every month with a file, oldest first. */
     fun months(): List<YearMonth> {
         if (!ready) return emptyList()
@@ -677,8 +724,9 @@ object ListeningStats {
                     }
             }
 
+            val releases = foldAlbumsByTitle(albums.values)
             val rankedAlbums = if (weekRange != null) {
-                albums.values
+                releases
                     .mapNotNull { entry ->
                         val (ms, plays) = entry.weekRange(weekRange)
                         if (ms > 0) entry to (ms to plays) else null
@@ -690,7 +738,7 @@ object ListeningStats {
                         RankedEntry(entry.name, entry.sub, entry.art, entry.id, ms, plays)
                     }
             } else {
-                albums.values
+                releases
                     .sortedWith(compareByDescending<NameEntry> { it.ms }.thenByDescending { it.plays })
                     .map { RankedEntry(it.name, it.sub, it.art, it.id, it.ms, it.plays) }
             }
@@ -771,6 +819,37 @@ object ListeningStats {
     /** @see albumKey(albumId, name, artist) — overload for keyed lookups. */
     private fun albumKey(albumId: String?, name: String, artist: String): String =
         albumId?.let { it } ?: albumKey(name, artist)
+
+    /**
+     * [albums] with every entry that would be drawn as the same row folded into one.
+     *
+     * Filing by [albumKey] (id first) keeps one release apart from another, but
+     * it also keeps one album apart from *itself*: a month written before the
+     * track carried an album id files it by name, a later month files it by id,
+     * and YouTube hands out more than one id for the same record. Over a year
+     * those land as two entries with the same title and artist, which splits the
+     * album's minutes across two rows and gives the Replay list two items with
+     * the same key, which Compose answers by crashing.
+     *
+     * Entries with an id go first so the one that survives can still open the
+     * album page; among those, the most played one's picture and id win.
+     * Copies are folded, never the entries passed in.
+     */
+    internal fun foldAlbumsByTitle(albums: Collection<NameEntry>): List<NameEntry> {
+        val folded = LinkedHashMap<String, NameEntry>()
+        albums
+            .sortedWith(compareByDescending<NameEntry> { it.id != null }.thenByDescending { it.ms })
+            .forEach { entry ->
+                val key = albumKey(entry.name, entry.sub.orEmpty())
+                val existing = folded[key]
+                if (existing == null) {
+                    folded[key] = entry.copy(days = entry.days.mapValuesTo(mutableMapOf()) { it.value.copy() })
+                } else {
+                    existing.absorb(entry)
+                }
+            }
+        return folded.values.toList()
+    }
 
     /** @see albumKey */
     private val ALBUM_KEY_SEPARATOR = Char(UNIT_SEPARATOR).toString()
@@ -990,6 +1069,21 @@ data class RankedEntry(
 
 /** A song row, which keeps the whole [Song] so tapping it can play it. */
 data class RankedSong(val song: Song, val ms: Long, val plays: Int)
+
+/** The Replay of one calendar year, in the shape the year story draws. */
+data class ReplayYearData(
+    val year: Int,
+    val summary: ReplaySummary,
+    /** Milliseconds listened per day, keyed `YYYY-MM-DD`. Days with nothing are absent. */
+    val dayMs: Map<String, Long>,
+    /** Each month's top song, oldest month first. Months with nothing are absent. */
+    val monthTops: List<ReplayMonthTop>,
+    /** The song played most on [ReplaySummary.busiestDay], when the months kept per-day counts. */
+    val busiestDaySong: Song?,
+)
+
+/** One month's top song. */
+data class ReplayMonthTop(val month: YearMonth, val song: RankedSong)
 
 /** How far back a Replay reaches. */
 enum class ReplayPeriod(val chip: String) {
