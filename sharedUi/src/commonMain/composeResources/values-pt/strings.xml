@@ -109,6 +109,7 @@
     <string name="playing_radio">Tocando rádio %1$s</string>
     <string name="queue">Fila</string>
     <string name="remove_from_liked">Remover de Músicas Curtidas</string>
+    <string name="add_to_queue">Adicionar à fila</string>
     <string name="remove_from_queue">Remover da fila</string>
     <string name="repeat_all">Repetir todas</string>
     <string name="repeat_off">Repetir desativado</string>

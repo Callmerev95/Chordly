@@ -109,6 +109,7 @@
     <string name="playing_radio">正在播放 %1$s 電臺</string>
     <string name="queue">播放佇列</string>
     <string name="remove_from_liked">從喜歡的音樂中移除</string>
+    <string name="add_to_queue">新增到播放佇列</string>
     <string name="remove_from_queue">從播放佇列中移除</string>
     <string name="repeat_all">全部迴圈</string>
     <string name="repeat_off">迴圈已關閉</string>

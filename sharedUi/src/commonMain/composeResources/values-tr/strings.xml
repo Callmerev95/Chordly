@@ -109,6 +109,7 @@
     <string name="playing_radio">%1$s Radyosu çalıyor</string>
     <string name="queue">Sıra</string>
     <string name="remove_from_liked">Beğenilen Müzikten kaldır</string>
+    <string name="add_to_queue">Sıraya ekle</string>
     <string name="remove_from_queue">Sıradan kaldır</string>
     <string name="repeat_all">Tümünü tekrarla</string>
     <string name="repeat_off">Tekrar kapalı</string>

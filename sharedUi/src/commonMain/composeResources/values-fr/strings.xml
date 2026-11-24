@@ -109,6 +109,7 @@
     <string name="playing_radio">Lecture de la radio %1$s</string>
     <string name="queue">File d\'attente</string>
     <string name="remove_from_liked">Retirer de Musique que j\'aime</string>
+    <string name="add_to_queue">Ajouter à la file d\'attente</string>
     <string name="remove_from_queue">Retirer de la file d\'attente</string>
     <string name="repeat_all">Tout répéter</string>
     <string name="repeat_off">Répétition désactivée</string>

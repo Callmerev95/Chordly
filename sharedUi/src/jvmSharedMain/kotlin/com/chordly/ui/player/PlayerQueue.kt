@@ -275,12 +275,14 @@ internal fun InlineQueue(
     onMove: (Int, Int) -> Unit,
     onClear: () -> Unit,
     onSongMenu: (Int, Song) -> Unit = { _, _ -> },
-    onSwipeToQueue: suspend (Int, Song) -> Boolean = { _, _ -> false },
+    /** Null where the host can't move a row into Next in queue: swipes then only remove. */
+    onSwipeToQueue: (suspend (Int, Song) -> Boolean)? = null,
     undoNotice: @Composable (HazeState) -> Unit = {},
     selection: QueueSelectionState? = null,
     onBulkAction: suspend (List<Song>, QueueBulkAction) -> Boolean = { _, _ -> false },
     onRemoveSelected: suspend (List<QueueEntryIdentity>) -> Unit = {},
-    onAddAllToPlaylist: (List<Song>) -> Unit = {},
+    /** Null hides the sections' Add all to playlist buttons rather than leaving them inert. */
+    onAddAllToPlaylist: ((List<Song>) -> Unit)? = null,
     /** Prewarmed/offscreen queue panes must not accept or finish a swipe. */
     gesturesEnabled: Boolean = true,
     onScrollingChange: (Boolean) -> Unit = {},
@@ -308,7 +310,9 @@ internal fun InlineQueue(
     val reduceAnimation by PlayerSettings.reduceAnimation.collectAsStateWithLifecycle()
     val swipeToPlayNext by AppUi.host.swipeToPlayNext.collectAsStateWithLifecycle()
     val tracks = remember(queue, currentIndex, showHistory) { splitQueue(queue, currentIndex, showHistory) }
+    // A host that hands in no selection gets no Select button; this one just stays inactive.
     val selectionState = selection ?: remember { QueueSelectionState() }
+    val canAddAll = onAddAllToPlaylist != null
     val allTracks = remember(tracks) { tracks.rows }
     val latestTracks by rememberUpdatedState(tracks)
     val drag = rememberQueueDrag(listState, tracks, onMove, onDragActiveChange)
@@ -318,7 +322,7 @@ internal fun InlineQueue(
     }
     val swipesEnabled = !controlsLocked && !selectionState.active && gesturesEnabled && drag.held == null
     fun addAll(rows: List<QueueTrack>) {
-        if (!selectionState.active && rows.isNotEmpty()) onAddAllToPlaylist(rows.map { it.song })
+        if (!selectionState.active && rows.isNotEmpty()) onAddAllToPlaylist?.invoke(rows.map { it.song })
     }
     fun resolveSwipeTrack(original: QueueTrack): QueueTrack? {
         val live = tracks.nowPlaying?.takeIf { it.key == original.key }
@@ -334,8 +338,8 @@ internal fun InlineQueue(
         val live = resolveSwipeTrack(original)
         val destination = if (swipeToPlayNext) tracks.user.firstOrNull() else tracks.user.lastOrNull()
         swipesEnabled && live != null &&
-            (action == QueueSwipeAction.REMOVE ||
-                (live.key != tracks.nowPlaying?.key && live.key != destination?.key))
+            (action == QueueSwipeAction.REMOVE || (onSwipeToQueue != null &&
+                live.key != tracks.nowPlaying?.key && live.key != destination?.key))
     }
     val commitSwipe: suspend (QueueTrack, QueueSwipeAction) -> Boolean = { original, action ->
         val live = resolveSwipeTrack(original)
@@ -347,7 +351,7 @@ internal fun InlineQueue(
                 }
                 QueueSwipeAction.QUEUE -> {
                     val moveToHead = swipeToPlayNext
-                    if (onSwipeToQueue(live.timelineIndex, live.song)) {
+                    if (onSwipeToQueue?.invoke(live.timelineIndex, live.song) == true) {
                         // Native acknowledgement can precede the UI snapshot.
                         // A same-key manual row stays hidden until arrival is real.
                         withTimeoutOrNull(2_000) {
@@ -408,7 +412,7 @@ internal fun InlineQueue(
                 IconButton(onClick = selectionState::clear) {
                     Icon(Icons.Rounded.Close, contentDescription = stringResource(Res.string.queue_close_selection), tint = Color.White)
                 }
-            } else {
+            } else if (selection != null) {
                 Text(
                     text = stringResource(Res.string.queue_select),
                     style = MaterialTheme.typography.titleMedium,
@@ -450,7 +454,7 @@ internal fun InlineQueue(
                             title = stringResource(Res.string.previously_played),
                             modifier = queueMotion(reduceAnimation, heading = true).padding(top = 12.dp, bottom = 6.dp),
                         ) {
-                            if (!selectionState.active) QueueAddAllButton(controlsLocked) { addAll(tracks.history) }
+                            if (!selectionState.active) if (canAddAll) QueueAddAllButton(controlsLocked) { addAll(tracks.history) }
                         }
                     }
                     items(tracks.history, key = { it.key }) { track ->
@@ -502,8 +506,10 @@ internal fun InlineQueue(
                         ) {
                             if (!selectionState.active) {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
-                                    QueueAddAllButton(controlsLocked) { addAll(tracks.user) }
-                                    Spacer(Modifier.width(4.dp))
+                                    if (canAddAll) {
+                                        QueueAddAllButton(controlsLocked) { addAll(tracks.user) }
+                                        Spacer(Modifier.width(4.dp))
+                                    }
                                     QueueClearButton(MaterialTheme.typography.labelLarge, controlsLocked, onClear)
                                 }
                             }
@@ -522,7 +528,7 @@ internal fun InlineQueue(
                             },
                             modifier = queueMotion(reduceAnimation, heading = true).padding(top = 16.dp, bottom = 6.dp),
                         ) {
-                            if (!selectionState.active) QueueAddAllButton(controlsLocked) { addAll(tracks.context) }
+                            if (!selectionState.active) if (canAddAll) QueueAddAllButton(controlsLocked) { addAll(tracks.context) }
                         }
                     }
                     queueSection(tracks.context, QueueSection.CONTEXT, drag, controlsLocked, onJumpTo, onRemove, onSongMenu,
@@ -531,7 +537,7 @@ internal fun InlineQueue(
                 if (autoplayEnabled || tracks.autoplay.isNotEmpty()) {
                     item(key = "autoplay-heading") {
                         AutoplayHeading(hasTracks = tracks.autoplay.isNotEmpty(), modifier = queueMotion(reduceAnimation, heading = true)) {
-                            if (!selectionState.active && tracks.autoplay.isNotEmpty()) {
+                            if (canAddAll && !selectionState.active && tracks.autoplay.isNotEmpty()) {
                                 QueueAddAllButton(controlsLocked) { addAll(tracks.autoplay) }
                             }
                         }

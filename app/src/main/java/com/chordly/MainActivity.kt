@@ -2459,23 +2459,6 @@ private fun ChordlyApp(
                         }
                     }
                 }
-                QueueBulkAction.LIKE -> {
-                    val requested = songs.distinctBy { it.localUri ?: it.videoId }
-                    if (!signedIn && requested.any { it.localUri == null }) {
-                        Toast.makeText(context, R.string.queue_like_sign_in, Toast.LENGTH_SHORT).show()
-                    }
-                    var succeeded = true
-                    for (song in requested) {
-                        if (song.localUri != null) OfflinePlaylists.like(song)
-                        else {
-                            val completion = CompletableDeferred<Boolean>()
-                            viewModel.setLike(song.videoId, LikeStatus.LIKE) { completion.complete(it) }
-                            if (!completion.await()) succeeded = false
-                        }
-                    }
-                    if (!succeeded && signedIn) Toast.makeText(context, R.string.failed, Toast.LENGTH_SHORT).show()
-                    succeeded
-                }
                 QueueBulkAction.DOWNLOAD -> {
                     val requested = songs.filter { it.localUri == null }.distinctBy { it.videoId }
                     if (requested.isEmpty()) {

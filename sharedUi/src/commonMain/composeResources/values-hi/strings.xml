@@ -109,6 +109,7 @@
     <string name="playing_radio">%1$s रेडियो चल रहा है</string>
     <string name="queue">कतार</string>
     <string name="remove_from_liked">पसंदीदा संगीत से हटाएं</string>
+    <string name="add_to_queue">कतार में जोड़ें</string>
     <string name="remove_from_queue">कतार से हटाएं</string>
     <string name="repeat_all">सभी दोहराएं</string>
     <string name="repeat_off">दोहराना बंद</string>

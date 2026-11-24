@@ -109,6 +109,7 @@
     <string name="playing_radio">Memutar Radio %1$s</string>
     <string name="queue">Antrean</string>
     <string name="remove_from_liked">Hapus dari Musik yang Disukai</string>
+    <string name="add_to_queue">Tambahkan ke antrean</string>
     <string name="remove_from_queue">Hapus dari antrean</string>
     <string name="repeat_all">Ulangi semua</string>
     <string name="repeat_off">Ulangi nonaktif</string>

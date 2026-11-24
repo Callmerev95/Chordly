@@ -109,6 +109,7 @@
     <string name="playing_radio">%1$s ラジオを再生中</string>
     <string name="queue">再生キュー</string>
     <string name="remove_from_liked">高く評価した音楽から削除</string>
+    <string name="add_to_queue">再生キューに追加</string>
     <string name="remove_from_queue">再生キューから削除</string>
     <string name="repeat_all">すべてリピート</string>
     <string name="repeat_off">リピート: オフ</string>
