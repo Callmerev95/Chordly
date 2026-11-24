@@ -24,6 +24,7 @@ import com.chordly.ui.player.AndroidPlayerHost
 import com.chordly.ui.player.PlayerPlatform
 import com.chordly.data.canvas.CanvasCache
 import com.chordly.data.smb.SmbCoverFetcher
+import com.chordly.data.YouTubeThumbnailFallback
 import com.chordly.data.webdav.WebDavCoilAuth
 import com.chordly.data.canvas.SpotifyToken
 import com.chordly.data.spotify.SpotifyLibrary
@@ -249,6 +250,9 @@ class ChordlyApplication : Application(), SingletonImageLoader.Factory, Configur
                 // Covers filed on the SMB share; anything else falls
                 // through to Coil's own fetchers. See SmbCoverFetcher.
                 add(SmbCoverFetcher.Factory())
+                // A larger YouTube cover than the video has 404s; this
+                // falls back to the size every video has. See the class.
+                add(YouTubeThumbnailFallback())
                 // Artist signatures are usually SVG, which Coil can't
                 // decode without this. See ArtistSignatureRepository.
                 add(SvgDecoder.Factory())

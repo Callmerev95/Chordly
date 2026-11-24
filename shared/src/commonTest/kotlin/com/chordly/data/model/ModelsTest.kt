@@ -2,6 +2,7 @@ package com.chordly.data.model
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class ModelsTest {
     @Test
@@ -35,6 +36,69 @@ class ModelsTest {
             "https://notggpht.com/avatar=s88.jpg",
             "https://notggpht.com/avatar=s88.jpg".artworkAt(512),
         )
+    }
+
+    @Test
+    fun aVideoTrackAsksForTheHighResolutionCover() {
+        assertEquals(
+            "https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+            "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg".artworkAt(1200),
+        )
+        assertEquals(
+            "https://i.ytimg.com/vi/dQw4w9WgXcQ/sddefault.jpg",
+            "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg".artworkAt(320),
+        )
+        assertEquals(
+            "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
+            "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg".artworkAt(160),
+        )
+        assertEquals(
+            "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.webp",
+            "https://img.youtube.com/vi/dQw4w9WgXcQ/default.webp".artworkAt(720),
+        )
+    }
+
+    @Test
+    fun anUpgradedYouTubeCoverComesBackDownForARow() {
+        // Read back off the lock screen's artwork, the URL already names the
+        // large copy; a row must not load it.
+        assertEquals(
+            "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
+            "https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg".artworkAt(160),
+        )
+        assertEquals(
+            "https://i.ytimg.com/vi/dQw4w9WgXcQ/mqdefault.jpg",
+            "https://i.ytimg.com/vi/dQw4w9WgXcQ/mqdefault.jpg".artworkAt(160),
+        )
+    }
+
+    @Test
+    fun aRenamedYouTubeCoverDropsTheSignatureOfTheOldOne() {
+        assertEquals(
+            "https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+            "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg?sqp=-oaymwEj&rs=AOn4CL".artworkAt(720),
+        )
+        // Nothing renamed, nothing dropped.
+        assertEquals(
+            "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg?sqp=-oaymwEj&rs=AOn4CL",
+            "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg?sqp=-oaymwEj&rs=AOn4CL".artworkAt(160),
+        )
+    }
+
+    @Test
+    fun aLargeYouTubeCoverFallsBackToTheOneEveryVideoHas() {
+        assertEquals(
+            "https://i.ytimg.com/vi/jNQXAC9IVRw/hqdefault.jpg",
+            youTubeThumbnailFallback("https://i.ytimg.com/vi/jNQXAC9IVRw/maxresdefault.jpg"),
+        )
+        assertEquals(
+            "https://i.ytimg.com/vi/jNQXAC9IVRw/hqdefault.jpg",
+            youTubeThumbnailFallback("https://i.ytimg.com/vi/jNQXAC9IVRw/hq720.jpg"),
+        )
+        // Every video has this one: nothing to fall back to.
+        assertNull(youTubeThumbnailFallback("https://i.ytimg.com/vi/jNQXAC9IVRw/hqdefault.jpg"))
+        // Not a YouTube thumbnail at all.
+        assertNull(youTubeThumbnailFallback("https://example.test/cover.jpg"))
     }
 
     private fun album(id: String) = ShelfItem(id, "", null, null, id)

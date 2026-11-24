@@ -4,6 +4,7 @@ import android.content.Context
 import com.chordly.R
 import com.chordly.data.model.Song
 import com.chordly.data.model.artworkAt
+import com.chordly.data.model.youTubeThumbnailFallback
 import com.my.kizzy.rpc.KizzyRPC
 import com.my.kizzy.rpc.RpcImage
 import java.util.Locale
@@ -120,6 +121,9 @@ class DiscordRPC(
             // which is anything that isn't an http URL — sends none, and Discord
             // draws the Chordly application's own icon in its place.
             largeImage = song.artworkAt(ART_PX)
+                // Discord fetches it with no fallback, so a YouTube cover goes at
+                // the size every video has rather than one an old upload 404s on.
+                ?.let { youTubeThumbnailFallback(it) ?: it }
                 ?.takeIf { it.startsWith("http") }
                 ?.let(RpcImage::ExternalImage),
             smallImage = null,

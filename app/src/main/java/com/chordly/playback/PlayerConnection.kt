@@ -32,6 +32,7 @@ import com.chordly.data.model.QueueTier
 import com.chordly.data.model.QueueEntryIdentity
 import com.chordly.data.model.Song
 import com.chordly.data.model.artworkAt
+import com.chordly.data.model.youTubeThumbnailFallback
 import com.chordly.data.sources.SourceKind
 import com.chordly.data.sources.SourceRegistry
 import com.chordly.data.sources.SourceResolver
@@ -846,7 +847,7 @@ fun Song.toMediaItem(): MediaItem {
             // Sized here rather than left as stored: this is what the lock
             // screen, the notification and Android Auto draw, all of them
             // large, and none of them go back for a better copy later.
-            .setArtworkUri(artworkAt(NOTIFICATION_ART_PX)?.toUri())
+            .setArtworkUri(artworkAt(NOTIFICATION_ART_PX)?.let { youTubeThumbnailFallback(it) ?: it }?.toUri())
             // System media surfaces (One UI's Now Bar, Android Auto, Assistant)
             // classify a session by its media type; untyped sessions get treated
             // as generic audio and lose the music-specific card.
