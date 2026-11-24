@@ -130,6 +130,8 @@
     <string name="spotify_empty_playlists">이 계정에 재생목록이 없습니다</string>
     <string name="spotify_empty_tracks">이 재생목록에 곡이 없습니다</string>
     <string name="spotify_track_unavailable">YouTube Music에서 해당 곡을 찾을 수 없습니다</string>
+    <string name="youtube_premium_audio">YouTube Premium 오디오</string>
+    <string name="youtube_premium_audio_subtitle">Premium 사용 중: 기본 160kbps 대신 더 높은 음질의 약 256kbps Opus로 스트리밍</string>
     <string name="account_scrobbling">계정 및 스크로블</string>
     <string name="rich_presence">활동 공유</string>
     <string name="scrobbling">스크로블</string>
