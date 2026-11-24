@@ -85,6 +85,7 @@ class AndroidPlayerHost(context: Context) : PlayerHost {
         override val reduceAnimation get() = AppSettings.reduceAnimation
         override val reduceDynamicBlur get() = AppSettings.reduceDynamicBlur
         override val showNerdStats get() = AppSettings.showNerdStats
+        override val showBestPart get() = AppSettings.showBestPart
         override val showListenTogetherButton get() = AppSettings.showListenTogetherButton
         override val smartAnalysis get() = AppSettings.smartAnalysis
         override val automixDetail get() = AppSettings.automixDetail
@@ -110,6 +111,11 @@ class AndroidPlayerHost(context: Context) : PlayerHost {
     override fun cachedCanvas(song: Song): CanvasArtwork? = CanvasRepository.cached(song)
 
     override suspend fun canvasFor(song: Song): CanvasArtwork? = CanvasRepository.canvasFor(song)
+
+    override suspend fun bestPartMs(song: Song): Long? =
+        com.chordly.ui.replay.year.BestParts.startFor(app, song)
+            .takeIf { it.source != com.chordly.ui.replay.year.BestPartStart.Source.FALLBACK }
+            ?.startMs
 
     @Composable
     override fun CanvasVideo(spec: CanvasVideoSpec, modifier: Modifier) = AndroidCanvasVideo(spec, modifier)

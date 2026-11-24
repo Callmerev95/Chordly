@@ -44,6 +44,13 @@ interface PlayerHost {
     fun CanvasVideo(spec: CanvasVideoSpec, modifier: Modifier)
 
     /**
+     * Where [song]'s best part starts, in ms: the stretch listeners replay most,
+     * or failing that its chorus. Null when neither is known — a guess is not
+     * worth a button.
+     */
+    suspend fun bestPartMs(song: Song): Long? = null
+
+    /**
      * Whether this platform shows a music video's picture over the playing
      * audio. False keeps every video surface out of the player altogether.
      */
@@ -263,6 +270,8 @@ interface PlayerSettingsSource {
     val reduceAnimation: StateFlow<Boolean>
     val reduceDynamicBlur: StateFlow<Boolean>
     val showNerdStats: StateFlow<Boolean>
+    /** Whether the "Best Part" button is offered on the artwork. */
+    val showBestPart: StateFlow<Boolean>
     /** Whether the output / Listen Together pill sits under the transport. */
     val showListenTogetherButton: StateFlow<Boolean>
     val smartAnalysis: StateFlow<SmartAnalysis>
