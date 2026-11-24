@@ -579,7 +579,7 @@ object ListeningStats {
 
         fun add(bucket: StoredBucket) {
             bucket.tracks.forEach { entry ->
-                tracks.merge(entry.id, entry.copy()) { a, b -> a.also { it.absorb(b) } }
+                tracks.merge(mergeKey(entry), entry.copy()) { a, b -> a.also { it.absorb(b) } }
             }
             bucket.artists.forEach { entry ->
                 val lead = entry.copy(name = primaryArtist(entry.name) ?: entry.name)
@@ -614,7 +614,7 @@ object ListeningStats {
         fun add(bucket: StoredBucket, range: Pair<LocalDate, LocalDate>) {
             // Merge entity-level data (tracks/artists/albums) so weekRange() can read them.
             bucket.tracks.forEach { entry ->
-                tracks.merge(entry.id, entry.copy()) { a, b -> a.also { it.absorb(b) } }
+                tracks.merge(mergeKey(entry), entry.copy()) { a, b -> a.also { it.absorb(b) } }
             }
             bucket.artists.forEach { entry ->
                 val lead = entry.copy(name = primaryArtist(entry.name) ?: entry.name)
@@ -813,12 +813,27 @@ object ListeningStats {
      * middle of a line, which is exactly how this file spent a while being
      * treated as a binary by every tool that looked at it.
      */
-    private fun albumKey(name: String, artist: String): String =
+    internal fun albumKey(name: String, artist: String): String =
         name.lowercase(Locale.ROOT) + ALBUM_KEY_SEPARATOR + artist.lowercase(Locale.ROOT)
 
     /** @see albumKey(albumId, name, artist) — overload for keyed lookups. */
     private fun albumKey(albumId: String?, name: String, artist: String): String =
         albumId?.let { it } ?: albumKey(name, artist)
+
+    /**
+     * Which row of the song chart [entry] is added into.
+     *
+     * A track's id, except for a file on the device: its id is a `content://`
+     * or `file://` address that only means something on the phone that played
+     * it, so the same song played from two phones' storage would otherwise be
+     * two rows. Those fold by title and artist instead.
+     */
+    internal fun mergeKey(entry: TrackEntry): String =
+        if (entry.id.startsWith("content://") || entry.id.startsWith("file://")) {
+            "local" + ALBUM_KEY_SEPARATOR + albumKey(entry.title, entry.artist)
+        } else {
+            entry.id
+        }
 
     /**
      * [albums] with every entry that would be drawn as the same row folded into one.
