@@ -54,9 +54,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.chordly.R
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.chordly.data.model.ROW_ART_PX
 import com.chordly.data.model.Song
 import com.chordly.data.model.artworkAt
+import com.chordly.data.settings.AppSettings
 import com.chordly.ui.components.floatingtabbar.FloatingTabBar
 import com.chordly.ui.components.floatingtabbar.FloatingTabBarDefaults
 import com.chordly.playback.MusicOnlyPlayback
@@ -64,6 +67,9 @@ import com.chordly.ui.components.floatingtabbar.FloatingTabBarScrollConnection
 import com.chordly.ui.haptics.Haptic
 import com.chordly.ui.haptics.rememberHaptics
 import com.chordly.ui.player.PlayerDock
+import com.chordly.ui.player.rememberPlayerSkipMotion
+import com.chordly.ui.player.PlayerPlayPauseGlyph
+import com.chordly.ui.player.rememberPlayerPlayPauseMotion
 import com.chordly.ui.player.AndroidMusicVideo
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.ui.layout.ContentScale
@@ -110,6 +116,8 @@ fun GlassNavBar(
     dock: PlayerDock? = null,
     /** Dragging the bar's player up into the full player. */
     pull: MiniPlayerPull? = null,
+    /** False while the expanded player covers either accessory density. */
+    animationsActive: Boolean = true,
     modifier: Modifier = Modifier,
 ) {
     // Held for the same reason [tabs] is. The glass factory below closes over
@@ -154,6 +162,7 @@ fun GlassNavBar(
                     isInline = true,
                     isPlaying = isPlaying,
                     isLoading = isLoading,
+                    animationsActive = animationsActive,
                     contentColor = contentColor,
                     onPlayPause = onPlayPause,
                     onNext = onNext,
@@ -174,6 +183,7 @@ fun GlassNavBar(
                     isInline = false,
                     isPlaying = isPlaying,
                     isLoading = isLoading,
+                    animationsActive = animationsActive,
                     contentColor = contentColor,
                     onPlayPause = onPlayPause,
                     onNext = onNext,
@@ -294,6 +304,7 @@ private fun GlassNowPlaying(
     isInline: Boolean,
     isPlaying: Boolean,
     isLoading: Boolean,
+    animationsActive: Boolean,
     contentColor: Color,
     onPlayPause: () -> Unit,
     onNext: () -> Unit,
@@ -307,6 +318,13 @@ private fun GlassNowPlaying(
 ) {
     val haptics = rememberHaptics()
     val pressSource = remember { MutableInteractionSource() }
+    val reduceAnimation by AppSettings.reduceAnimation.collectAsStateWithLifecycle()
+    val nextMotion = rememberPlayerSkipMotion(active = animationsActive, reduceMotion = reduceAnimation)
+    val playPauseMotion = rememberPlayerPlayPauseMotion(
+        isPlaying = isPlaying,
+        active = animationsActive && !isLoading,
+        reduceMotion = reduceAnimation,
+    )
     val isPressed by pressSource.collectIsPressedAsState()
     val pressScale by animateFloatAsState(
         targetValue = if (isPressed) 1.04f else 1f,
@@ -444,12 +462,17 @@ private fun GlassNowPlaying(
                 IconButton(
                     onClick = {
                         haptics.play(if (isPlaying) Haptic.Pause else Haptic.Resume)
+                        playPauseMotion.onTap()
                         onPlayPause()
                     },
                     modifier = Modifier.size(glyphSlot),
                 ) {
-                    Icon(
-                        imageVector = if (isPlaying) Icons.Rounded.Pause else Icons.Rounded.PlayArrow,
+                    PlayerPlayPauseGlyph(
+                        motion = playPauseMotion,
+                        play = Icons.Rounded.PlayArrow,
+                        pause = Icons.Rounded.Pause,
+                        playPainter = rememberVectorPainter(Icons.Rounded.PlayArrow),
+                        pausePainter = rememberVectorPainter(Icons.Rounded.Pause),
                         contentDescription = stringResource(if (isPlaying) R.string.pause else R.string.play),
                         tint = contentColor,
                         modifier = Modifier.size(glyphSize),
@@ -465,12 +488,14 @@ private fun GlassNowPlaying(
                 IconButton(
                     onClick = {
                         haptics.play(Haptic.SkipNext)
+                        nextMotion.onTap()
                         onNext()
                     },
                     enabled = !controlsLocked,
                     modifier = Modifier.size(glyphSlot),
                 ) {
                     MiniPlayerNextGlyph(
+                        motion = nextMotion,
                         tint = contentColor.copy(alpha = if (controlsLocked) 0.3f else 1f),
                     )
                 }

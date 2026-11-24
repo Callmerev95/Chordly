@@ -4403,6 +4403,7 @@ private fun ChordlyApp(
                         song = player.song,
                         isPlaying = player.isPlaying,
                         isLoading = playPauseBusy,
+                        animationsActive = !showNowPlaying,
                         onPlayPause = {
                             togglePlayPause()
                         },
@@ -4439,6 +4440,7 @@ private fun ChordlyApp(
                             song = song,
                             isPlaying = player.isPlaying,
                             isLoading = playPauseBusy,
+                            animationsActive = !showNowPlaying,
                             hazeState = hazeState,
                             onPlayPause = {
                                 togglePlayPause()

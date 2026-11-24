@@ -64,6 +64,12 @@ import com.chordly.ui.haptics.rememberHaptics
 import com.chordly.ui.player.PlayerDock
 import com.chordly.playback.MusicOnlyPlayback
 import com.chordly.ui.player.AndroidMusicVideo
+import com.chordly.ui.player.PlayerPlayPauseGlyph
+import com.chordly.ui.player.PlayerSkipGlyph
+import com.chordly.ui.player.PlayerSkipMotion
+import com.chordly.ui.player.rememberPlayerPlayPauseMotion
+import com.chordly.ui.player.rememberPlayerSkipMotion
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.animation.core.animateDpAsState
@@ -364,10 +370,19 @@ fun MiniPlayer(
     dock: PlayerDock? = null,
     /** Dragging the bar up into the player. */
     pull: MiniPlayerPull? = null,
+    /** False while the expanded player covers this bar. */
+    animationsActive: Boolean = true,
     modifier: Modifier = Modifier,
 ) {
     val reduceDynamicBlur by AppSettings.reduceDynamicBlur.collectAsStateWithLifecycle()
     val haptics = rememberHaptics()
+    val reduceAnimation by AppSettings.reduceAnimation.collectAsStateWithLifecycle()
+    val nextMotion = rememberPlayerSkipMotion(active = animationsActive, reduceMotion = reduceAnimation)
+    val playPauseMotion = rememberPlayerPlayPauseMotion(
+        isPlaying = isPlaying,
+        active = animationsActive && !isLoading,
+        reduceMotion = reduceAnimation,
+    )
     // percent rather than a dp figure, so the corner stays exactly half the
     // height if the row's contents ever change it — which is what keeps a pill
     // a pill instead of a rounded rectangle. Same idiom as [FloatingBottomBar]
@@ -479,12 +494,17 @@ fun MiniPlayer(
                 IconButton(
                     onClick = {
                         haptics.play(if (isPlaying) Haptic.Pause else Haptic.Resume)
+                        playPauseMotion.onTap()
                         onPlayPause()
                     },
                     modifier = Modifier.size(GLYPH_SLOT),
                 ) {
-                    Icon(
-                        imageVector = if (isPlaying) Icons.Rounded.Pause else Icons.Rounded.PlayArrow,
+                    PlayerPlayPauseGlyph(
+                        motion = playPauseMotion,
+                        play = Icons.Rounded.PlayArrow,
+                        pause = Icons.Rounded.Pause,
+                        playPainter = rememberVectorPainter(Icons.Rounded.PlayArrow),
+                        pausePainter = rememberVectorPainter(Icons.Rounded.Pause),
                         contentDescription = stringResource(if (isPlaying) R.string.pause else R.string.play),
                         tint = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.size(GLYPH_SIZE),
@@ -497,12 +517,14 @@ fun MiniPlayer(
             IconButton(
                 onClick = {
                     haptics.play(Haptic.SkipNext)
+                    nextMotion.onTap()
                     onNext()
                 },
                 enabled = !controlsLocked,
                 modifier = Modifier.size(GLYPH_SLOT),
             ) {
                 MiniPlayerNextGlyph(
+                    motion = nextMotion,
                     tint = MaterialTheme.colorScheme.onBackground
                         .copy(alpha = if (controlsLocked) 0.3f else 1f),
                 )
@@ -520,9 +542,9 @@ fun MiniPlayer(
  * read as one glyph at two sizes. Shared with the glass bar's docked player.
  */
 @Composable
-internal fun MiniPlayerNextGlyph(tint: Color) {
-    Icon(
-        painter = painterResource(SharedRes.drawable.ic_player_next),
+internal fun MiniPlayerNextGlyph(tint: Color, motion: PlayerSkipMotion) {
+    PlayerSkipGlyph(
+        motion = motion,
         contentDescription = stringResource(R.string.widget_next),
         tint = tint,
         modifier = Modifier

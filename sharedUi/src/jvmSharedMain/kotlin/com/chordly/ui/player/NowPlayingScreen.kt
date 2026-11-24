@@ -316,7 +316,7 @@ private fun Modifier.recordBackdrop(layer: GraphicsLayer): Modifier = drawWithCo
 }
 
 /** [image] filling this scope, centred and cropped as [ContentScale.Crop] would. */
-private fun DrawScope.drawCropped(image: ImageBitmap) {
+internal fun DrawScope.drawCropped(image: ImageBitmap, alpha: Float = 1f) {
     if (size.width <= 0f || size.height <= 0f) return
     val scale = maxOf(size.width / image.width, size.height / image.height)
     val srcWidth = (size.width / scale).roundToInt().coerceIn(1, image.width)
@@ -326,6 +326,7 @@ private fun DrawScope.drawCropped(image: ImageBitmap) {
         srcOffset = IntOffset((image.width - srcWidth) / 2, (image.height - srcHeight) / 2),
         srcSize = IntSize(srcWidth, srcHeight),
         dstSize = IntSize(size.width.roundToInt(), size.height.roundToInt()),
+        alpha = alpha,
     )
 }
 
@@ -1858,6 +1859,7 @@ fun NowPlayingScreen(
     // The rest of the player gets out of the way a little ahead of the artwork,
     // so the cover lands on the bar rather than on a ghost of the player.
     val dockFade: () -> Float = { ((dockT() - DOCK_FADE_LEAD) / (1f - DOCK_FADE_LEAD)).coerceIn(0f, 1f) }
+    val clipTransitionAlpha: () -> Float = { (1f - 2f * p()).coerceIn(0f, 1f) * dockFade() }
 
     // The clip's own frame, standing in for it while the sleeve moves — so
     // opening, closing, and collapsing into the lyrics or the queue carry
@@ -2135,6 +2137,12 @@ fun NowPlayingScreen(
                             canvasRendered = canvasRendered,
                             isPlaying = isPlaying,
                             onCanvasRenderedChange = { canvasRendered = it },
+                            transitionAlpha = dockFade,
+                            transitionStill = { still()?.image },
+                            transitionStillVisible = { dockMoving && stillTakesOver() },
+                            captureStill = dockMoving,
+                            onStillCaptured = onStillCaptured,
+                            onClipResumed = onClipResumed,
                             // A clip decoding behind a player on its way to the
                             // bar is work nobody sees — see [dockMoving].
                             pausedForTransition = dockMoving || overlayOpen.value,
@@ -2313,6 +2321,7 @@ fun NowPlayingScreen(
                                     onPlayPause = onPlayPause,
                                     onNext = onNext,
                                     compact = compact,
+                                    animationsActive = !panelOpen,
                                 )
                             },
                             volume = if (hideVolumeBar) {
@@ -2521,7 +2530,7 @@ fun NowPlayingScreen(
                             // Out of sight altogether while its still stands in for it.
                             presentationAlpha = {
                                 if (stillTakesOver()) 0f
-                                else (1f - 2f * p()).coerceIn(0f, 1f) * dockFade()
+                                else clipTransitionAlpha()
                             },
                             // A full-screen Spotify Canvas holds its frame for a beat
                             // once the player has come all the way up, rather than
@@ -3461,7 +3470,12 @@ fun NowPlayingScreen(
                                             stillTakesOver() || !canvasRendered ||
                                             (heroMode && canvasCover.floatValue < 1f)
                                         ) {
-                                            drawCropped(frame.image)
+                                            if (canvas?.source == CanvasSource.APPLE && stillTakesOver() && art.loaded) {
+                                                drawContent()
+                                                drawCropped(frame.image, alpha = clipTransitionAlpha())
+                                            } else {
+                                                drawCropped(frame.image)
+                                            }
                                         }
                                     },
                             )
@@ -3482,7 +3496,11 @@ fun NowPlayingScreen(
                                             collapseStarted || dockMoving || overlayOpen.value,
                                         // The same stand-in as the banner's clip; here
                                         // the still is drawn by the sleeve around it.
-                                        presentationAlpha = { if (stillTakesOver()) 0f else 1f },
+                                        presentationAlpha = {
+                                            if (stillTakesOver()) 0f
+                                            else if (canvas.source == CanvasSource.APPLE && art.loaded) clipTransitionAlpha()
+                                            else 1f
+                                        },
                                         startPositionMs = stillStart?.positionMs ?: 0L,
                                         revealInstantly = stillStart != null,
                                         captureStill = stillMoving,
@@ -4175,6 +4193,10 @@ fun NowPlayingScreen(
                             onPrevious = onPrevious,
                             onPlayPause = onPlayPause,
                             onNext = onNext,
+                            animationsActive = !lyricPicker.picking &&
+                                (!lyricsOpen || lyricsControlsOpen) &&
+                                (!queueOpen || queueControlsOpen) &&
+                                (!spotifyCanvasPresentation || spotifyCanvasControlsOpen || mixing),
                         )
                     }
                     if (!hideVolumeBar) {

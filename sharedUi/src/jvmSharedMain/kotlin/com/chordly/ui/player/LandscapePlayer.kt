@@ -60,12 +60,14 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.compose.AsyncImagePainter
 import coil3.request.ImageRequest
+import androidx.compose.ui.graphics.ImageBitmap
 import com.chordly.ui.components.ExplicitBadge
 import com.chordly.ui.components.menuAnchor
 import com.chordly.ui.haptics.Haptic
 import com.chordly.ui.icons.ChordlyIcons
 import com.chordly.ui.theme.stableStatusBarInsets
 import com.chordly.data.canvas.CanvasArtwork
+import com.chordly.data.canvas.CanvasSource
 import com.chordly.data.model.LikeStatus
 import com.chordly.data.model.Song
 
@@ -283,6 +285,12 @@ internal fun LandscapeArtwork(
     canvasRendered: Boolean,
     isPlaying: Boolean,
     onCanvasRenderedChange: (Boolean) -> Unit,
+    transitionAlpha: () -> Float,
+    transitionStill: () -> ImageBitmap?,
+    transitionStillVisible: () -> Boolean,
+    captureStill: Boolean,
+    onStillCaptured: (ImageBitmap?, Long) -> Unit,
+    onClipResumed: () -> Unit,
     modifier: Modifier = Modifier,
     /** Halts the clip for a transition — see [CanvasArtworkPlayer]'s own. */
     pausedForTransition: Boolean = false,
@@ -336,13 +344,28 @@ internal fun LandscapeArtwork(
                 // portrait sleeve's note on TextureView stacking order.
                 modifier = Modifier
                     .fillMaxSize()
-                    .drawWithContent { if (artLoaded || !canvasRendered) drawContent() },
+                    .drawWithContent {
+                        if (artLoaded || !canvasRendered) drawContent()
+                        if (canvas?.source == CanvasSource.APPLE && transitionStillVisible()) {
+                            transitionStill()?.let { drawCropped(it, if (artLoaded) transitionAlpha() else 1f) }
+                        }
+                    },
             )
             canvas?.let { clip ->
                 CanvasArtworkPlayer(
                     canvas = clip,
                     isPlaying = isPlaying,
                     pausedForTransition = pausedForTransition,
+                    presentationAlpha = {
+                        if (clip.source != CanvasSource.APPLE) 1f
+                        else if (transitionStillVisible()) 0f
+                        else if (artLoaded) transitionAlpha() else 1f
+                    },
+                    captureStill = clip.source == CanvasSource.APPLE && captureStill,
+                    onStillCaptured = { image, position ->
+                        if (clip.source == CanvasSource.APPLE) onStillCaptured(image, position)
+                    },
+                    onResumed = { if (clip.source == CanvasSource.APPLE) onClipResumed() },
                     onRenderedChanged = onCanvasRenderedChange,
                     modifier = Modifier.fillMaxSize(),
                 )
