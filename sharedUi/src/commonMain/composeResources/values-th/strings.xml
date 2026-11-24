@@ -205,6 +205,8 @@
     <string name="queue_add_all_to_playlist">เพิ่มทั้งหมดไปยังเพลย์ลิสต์</string>
     <string name="queue_selection_remove">Quitar</string>
     <string name="queue_close_selection">ปิดโหมดเลือก</string>
+    <string name="mixes_yours">มิกซ์ของคุณ</string>
+    <string name="mixes_none">ยังไม่มีมิกซ์ ฟังต่อไปแล้ว YouTube Music จะสร้างมิกซ์ให้คุณ</string>
     <string name="queue_add_to_playlist">เพิ่มไปยังเพลย์ลิสต์</string>
     <string name="queue_download">ดาวน์โหลด</string>
 </resources>

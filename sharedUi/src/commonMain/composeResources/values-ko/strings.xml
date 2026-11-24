@@ -285,6 +285,8 @@
     <string name="queue_add_all_to_playlist">모두 재생목록에 추가</string>
     <string name="queue_selection_remove">Quitar</string>
     <string name="queue_close_selection">선택 모드 닫기</string>
+    <string name="mixes_yours">내 믹스</string>
+    <string name="mixes_none">아직 믹스가 없습니다. 계속 들으면 YouTube Music이 믹스를 만들어 드립니다.</string>
     <string name="queue_add_to_playlist">재생목록에 추가</string>
     <string name="queue_download">다운로드</string>
 </resources>

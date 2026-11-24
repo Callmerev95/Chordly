@@ -111,6 +111,7 @@ private val PreviewSong = Song(
 private val PreviewTabs = listOf(
     BottomTab("Play", ChordlyIcons.Play),
     BottomTab("Explore", ChordlyIcons.TabExplore),
+    BottomTab("Radio", ChordlyIcons.TabRadio),
     BottomTab("Library", ChordlyIcons.TabLibrary),
     BottomTab("Search", ChordlyIcons.TabSearch),
 )

@@ -205,6 +205,8 @@
     <string name="queue_add_all_to_playlist">Dodaj wszystkie do playlisty</string>
     <string name="queue_selection_remove">Quitar</string>
     <string name="queue_close_selection">Zamknij tryb zaznaczania</string>
+    <string name="mixes_yours">Twoje miksy</string>
+    <string name="mixes_none">Nie ma jeszcze miksów. Słuchaj dalej, a YouTube Music przygotuje je dla Ciebie.</string>
     <string name="queue_add_to_playlist">Dodaj do playlisty</string>
     <string name="queue_download">Pobierz</string>
 </resources>

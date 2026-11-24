@@ -287,6 +287,8 @@
     <string name="queue_add_all_to_playlist">Add all to playlist</string>
     <string name="queue_selection_remove">Remove</string>
     <string name="queue_close_selection">Close selection mode</string>
+    <string name="mixes_yours">Your Mixes</string>
+    <string name="mixes_none">No mixes yet. Keep listening and YouTube Music will make some for you.</string>
     <string name="queue_add_to_playlist">Add to playlist</string>
     <string name="queue_download">Download</string>
     <!-- ponytail: translatable="false" because upstream v1.10 has these English-only

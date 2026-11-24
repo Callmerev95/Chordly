@@ -205,6 +205,8 @@
     <string name="queue_add_all_to_playlist">全部加入播放列表</string>
     <string name="queue_selection_remove">Quitar</string>
     <string name="queue_close_selection">關閉選擇模式</string>
+    <string name="mixes_yours">你的混音</string>
+    <string name="mixes_none">暫無混音。繼續收聽，YouTube Music 會為你生成混音。</string>
     <string name="queue_add_to_playlist">加入播放列表</string>
     <string name="queue_download">下載</string>
 </resources>

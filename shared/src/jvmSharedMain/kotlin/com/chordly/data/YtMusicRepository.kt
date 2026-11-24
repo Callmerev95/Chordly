@@ -11,6 +11,7 @@ import com.chordly.data.model.ArtistPage
 import com.chordly.data.model.BrowseType
 import com.chordly.data.model.HomeFeed
 import com.chordly.data.model.HomeShelf
+import com.chordly.data.model.KeyedMix
 import com.chordly.data.model.LibraryPage
 import com.chordly.data.model.LibraryState
 import com.chordly.data.model.LikeStatus
@@ -1212,6 +1213,47 @@ object YtMusicRepository {
     suspend fun mixedForYou(): Result<List<ShelfItem>> = call("mixedForYou") {
         if (Innertube.cookie == null) return@call emptyList()
         InnertubeParser.parseTwoRowItemsDeep(Innertube.browse("FEmusic_mixed_for_you"))
+    }
+
+    /**
+     * [mixedForYou], each card beside its English title.
+     *
+     * The page says what kind of mix a card is only in its title ("Discover
+     * Mix", "Chill Mix 2"), and YouTube translates those titles. So the page is
+     * read twice when the app is in another language: once in that language,
+     * to show, and once in English, to sort by — the two matched up by the
+     * mix's playlist id, which is the same in both. In English the one request
+     * serves for both. If the English read fails, or a card is missing from
+     * it, that card's own title stands in.
+     */
+    suspend fun mixedForYouKeyed(): Result<List<KeyedMix>> = call("mixedForYouKeyed") {
+        if (Innertube.cookie == null) return@call emptyList()
+        coroutineScope {
+            val shown = async {
+                InnertubeParser.parseTwoRowItemsDeep(Innertube.browse("FEmusic_mixed_for_you"))
+            }
+            val english = if (Innertube.currentLanguage.startsWith("en")) {
+                null
+            } else {
+                async {
+                    try {
+                        InnertubeParser.parseTwoRowItemsDeep(
+                            Innertube.browse("FEmusic_mixed_for_you", language = "en"),
+                        )
+                    } catch (e: CancellationException) {
+                        throw e
+                    } catch (e: Exception) {
+                        Log.w(TAG, "mixedForYou in English failed; sorting by shown titles: ${e.message}")
+                        null
+                    }
+                }
+            }
+            val items = shown.await()
+            val englishTitles = english?.await().orEmpty()
+                .associate { (it.browseId ?: it.title) to it.title }
+            items.map { KeyedMix(it, englishTitles[it.browseId ?: it.title] ?: it.title) }
+                .also { mixes -> Log.d(TAG, "mixedForYou: ${mixes.joinToString { it.englishTitle }}") }
+        }
     }
 
     /**
