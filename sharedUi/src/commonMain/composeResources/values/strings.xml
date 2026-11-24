@@ -289,4 +289,8 @@
     <string name="queue_close_selection">Close selection mode</string>
     <string name="queue_add_to_playlist">Add to playlist</string>
     <string name="queue_download">Download</string>
+    <!-- ponytail: translatable="false" because upstream v1.10 has these English-only
+         (see issue #59); open the tap when upstream ships translations. -->
+    <string name="best_part" translatable="false">Best Part</string>
+    <string name="best_part_description" translatable="false">Skip to the best part</string>
 </resources>
