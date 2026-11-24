@@ -93,6 +93,8 @@ fun GlassNavBar(
     tabs: List<BottomTab>,
     selectedIndex: Int,
     onTabSelected: (Int) -> Unit,
+    /** Called when the user taps the currently active tab (scroll-to-top). */
+    onActiveTabTap: () -> Unit = {},
     scrollConnection: FloatingTabBarScrollConnection,
     song: Song?,
     isPlaying: Boolean,
@@ -231,7 +233,11 @@ fun GlassNavBar(
             val isSelected = index == selectedIndex
             val tint = if (isSelected) selectedColor else unselectedColor
             val onClick = {
-                if (!isSelected) haptics.play(Haptic.Select)
+                if (isSelected) {
+                    onActiveTabTap()
+                } else {
+                    haptics.play(Haptic.Select)
+                }
                 currentOnTabSelected(index)
             }
             if (index == standaloneIndex) {
