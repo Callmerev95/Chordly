@@ -9,6 +9,9 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -108,6 +111,8 @@ object ListeningStats {
 
     fun init(context: Context) {
         directory = File(context.filesDir, DIRECTORY)
+        // Other devices' months, added in by [summary]; see PeerListening.
+        PeerListening.init(context)
         // Opening a month means reading and parsing it, and the first thing to
         // ask for one is the playback sampler — on the main thread, a few
         // seconds into the first track. Done here instead, it has happened long
@@ -407,6 +412,28 @@ object ListeningStats {
                 ?.let { runCatching { YearMonth.parse(it) }.getOrNull() }
         }.sorted()
     }
+
+    /**
+     * Every month with listening on this device or any other synced to it,
+     * oldest first: what the Replay reads, where [months] is what this device
+     * owns and uploads.
+     */
+    fun allMonths(): List<YearMonth> = (months() + PeerListening.months()).distinct().sorted()
+
+    /**
+     * Another device's months have been downloaded or dropped: the summary
+     * held is no longer the answer. See [PeerListening].
+     */
+    fun peersChanged() {
+        version++
+        cached = null
+        _peerRevision.value++
+    }
+
+    private val _peerRevision = MutableStateFlow(0)
+
+    /** Bumped by [peersChanged], for a page that should redraw when it does. */
+    val peerRevision: StateFlow<Int> = _peerRevision.asStateFlow()
 
     private fun read(key: String): StoredBucket? {
         val file = File(directory, "$key.json")
