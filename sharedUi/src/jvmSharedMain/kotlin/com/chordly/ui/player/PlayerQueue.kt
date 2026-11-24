@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.ui.draw.alpha
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -290,6 +291,8 @@ internal fun InlineQueue(
     gesturesEnabled: Boolean = true,
     onScrollingChange: (Boolean) -> Unit = {},
     onDragActiveChange: (Boolean) -> Unit = {},
+    /** Space occupied by the phone deck over the stable, full-height viewport. */
+    playerDeckInset: Dp = 0.dp,
     /** Phone only: let queue scrolling dismiss/restore the lower half player. */
     collapsePlayerOnScroll: Boolean = false,
     onRevealPlayer: () -> Unit = {},
@@ -431,7 +434,6 @@ internal fun InlineQueue(
         Spacer(Modifier.height(4.dp))
         Box(
             modifier = Modifier
-                .weight(1f)
                 .fillMaxWidth()
                 .bleedHorizontally(PLAYER_GUTTER),
         ) {
@@ -439,9 +441,8 @@ internal fun InlineQueue(
                 state = listState,
                 // Keep queue content at its scroll bounds without a separate elastic translation.
                 overscrollEffect = null,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fadingEdges()
+                modifier = (if (collapsePlayerOnScroll) Modifier.fillMaxSize() else Modifier.fillMaxWidth())
+                    .fadingEdges(bottomInset = playerDeckInset)
                     .then(
                         if (!reduceDynamicBlur) {
                             // Composite queue rows above the sibling player artwork.
@@ -452,7 +453,7 @@ internal fun InlineQueue(
                     // drag on itself and slides the whole player away.
                     .nestedScroll(keepScroll)
                     .then(if (collapsePlayerOnScroll) Modifier.nestedScroll(controlsOnScroll) else Modifier),
-                contentPadding = PaddingValues(start = PLAYER_GUTTER, end = PLAYER_GUTTER, bottom = footerHeight),
+                contentPadding = PaddingValues(start = PLAYER_GUTTER, end = PLAYER_GUTTER, bottom = footerHeight + playerDeckInset),
             ) {
                 if (tracks.history.isNotEmpty()) {
                     item(key = "header-history") {
@@ -548,6 +549,7 @@ internal fun InlineQueue(
                 Modifier
                     .align(Alignment.BottomCenter)
                     .padding(horizontal = PLAYER_GUTTER)
+                    .padding(bottom = playerDeckInset)
                     .onSizeChanged { footerHeight = with(density) { it.height.toDp() } },
             ) {
                 undoNotice(hazeState)
@@ -935,7 +937,8 @@ private class QueueDrag(private val listState: LazyListState) {
         heldCenter = center
         val top = center - half
         val minTop = info.viewportStartOffset.toFloat()
-        heldTop = top.coerceIn(minTop, (info.viewportEndOffset - heldSize).toFloat().coerceAtLeast(minTop))
+        val viewportEnd = info.viewportEndOffset - info.afterContentPadding
+        heldTop = top.coerceIn(minTop, (viewportEnd - heldSize).toFloat().coerceAtLeast(minTop))
 
         // Its slot is out of view: nothing to swap against until the list brings it back.
         val dragged = items.firstOrNull { it.key == key } ?: return setAutoScroll(0f)
@@ -972,7 +975,7 @@ private class QueueDrag(private val listState: LazyListState) {
             top = top,
             bottom = top + heldSize,
             viewportStart = info.viewportStartOffset,
-            viewportEnd = info.viewportEndOffset,
+            viewportEnd = info.viewportEndOffset - info.afterContentPadding,
             zone = edgeZone,
             speed = edgeSpeed,
         )
