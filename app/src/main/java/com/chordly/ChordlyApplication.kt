@@ -170,6 +170,9 @@ class ChordlyApplication : Application(), SingletonImageLoader.Factory, Configur
         Downloads.init(this)
         // After both of the things a check reads: the setting and the record.
         PlaylistSync.init(this)
+        // Before anything could run a scheduled backup: its worker reads the
+        // account and the schedule this loads.
+        com.chordly.data.backup.DriveBackup.init(this)
         // The device's own listening record. Opened here rather than in
         // PlaybackService because the Replay page reads it from the UI side and
         // both live in this process — one owner, one directory.

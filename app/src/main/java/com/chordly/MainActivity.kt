@@ -171,6 +171,10 @@ import com.chordly.ui.components.VolumeHud
 import com.chordly.ui.navigation.AppDestination
 import com.chordly.ui.navigation.AppRoute
 import com.chordly.ui.screens.EqualizerPresetPage
+import com.chordly.ui.screens.DriveBackupScreen
+import com.chordly.ui.screens.DriveDevicesScreen
+import com.chordly.ui.screens.DriveBackupAlerts
+import com.chordly.ui.screens.DriveBackupAlertsHost
 import com.chordly.ui.screens.SettingsChoicePage
 import com.chordly.ui.components.SpotifyImportAlert
 import com.chordly.ui.screens.WearOsScreen
@@ -683,6 +687,8 @@ private fun ChordlyApp(
     var confirmJioSaavn by remember { mutableStateOf(false) }
     var confirmBitPerfect by remember { mutableStateOf<BitPerfectMode?>(null) }
     var confirmFixedVolume by remember { mutableStateOf(false) }
+    // Google Drive backup's questions, asked in the frosted alert like the rest.
+    val driveAlerts = remember { DriveBackupAlerts() }
     /** An addon search row tapped while the quality setting skips its addon; see [AddonBlockedAlert]. */
     var blockedAddonSong by remember { mutableStateOf<com.chordly.data.model.Song?>(null) }
     /** An addon a download just went ahead without, and why; see [SourceRegistry.addonsLeftOutOfDownloads]. */
@@ -3221,6 +3227,20 @@ private fun ChordlyApp(
                                 contentPadding = listPadding,
                                 onEditServer = { editingPartyServer = true },
                             )
+                        } else if (pageRoute == AppRoute.DriveBackup) {
+                            DriveBackupScreen(
+                                contentPadding = listPadding,
+                                onOpenDevices = { navigator.push(AppRoute.DriveDevices) },
+                                onConfirmDisconnect = { driveAlerts.disconnect = true },
+                                onConfirmRemove = { driveAlerts.remove = it },
+                                onRename = { driveAlerts.renaming = it },
+                            )
+                        } else if (pageRoute == AppRoute.DriveDevices) {
+                            DriveDevicesScreen(
+                                contentPadding = listPadding,
+                                onConfirmRestore = { driveAlerts.restore = it },
+                                onDone = { navigator.pop() },
+                            )
                         } else if (pageRoute == AppRoute.Equalizer) {
                             EqualizerScreen(
                                 contentPadding = listPadding,
@@ -3259,6 +3279,7 @@ private fun ChordlyApp(
                                     replayLandingPage = ReplayStoryPage.INTRO
                                     navigator.push(AppRoute.Replay)
                                 },
+                                onDriveBackup = { navigator.push(AppRoute.DriveBackup) },
                                 onLyricsSources = { showLyricsSources = true },
                                 onTranslationLanguage = { showTranslationLanguage = true },
                                 onSources = { navigator.push(AppRoute.Sources) },
@@ -3935,6 +3956,8 @@ private fun ChordlyApp(
                         AppRoute.Sources -> stringResource(R.string.sources)
                         AppRoute.ListenTogether -> stringResource(R.string.listen_together)
                         AppRoute.WearOs -> stringResource(R.string.wear_os_page_title)
+                        AppRoute.DriveBackup -> stringResource(R.string.drive_backup_title)
+                        AppRoute.DriveDevices -> stringResource(R.string.drive_devices_title)
                         AppRoute.Equalizer -> stringResource(R.string.equalizer)
                         AppRoute.Settings -> stringResource(R.string.settings)
                         is AppRoute.SettingsSection -> stringResource(route.category.title)
@@ -6195,6 +6218,14 @@ private fun ChordlyApp(
                 onDismiss = { confirmFixedVolume = false },
             )
         }
+
+        // Google Drive backup's questions; see DriveBackupAlertsHost.
+        DriveBackupAlertsHost(
+            alerts = driveAlerts,
+            hazeState = hazeState,
+            // Back to the backup page, where the bar shows the restore running.
+            onRestoreStarted = { if (navigator.visibleRoute() == AppRoute.DriveDevices) navigator.pop() },
+        )
 
         // Over the page and its frosted bars, under nothing but the alerts.
         DacVolumeHud(hazeState)

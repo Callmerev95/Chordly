@@ -197,6 +197,8 @@ fun SettingsScreen(
     onAccountScrobbling: () -> Unit,
     onEqualizer: () -> Unit,
     onOpenReplay: () -> Unit,
+    /** Opens [DriveBackupScreen], under Backup and Restore. */
+    onDriveBackup: () -> Unit,
     onLyricsSources: () -> Unit,
     onTranslationLanguage: () -> Unit,
     onSources: () -> Unit,
@@ -1626,6 +1628,10 @@ fun SettingsScreen(
                     onClick = { AppSettings.setReplayGenres(!replayGenres) },
                 )
             }
+            val driveBackupTitle = stringResource(R.string.drive_backup_title)
+            row(driveBackupTitle, "backup", "restore", "google", "drive", "cloud") {
+                DriveBackupSettingsRow(title = driveBackupTitle, onClick = onDriveBackup)
+            }
             val exportDataTitle = stringResource(R.string.export_data)
             row(exportDataTitle, "backup") {
                 SettingsRow(
@@ -2176,7 +2182,7 @@ fun SettingsScreen(
 }
 
 /** "3 months of listening" — the unit a backup is actually measured in. */
-private fun Context.countOfMonths(months: Int): String = if (months == 0) {
+internal fun Context.countOfMonths(months: Int): String = if (months == 0) {
     getString(R.string.no_listening_history)
 } else {
     resources.getQuantityString(R.plurals.listening_month_count, months, months)
@@ -3163,6 +3169,8 @@ fun SettingsChoicePage(
  */
 @Composable
 internal fun <T> ChoiceGroup(
+    /** Set where the card is one of several on its page rather than the whole of it. */
+    header: String? = null,
     options: List<T>,
     selected: T,
     label: @Composable (T) -> String,
@@ -3174,7 +3182,7 @@ internal fun <T> ChoiceGroup(
     val haptics = LocalHapticFeedback.current
     // Every page it is the body of leads with its large heading — see
     // [SettingsPageTitle], whose own bottom padding is all the room it needs.
-    SettingsGroup(footer = footer, topSpacing = 0.dp) {
+    SettingsGroup(header = header, footer = footer, topSpacing = 0.dp) {
         options.forEachIndexed { index, option ->
             if (index > 0) {
                 HorizontalDivider(
