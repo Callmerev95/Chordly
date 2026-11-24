@@ -106,7 +106,14 @@ object Innertube {
     private const val ANDROID_MUSIC_CLIENT_ID = "21"
     private const val ANDROID_MUSIC_VERSION = "7.21.50"
 
-    private const val TAG = "BitChord"
+    /**
+     * The plain youtube.com client, for [webNext] only. Kept in step with the
+     * WEB entry in [PlayerClient]; `next` is lenient about an old version.
+     */
+    private const val WEB_CLIENT_VERSION = "2.20260708.00.00"
+    private const val WEB_CLIENT_ID = "1"
+
+    private const val TAG = "Chordly"
 
     /** Session cookie captured by the login WebView; null = browse as guest. */
     var cookie: String? = null
@@ -636,6 +643,48 @@ object Innertube {
         put("videoId", videoId)
         put("playlistId", "RDAMVM$videoId")
         put("isAudioOnly", true)
+    }
+
+    /**
+     * youtube.com's own `next` answer for [videoId], asked as the plain WEB
+     * client rather than YouTube Music.
+     *
+     * Only for what YouTube Music's answer leaves out: the "Most replayed"
+     * heat markers the Replay year story uses to start each song on its best
+     * part. Same video, same timeline, but only youtube.com's watch page
+     * carries the curve.
+     *
+     * Anonymous on purpose. No cookie, no visitor id, no account: which part
+     * of a song the world replays is not something the listener's account has
+     * any say in, and asking under it would put a watch-page visit on their
+     * history for every song in the story. One retry rather than the usual
+     * two, because a miss here only costs a clip starting at a guessed point,
+     * and the answer is around half a megabyte.
+     */
+    suspend fun webNext(videoId: String): JsonObject = withRetry(attempts = 2) {
+        client.post("$YOUTUBE_ORIGIN/youtubei/v1/next") {
+            contentType(ContentType.Application.Json)
+            parameter("prettyPrint", "false")
+            header("User-Agent", WEB_USER_AGENT)
+            header("Origin", YOUTUBE_ORIGIN)
+            header("Referer", "$YOUTUBE_ORIGIN/")
+            header("X-YouTube-Client-Name", WEB_CLIENT_ID)
+            header("X-YouTube-Client-Version", WEB_CLIENT_VERSION)
+            header("Accept-Language", acceptLanguageHeader)
+            setBody(
+                buildJsonObject {
+                    putJsonObject("context") {
+                        putJsonObject("client") {
+                            put("clientName", "WEB")
+                            put("clientVersion", WEB_CLIENT_VERSION)
+                            put("hl", currentLanguage)
+                            put("gl", currentRegion)
+                        }
+                    }
+                    put("videoId", videoId)
+                },
+            )
+        }.body<JsonObject>()
     }
 
     /**
