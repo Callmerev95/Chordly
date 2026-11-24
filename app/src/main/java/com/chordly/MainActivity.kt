@@ -218,6 +218,7 @@ import com.chordly.playback.removeQueueEntriesWithUndo
 import com.chordly.playback.clearUserQueueWithUndo
 import com.chordly.playback.undoQueueEdit
 import com.chordly.playback.moveQueueEntryToUser
+import com.chordly.playback.replayFromHistory
 import com.chordly.playback.playSongs
 import com.chordly.playback.BoundedQueuePlanner
 import com.chordly.playback.playBoundedContext
@@ -2687,8 +2688,20 @@ private fun ChordlyApp(
                     // its seekTo override); editing the queue from here would
                     // round-trip every item through the controller and lose
                     // their bounded-window metadata.
-                    c.seekTo(index, 0L)
-                    c.play()
+                    val historySong = player.queue.getOrNull(index)
+                        ?.takeIf { index < c.currentMediaItemIndex }
+                    if (historySong == null) {
+                        c.seekTo(index, 0L)
+                        c.play()
+                    } else {
+                        // A history row plays again at the playhead, so what was
+                        // played after it stays history rather than coming back
+                        // as upcoming. The seek is the service's fallback.
+                        scope.launch {
+                            if (!c.replayFromHistory(index, historySong)) c.seekTo(index, 0L)
+                            c.play()
+                        }
+                    }
                 }
             },
             onRemoveFromQueue = { index ->
