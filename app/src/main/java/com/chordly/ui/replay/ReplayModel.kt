@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -83,7 +84,8 @@ fun rememberReplayState(active: Boolean): Pair<ReplayState, (ReplayPeriod) -> Un
         loading = false
 
         // Artist pictures and pages arrive after the page has been built — see
-        // [ArtistFacts.revision] — so the charts are rebuilt when they do.
+        // [ArtistFacts.revision] — so the charts are rebuilt when they do. So
+        // do other devices' months, when a sync brings newer ones down.
         //
         // Collected inside the effect rather than as composed state on purpose:
         // this function is called from the app's root, so a revision held as
@@ -91,7 +93,7 @@ fun rememberReplayState(active: Boolean): Pair<ReplayState, (ReplayPeriod) -> Un
         // with the Replay closed. `collectLatest` gives the debounce for free —
         // a burst of lookups cancels each pending delay and only the last one
         // gets as far as a rebuild.
-        ArtistFacts.revision.drop(1).collectLatest {
+        merge(ArtistFacts.revision.drop(1), ListeningStats.peerRevision.drop(1)).collectLatest {
             delay(SETTLE_MILLIS)
             summary = ListeningStats.summary(period)
         }

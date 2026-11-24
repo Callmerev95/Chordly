@@ -340,21 +340,25 @@ object ListeningStats {
             period.needsDayFilter() -> {
                 // Week may span two months: read both, filter by day.
                 val range = period.range(today)!!
-                months().filter { month ->
+                allMonths().filter { month ->
                     val start = month.atDay(1)
                     val end = month.atEndOfMonth()
                     !(end < range.first || start > range.second)
-                }.forEach { month -> read(month.toString())?.let { bucket -> merged.add(bucket, range) } }
+                }.forEach { month -> monthBuckets(month).forEach { bucket -> merged.add(bucket, range) } }
             }
             else -> {
-                months().filter { period.covers(it, today) }
-                    .forEach { month -> read(month.toString())?.let(merged::add) }
+                allMonths().filter { period.covers(it, today) }
+                    .forEach { month -> monthBuckets(month).forEach(merged::add) }
             }
         }
         merged.toSummary(period, today).also {
             cached = Cached(period, version, facts, today, it)
         }
     }
+
+    /** This device's month first, then every other device's copy of it. */
+    private fun monthBuckets(month: YearMonth): List<StoredBucket> =
+        listOfNotNull(read(month.toString())) + PeerListening.buckets(month.toString())
 
     /**
      * The Replay for a single calendar year, in the shape the year story asks
@@ -367,12 +371,12 @@ object ListeningStats {
     suspend fun year(year: Int): ReplayYearData = withContext(Dispatchers.IO) {
         flushAndAwait()
         val today = LocalDate.now()
-        val months = months().filter { it.year == year }
+        val months = allMonths().filter { it.year == year }
         val merged = MergedBucket()
         val dayMs = HashMap<String, Long>()
         val monthTops = ArrayList<ReplayMonthTop>()
         months.forEach { month ->
-            val buckets = listOfNotNull(read(month.toString()))
+            val buckets = monthBuckets(month)
             buckets.forEach(merged::add)
             buckets.forEach { bucket ->
                 bucket.days.forEach { (day, ms) ->
@@ -392,7 +396,7 @@ object ListeningStats {
         // entries have none, and the story picks another song.
         val busiestDaySong = summary.busiestDay?.let { date ->
             val month = runCatching { YearMonth.parse(date.take(7)) }.getOrNull() ?: return@let null
-            val best = months.flatMap { listOfNotNull(read(it.toString())) }.flatMap { it.tracks }
+            val best = months.flatMap { monthBuckets(it) }.flatMap { it.tracks }
                 .groupBy { it.id }
                 .mapValues { (_, entries) -> entries.sumOf { it.days[date]?.ms ?: 0L } }
                 .filterValues { it > 0 }
