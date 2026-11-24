@@ -153,6 +153,8 @@ fun HomeScreen(
     onMoodsShowAll: () -> Unit = {},
     /** Whether the Top Picks and mood artwork may animate — see [LocalArtworkMotion]. */
     artworkMotion: Boolean = true,
+    /** The Replay year story's button beside the wordmark, or null for none. See [ReplayYearButton]. */
+    replayYear: ReplayYearBadge? = null,
 ) {
     // Top Picks' pictures and motion wait for the feed — see LocalArtworkImages.
     val feedReady = state !is UiState.Loading
@@ -185,7 +187,7 @@ fun HomeScreen(
             },
         ) {
             if (title != null) {
-                item { HomeTitle(title) }
+                item { HomeTitle(title, replayYear) }
             }
             if (!signedIn && onSignIn != null) {
                 item {
@@ -457,7 +459,7 @@ fun CompactTrackRow(
  * system font scale.
  */
 @Composable
-private fun HomeTitle(title: String, modifier: Modifier = Modifier) {
+private fun HomeTitle(title: String, replayYear: ReplayYearBadge? = null, modifier: Modifier = Modifier) {
     val style = MaterialTheme.typography.displayLarge
     val logoHeight = with(LocalDensity.current) { (style.fontSize * LOGO_TO_FONT).toDp() }
     Column(modifier = modifier.padding(horizontal = PAGE_GUTTER, vertical = 8.dp)) {
@@ -470,6 +472,12 @@ private fun HomeTitle(title: String, modifier: Modifier = Modifier) {
                 .height(logoHeight)
                 .aspectRatio(LOGO_ASPECT),
         )
+        // The year story's button, beside the wordmark once the greeting is
+        // gone. Drawn in the title's own item so it scrolls away with it.
+        if (replayYear != null) {
+            Spacer(Modifier.height(10.dp))
+            ReplayYearButton(replayYear, height = logoHeight * 0.68f)
+        }
         // "Listen now" is hidden for now; the wordmark above stays.
         // Text(
         //     text = title,

@@ -667,6 +667,8 @@ private fun ChordlyApp(
     var showReplayShare by rememberSaveable { mutableStateOf(false) }
     /** Which story card the share sheet is for, or null for the whole Replay. */
     var replaySharePage by rememberSaveable { mutableStateOf<ReplayStoryPage?>(null) }
+    // The year story is mounted over everything, the way the Replay story is.
+    var yearStoryOpen by rememberSaveable { mutableStateOf(false) }
     var showSpotifyCanvasAuth by remember { mutableStateOf(false) }
 
     // Hosted here rather than inside SourcesScreen so its frosted card has
@@ -944,6 +946,7 @@ private fun ChordlyApp(
         dismissPlayer()
         replayStory = null
         showReplayShare = false
+        yearStoryOpen = false
         webSession = null
         navigator.reset(AppRoute.Settings, AppRoute.ListenTogether)
         JamInviteLink.handled()
@@ -2527,6 +2530,26 @@ private fun ChordlyApp(
     val replayOpen = route == AppRoute.Replay || replayStory != null || showReplayShare ||
         (selectedTab == TAB_LIBRARY && detail == null && route == null)
     val (replay, setReplayPeriod) = rememberReplayState(replayOpen)
+    // The year the Home button offers. Read only while Home or the story is up.
+    val replayYear = com.chordly.ui.replay.year.rememberReplayYear(
+        active = selectedTab == TAB_HOME || yearStoryOpen,
+    )
+    val replayYearDescription = replayYear?.let {
+        stringResource(R.string.replay_year_open, it.year.toString())
+    }
+    val replayYearBadge = remember(replayYear, replayYearDescription) {
+        replayYear?.let { year ->
+            com.chordly.ui.screens.ReplayYearBadge(
+                year = year.year,
+                artworkUrl = year.data.summary.songs.firstOrNull()?.song?.thumbnailUrl,
+                contentDescription = replayYearDescription.orEmpty(),
+                onOpen = { yearStoryOpen = true },
+            )
+        }
+    }
+    // The story has its own soundtrack: whatever was playing stops for it, and
+    // stays stopped after, rather than coming back in under the last card.
+    LaunchedEffect(yearStoryOpen) { if (yearStoryOpen) controller?.pause() }
     val replayCards = remember(replay.summary) {
         replay.summary?.takeUnless { it.isEmpty }?.cards(context).orEmpty()
     }
@@ -3538,6 +3561,7 @@ private fun ChordlyApp(
                                 onMoodClick = playMood.takeUnless { hideHomeMoods },
                                 onMoodsShowAll = { navigator.push(AppRoute.Moods) },
                                 artworkMotion = artworkMotion,
+                                replayYear = replayYearBadge,
                                 onTopPickLongPress = { pick ->
                                     pick.browseId?.let { browseId ->
                                         onShelfLongPress(
@@ -5014,6 +5038,14 @@ private fun ChordlyApp(
                 }
             }
         }
+
+        // ---- Replay year story ----
+        // Mounted over the window like the Replay story, for the same reason.
+        com.chordly.ui.replay.year.ReplayYearHost(
+            year = replayYear,
+            open = yearStoryOpen,
+            onClose = { yearStoryOpen = false },
+        )
 
         // ---- Track menu ----
         // In a recompose scope of its own: whether a menu is up is read in
