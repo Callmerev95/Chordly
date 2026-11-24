@@ -1468,7 +1468,9 @@ class CrossfadeController(
         // settings rather than whatever the standby was left on last time.
         into.skipSilenceEnabled = out.skipSilenceEnabled
         into.repeatMode = out.repeatMode
-        into.shuffleModeEnabled = out.shuffleModeEnabled
+        // ExoPlayer's own shuffle is never on (see SessionPlayer.setShuffleModeEnabled);
+        // the app's shuffle is a queue edit in QueueShuffle.
+        into.shuffleModeEnabled = false
         // Stacks on top of the listener's speed control rather than replacing
         // it, so a beatmatched transition and "play everything at 1.25x" don't
         // fight each other. Undone in [finish].
@@ -2597,7 +2599,8 @@ class CrossfadeController(
         queuedItemCount = items.size
         into.skipSilenceEnabled = false
         into.repeatMode = out.repeatMode
-        into.shuffleModeEnabled = out.shuffleModeEnabled
+        // Same rule as the crossfade handover: ExoPlayer's own shuffle stays off.
+        into.shuffleModeEnabled = false
         into.setPlaybackSpeed(AppSettings.playbackSpeed.value)
         // Silent through its own sink until the handover, so the player's
         // volume stays where the listener's ear expects it.
