@@ -139,13 +139,6 @@ fun UpdateAvailableDialog(
                     .padding(horizontal = 16.dp, vertical = 19.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Image(
-                    painter = painterResource(R.drawable.chordly_banner),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(8.dp)),
-                )
                 Text(
                     text = stringResource(R.string.software_update),
                     style = MaterialTheme.typography.bodyLarge.copy(
@@ -245,6 +238,14 @@ fun UpdateAvailableDialog(
                         }
                     }
                 }
+
+                Image(
+                    painter = painterResource(R.drawable.chordly_banner),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(8.dp)),
+                )
             }
 
             AlertRule()
