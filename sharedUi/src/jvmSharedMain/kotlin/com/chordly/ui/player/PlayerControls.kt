@@ -861,14 +861,14 @@ internal fun CircleGlyph(
 ) {
     val haptics = rememberHaptics()
     val discAlpha by animateFloatAsState(
-        targetValue = if (active) 0.34f else 0.18f,
+        targetValue = if (active) 0.34f else CIRCLE_DISC_ALPHA,
         label = "glyphDisc",
     )
+    val chrome = LocalPlayerChrome.current
     Box(
         modifier = modifier
             .size(34.dp)
             .clip(CircleShape)
-            .background(LocalPlayerTint.current.copy(alpha = discAlpha))
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null,
@@ -878,6 +878,17 @@ internal fun CircleGlyph(
             },
         contentAlignment = Alignment.Center,
     ) {
+        // The disc carries the blend, dodged as the bottom row's glyphs are, and
+        // the glyph sits on it in plain white. The ink is mixed in at a few times
+        // the plain disc's strength: a dodge laid on this thinly is next to nothing.
+        Box(
+            Modifier
+                .matchParentSize()
+                .vibrantChrome(chrome)
+                .background(discFill(chrome, discAlpha)),
+        )
+        // Outside the blend: the rim is light catching the edge, not ink.
+        Box(Modifier.matchParentSize().glassRim(CircleShape))
         Crossfade(
             targetState = icon,
             animationSpec = tween(durationMillis = 180),
@@ -886,12 +897,23 @@ internal fun CircleGlyph(
             Icon(
                 imageVector = glyph,
                 contentDescription = contentDescription,
-                tint = LocalPlayerTint.current,
+                tint = Color.White,
                 modifier = Modifier.size(19.dp),
             )
         }
     }
 }
+
+/**
+ * The star and ⋯ discs' fill at [alpha]: under the blend, the ink at a few
+ * times that strength, since a dodge laid on this thinly is next to nothing.
+ */
+private fun discFill(chrome: Boolean, alpha: Float = CIRCLE_DISC_ALPHA): Color =
+    if (chrome) {
+        VibrantChromeInk.copy(alpha = (alpha * CIRCLE_DISC_DODGE_GAIN).coerceAtMost(1f))
+    } else {
+        Color.White.copy(alpha = alpha)
+    }
 
 /**
  * Transport / bottom glyphs. The circular clip belongs on the touch target,
