@@ -2,7 +2,6 @@ package com.chordly.ui.player
 
 import com.chordly.sharedui.resources.*
 
-import androidx.compose.animation.Crossfade
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -436,6 +435,7 @@ internal fun LandscapeMainPane(
 @Composable
 internal fun LandscapeCredits(
     song: Song,
+    infoTransition: SongInfoTransition,
     signedIn: Boolean,
     likeStatus: LikeStatus,
     /** The menu glyph is briefly the undo arrow after a quality upgrade. */
@@ -448,15 +448,15 @@ internal fun LandscapeCredits(
     modifier: Modifier = Modifier,
 ) {
     Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
-        Crossfade(
-            targetState = song.title to song.artist,
-            animationSpec = tween(durationMillis = 300),
-            modifier = Modifier.weight(1f),
-            label = "landscapeCredits",
-        ) {
+        SlidingSongInfo(
+            song = song,
+            transition = infoTransition,
+            modifier = Modifier.weight(1f).additiveChrome(LocalPlayerChrome.current),
+        ) { infoSong ->
+            val song = infoSong
             Column {
                 var titleOverflowing by remember { mutableStateOf(false) }
-                val artistColor = LocalPlayerTint.current.copy(alpha = 0.55f)
+                val artistColor = chromeWhite(0.55f)
                 MarqueeText(
                     text = song.title,
                     style = MaterialTheme.typography.titleLarge,
