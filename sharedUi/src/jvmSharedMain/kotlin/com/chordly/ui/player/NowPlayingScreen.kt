@@ -2024,6 +2024,10 @@ fun NowPlayingScreen(
         // glass deck up, so the glyphs blend into the blurred, darkened clip.
         // And off everywhere with "Disable blend effects".
         chrome = !disableBlendEffects && !videoFullscreen,
+        // The mesh backdrops are already lit with the cover's own colours, so
+        // the boosted chrome reads too bright on them at full gain.
+        softened = !spotifyCanvasPresentation &&
+            (playerTheme == PlayerTheme.DEFAULT || playerTheme == PlayerTheme.LEGACY),
         tint = playerTint,
         frost = frost,
         live = spotifyCanvasPresentation,

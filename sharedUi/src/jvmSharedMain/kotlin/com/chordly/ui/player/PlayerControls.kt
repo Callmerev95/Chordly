@@ -223,6 +223,9 @@ internal fun PlayerScrubber(
     val reduceAnimation by PlayerSettings.reduceAnimation.collectAsStateWithLifecycle()
     // One clock for the bar and the "Mixing" label, so they breathe on the same beat.
     val mixPulse = rememberMixPulse({ mixBlend.value }, enabled = !reduceAnimation)
+    val chrome = LocalPlayerChrome.current
+    val dodged = chrome && SCRUBBER_LABELS_DODGED
+    val ink = if (dodged) sliderChromeInk() else null
     Column(Modifier.fillMaxWidth()) {
         ThinSlider(
             value = shown,
@@ -232,6 +235,10 @@ internal fun PlayerScrubber(
             mixing = mixing,
             mixPulse = mixPulse,
             transitionWindow = transitionWindow,
+            vibrant = ink != null,
+            activeColor = ink ?: Color.White.copy(alpha = 0.92f),
+            inactiveColor = ink?.copy(alpha = SLIDER_TRACK_ALPHA) ?: Color.White.copy(alpha = 0.26f),
+            markerColor = ink?.copy(alpha = 0.75f) ?: Color.White.copy(alpha = 0.5f),
         )
         Box(
             modifier = Modifier
@@ -241,13 +248,15 @@ internal fun PlayerScrubber(
                 .offset(y = (-9).dp),
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .then(if (dodged) Modifier.brightRowChrome(true) else Modifier.additiveChrome(chrome)),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
                     text = formatTime((shown * durationMs).toLong()),
                     style = MaterialTheme.typography.labelMedium,
-                    color = LocalPlayerTint.current.copy(alpha = 0.55f),
+                    color = if (dodged) brightRowInk() else chromeWhite(0.55f),
                 )
                 Text(
                     text = if (showTotalDuration && totalDuration != null) {
@@ -256,7 +265,7 @@ internal fun PlayerScrubber(
                         "-" + formatTime(durationMs - (shown * durationMs).toLong())
                     },
                     style = MaterialTheme.typography.labelMedium,
-                    color = LocalPlayerTint.current.copy(alpha = 0.55f),
+                    color = if (dodged) brightRowInk() else chromeWhite(0.55f),
                 )
             }
             // Pinned to the box's own centre rather than squeezed into the gap
@@ -584,6 +593,7 @@ internal fun VolumeRow(
     onValueChange: (Float) -> Unit,
     onValueChangeFinished: () -> Unit,
 ) {
+    val chrome = LocalPlayerChrome.current
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -591,10 +601,11 @@ internal fun VolumeRow(
         Icon(
             Icons.AutoMirrored.Rounded.VolumeDown,
             contentDescription = null,
-            tint = LocalPlayerTint.current.copy(alpha = 0.5f),
-            modifier = Modifier.size(20.dp),
+            tint = if (chrome) brightRowInk() else chromeWhite(0.5f),
+            modifier = Modifier.size(20.dp).brightRowChrome(chrome),
         )
         Spacer(Modifier.width(10.dp))
+        val ink = sliderInk()
         ThinSlider(
             value = value(),
             onValueChange = onValueChange,
@@ -602,13 +613,16 @@ internal fun VolumeRow(
             idleHeight = 6.dp,
             activeHeight = 10.dp,
             modifier = Modifier.weight(1f),
+            vibrant = ink != null,
+            activeColor = ink?.active ?: Color.White.copy(alpha = 0.92f),
+            inactiveColor = ink?.inactive ?: Color.White.copy(alpha = 0.26f),
         )
         Spacer(Modifier.width(10.dp))
         Icon(
             Icons.AutoMirrored.Rounded.VolumeUp,
             contentDescription = null,
-            tint = LocalPlayerTint.current.copy(alpha = 0.5f),
-            modifier = Modifier.size(20.dp),
+            tint = if (chrome) brightRowInk() else chromeWhite(0.5f),
+            modifier = Modifier.size(20.dp).brightRowChrome(chrome),
         )
     }
 }
@@ -1438,13 +1452,19 @@ private fun BottomGlyph(
      * ask for a window.
      */
     tapWindowMs: Long = 0L,
+    /** Draw this glyph's ink with [vibrantChrome], at [brightRowInk]'s gain. */
+    vibrant: Boolean = false,
 ) {
     val haptics = rememberHaptics()
     // Read only from the click handler, never during composition, so writing it
     // costs no recomposition. Starts a full window in the past so the first tap
     // is never the one that gets swallowed.
     val lastTap = remember { mutableLongStateOf(-tapWindowMs) }
-    val tileColor = LocalPlayerTint.current.copy(alpha = BOTTOM_ACTIVE_TILE_ALPHA)
+    val tileChrome = LocalPlayerChrome.current
+    // The lit tile dodged like the glyphs around it, so lyrics or the queue
+    // being up reads in the cover's colour rather than as a white patch.
+    val tileDodged = tileChrome && vibrant && BOTTOM_ROW_BRIGHT
+    val tileColor = if (tileDodged) brightRowInk() else chromeWhite(BOTTOM_ACTIVE_TILE_ALPHA)
     Box(
         modifier = Modifier
             .size(BOTTOM_ACTION_SIZE)
@@ -1452,10 +1472,18 @@ private fun BottomGlyph(
             // artwork showing through. The glyph is drawn first and the tile over
             // it with SrcOut, which keeps the tile only where the glyph is not.
             // Offscreen only while lit, so an unlit glyph costs no extra layer.
+            // The blend's own layer serves as that offscreen when it is on.
             .then(
                 if (highlighted) {
-                    Modifier
-                        .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
+                    (
+                        if (tileDodged) {
+                            Modifier.vibrantChrome(true)
+                        } else if (tileChrome) {
+                            Modifier.additiveChrome(true)
+                        } else {
+                            Modifier.graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
+                        }
+                    )
                         .drawWithContent {
                             drawContent()
                             val side = BOTTOM_ACTIVE_TILE_SIZE.toPx()
@@ -1486,13 +1514,21 @@ private fun BottomGlyph(
             .semantics { this.contentDescription = contentDescription },
         contentAlignment = Alignment.Center,
     ) {
-        val tint = LocalPlayerTint.current.copy(alpha = if (highlighted) 1f else 0.75f)
+        // Not while lit: the tile's cut-out needs the glyph drawn plainly in the
+        // layer above, which is blended as a whole.
+        val chrome = LocalPlayerChrome.current && !highlighted
+        val tint = when {
+            vibrant && chrome -> brightRowInk()
+            highlighted -> Color.White
+            else -> chromeWhite(0.75f)
+        }
+        val glyphChrome = if (vibrant) Modifier.vibrantChrome(chrome) else Modifier.additiveChrome(chrome)
         if (icon != null) {
             Icon(
                 imageVector = icon,
                 contentDescription = null,
                 tint = tint,
-                modifier = Modifier.size(iconSize),
+                modifier = Modifier.size(iconSize).then(glyphChrome),
             )
         } else if (label != null) {
             Text(
@@ -1500,6 +1536,7 @@ private fun BottomGlyph(
                 color = tint,
                 fontSize = 19.sp,
                 fontWeight = FontWeight.Bold,
+                modifier = glyphChrome,
             )
         }
     }
