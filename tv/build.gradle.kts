@@ -53,6 +53,19 @@ val listenTogetherServer: String = (
     ).trim().trimEnd('/')
 
 /*
+ * The service that checks this app's hardware key attestation and issues addon
+ * tokens. See AddonAuth. Mirrors the phone app's default — the TV source set
+ * compiles the phone's Kotlin sources (see the srcDir below), so the
+ * BuildConfig field must exist here too or the shared AddonAuth does not
+ * compile. Overridable for a staging deployment.
+ */
+val addonAuthServer: String = (
+    localProps.getProperty("ADDON_AUTH_SERVER")
+        ?: System.getenv("ADDON_AUTH_SERVER")
+        ?: "https://bitchord-auth.kushagrasingh.in"
+    ).trim().trimEnd('/')
+
+/*
  * Bump this by hand before cutting each sideloaded test build ("beta2",
  * "beta3", ...) and blank it out before cutting the real release. Marks the
  * versionName below as a pre-release: AppUpdateChecker.isNewer() treats any
@@ -101,6 +114,11 @@ android {
             "String",
             "LISTEN_TOGETHER_SERVER",
             "\"${listenTogetherServer.replace("\\", "\\\\").replace("\"", "\\\"")}\"",
+        )
+        buildConfigField(
+            "String",
+            "ADDON_AUTH_URL",
+            "\"${addonAuthServer.replace("\\", "\\\\").replace("\"", "\\\"")}\"",
         )
         // The TV APKs share a GitHub release with the phone ones and are told
         // apart by name (BitChordTV-v1.8.apk, BitChordTV-v1.8_x86_64.apk), so
@@ -449,6 +467,12 @@ dependencies {
     // turn into a real stream — see [com.chordly.playback.cast.CastPlayback].
     implementation("com.google.android.gms:play-services-cast-framework:22.2.0")
     implementation("androidx.mediarouter:mediarouter:1.8.1")
+    // The TV source set compiles the phone app's Kotlin sources (see the
+    // srcDir above), so it needs the same libraries those files import:
+    // Drive backup auth and the lyrics-share video transformer pipeline.
+    implementation("com.google.android.gms:play-services-auth:21.3.0")
+    implementation("androidx.media3:media3-transformer:1.11.0")
+    implementation("androidx.media3:media3-effect:1.11.0")
 
     testImplementation("junit:junit:4.13.2")
     // A real HTTP server for the addon tests. The addon protocol is entirely
