@@ -1912,20 +1912,15 @@ fun SettingsScreen(
         if (section == null && searchQuery.isBlank()) {
         Text(
             text = buildAnnotatedString {
-                append("Chordly $version • Developer Private Build by Callmerev")
-                append("\n")
+                append("Chordly $version • Developed by ")
                 val linkStyles = TextLinkStyles(
                     style = SpanStyle(
                         color = MaterialTheme.colorScheme.primary,
                         textDecoration = TextDecoration.Underline,
                     ),
                 )
-                withLink(LinkAnnotation.Url("https://www.callmerev.my.id/", linkStyles)) {
+                withLink(LinkAnnotation.Url("https://callmerev.my.id", linkStyles)) {
                     append("Callmerev")
-                }
-                append("  ")
-                withLink(LinkAnnotation.Url("https://github.com/Callmerev95", linkStyles)) {
-                    append("Developer")
                 }
                 append("\n~YouTube Music & Listen Together Backend")
             },
