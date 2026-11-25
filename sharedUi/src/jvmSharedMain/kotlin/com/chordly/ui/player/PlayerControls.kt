@@ -72,6 +72,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -758,6 +759,88 @@ internal fun PlayerActionRow(
         }
     }
 }
+
+/** How much more of the ink [CircleGlyph]'s disc takes than its plain white — 0.45 at rest, 0.85 lit. */
+private const val CIRCLE_DISC_DODGE_GAIN = 2.5f
+
+/** The star and ⋯ discs' fill at rest. */
+private const val CIRCLE_DISC_ALPHA = 0.18f
+
+/**
+ * The lyrics, output and queue glyphs, and the volume bar's speakers, dodged
+ * harder than the rest of the chrome: a thin glyph shows far less of a blend
+ * than a filled disc does, and at the usual strength they read as dim on any
+ * cover that isn't already bright. More of the cover's own colour, not more
+ * white. False puts them back as they were.
+ */
+private const val BOTTOM_ROW_BRIGHT = true
+
+/**
+ * The bottom row's ink: solid, and a lighter grey than [VibrantChromeInk] for
+ * a dodge of about 3x rather than 2.5x. Short of the 3.4x that flattened
+ * bright, saturated covers to one loud colour.
+ */
+private val BrightChromeInk = Color(0xFFAAAAAA)
+
+/**
+ * The timestamps and the quality badge between them dodged as the bottom row's
+ * glyphs are, rather than added in white. False puts them back.
+ */
+private const val SCRUBBER_LABELS_DODGED = true
+
+/** The volume bar's two speakers, drawn as the bottom row's glyphs are. */
+@Composable
+@ReadOnlyComposable
+private fun brightRowInk(): Color = when {
+    !BOTTOM_ROW_BRIGHT -> VibrantChromeInk
+    LocalChromeSoftened.current -> SoftenedChromeInk
+    else -> BrightChromeInk
+}
+
+/** [BrightChromeInk] a touch down, about 2.75x, for [LocalChromeSoftened]. */
+private val SoftenedChromeInk = Color(0xFFA2A2A2)
+
+private fun Modifier.brightRowChrome(chrome: Boolean): Modifier = vibrantChrome(chrome)
+
+/**
+ * The seek and volume bars dodged as the bottom row's glyphs are, rather than
+ * laid over the cover in white. False puts them back.
+ */
+private const val SLIDERS_DODGED = true
+
+/**
+ * The bars' ink: a shade lighter than the bottom row's, for about 3.2x. A bar
+ * is a thin line too, and at the glyphs' strength it read as dim.
+ */
+private val SliderChromeInk = Color(0xFFB0B0B0)
+
+/** [SliderChromeInk] a touch down, about 2.9x, for [LocalChromeSoftened]. */
+private val SoftenedSliderInk = Color(0xFFA8A8A8)
+
+@Composable
+@ReadOnlyComposable
+private fun sliderChromeInk(): Color =
+    if (LocalChromeSoftened.current) SoftenedSliderInk else SliderChromeInk
+
+/** The unplayed track's share of [SliderChromeInk]. */
+private const val SLIDER_TRACK_ALPHA = 0.6f
+
+/** Played, unplayed and the Automix window, in the bars' ink. */
+private data class SliderInk(val active: Color, val inactive: Color, val marker: Color)
+
+/** Null where the bars are drawn as they always were. */
+@Composable
+private fun sliderInk(): SliderInk? =
+    if (LocalPlayerChrome.current && SLIDERS_DODGED) {
+        SliderInk(
+            active = sliderChromeInk(),
+            // Enough of the cover to read as track, well short of the played part.
+            inactive = sliderChromeInk().copy(alpha = SLIDER_TRACK_ALPHA),
+            marker = sliderChromeInk().copy(alpha = 0.75f),
+        )
+    } else {
+        null
+    }
 
 /**
  * Translucent circular button used for the track menu and the like control.

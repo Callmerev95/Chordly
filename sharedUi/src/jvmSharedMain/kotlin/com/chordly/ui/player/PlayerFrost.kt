@@ -80,6 +80,8 @@ internal fun FrostedPlayerFrame(
     modifier: Modifier,
     /** [LocalPlayerChrome] for the player, not for what is drawn over it. */
     chrome: Boolean,
+    /** [LocalChromeSoftened], alongside [chrome]. */
+    softened: Boolean = false,
     tint: Color,
     frost: PlayerFrost?,
     live: Boolean,
@@ -108,6 +110,7 @@ internal fun FrostedPlayerFrame(
             CompositionLocalProvider(
                 LocalPlayerTint provides tint,
                 LocalPlayerChrome provides chrome,
+                LocalChromeSoftened provides softened,
             ) {
                 content()
             }
